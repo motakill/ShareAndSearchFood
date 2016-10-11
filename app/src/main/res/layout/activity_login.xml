@@ -73,6 +73,15 @@
         </android.support.design.widget.TextInputLayout>
 
 
+        <CheckBox
+            android:id="@+id/saveLoginCheckBox"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/editTextPassword"
+            android:hint="Remember me"
+            android:textColor="#FFF" />
+        </LinearLayout>
         <LinearLayout
             android:id="@+id/btnLL"
             android:layout_width="match_parent"
@@ -101,6 +110,7 @@
         </LinearLayout>
 
 
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -121,4 +131,3 @@
     </LinearLayout>
 
 
-</LinearLayout>
