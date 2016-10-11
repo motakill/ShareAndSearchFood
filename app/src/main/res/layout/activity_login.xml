@@ -94,7 +94,7 @@
                 android:layout_alignParentTop="true"
                 android:textSize="18sp"
                 />
-
+   
             <com.facebook.login.widget.LoginButton
                 android:id="@+id/login_button"
                 android:layout_width="match_parent"
