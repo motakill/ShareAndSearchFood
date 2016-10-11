@@ -31,10 +31,11 @@
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:baselineAligned="false">
 
             <ImageView
-                android:layout_width="121dp"
+                android:layout_width="match_parent"
                 android:layout_height="106dp"
                 android:id="@+id/imageView"
                 android:src="@drawable/icone"
