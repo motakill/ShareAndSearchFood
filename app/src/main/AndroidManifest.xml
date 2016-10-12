@@ -29,16 +29,18 @@
         <activity
             android:name=".FeedBook"
             android:label="@string/title_activity_feed_book"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
-            android:name=".RegistActivity"
-            android:label="@string/register_name">
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".RegistActivity"
+            android:label="@string/register_name">
+
 
         </activity>
     </application>

@@ -2,7 +2,6 @@
     <string name="app_name">S&amp;SFood</string>
     <string name="register_name">Registration</string>
 
-
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
 
