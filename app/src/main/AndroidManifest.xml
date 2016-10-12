@@ -27,7 +27,7 @@
 
 
         <activity
-            android:name=".FeedBook"
+            android:name=".MenuActivity"
             android:label="@string/title_activity_feed_book"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
