@@ -2,18 +2,23 @@
     <string name="app_name">S&amp;SFood</string>
     <string name="register_name">Registration</string>
 
-    <!-- Strings related to login -->
+    <!-- Strings related to register -->
     <string name="prompt_email">Email</string>
-
     <string name="prompt_birthdate">Birth Date DD/MM/YYYY</string>
     <string name="prompt_user">Username</string>
-
     <string name="prompt_password">Password</string>
     <string name="prompt_confirmpassword">Confirm Password</string>
 
+    <!-- Strings related to login -->
     <string name="action_sign_in">Sign in</string>
     <string name="action_register">Register</string>
     <string name="action_submit">Submit</string>
+
+    <!-- Strings related to my profile -->
+    <string name="profile_name">My Profile</string>
+    <string name="recipes">recipes</string>
+    <string name="followers">followers</string>
+    <string name="following">following</string>
 
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
