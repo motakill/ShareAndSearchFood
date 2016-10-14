@@ -83,6 +83,16 @@
                     android:background="#ffc916"
                     android:orientation="vertical">
 
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical" />
+                    </ScrollView>
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="331dp"
@@ -97,6 +107,16 @@
                     android:background="#da8200"
                     android:orientation="vertical">
 
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical" />
+                    </ScrollView>
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -109,6 +129,16 @@
                     android:layout_height="match_parent"
                     android:background="#5b89ff"
                     android:orientation="vertical">
+
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical" />
+                    </ScrollView>
 
                     <TextView
                         android:layout_width="match_parent"
