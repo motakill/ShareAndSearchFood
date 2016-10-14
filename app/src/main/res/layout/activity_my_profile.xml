@@ -50,6 +50,9 @@
         android:textAlignment="center" />
     </LinearLayout>
 
+
+    --TABS
+
     <TabHost
         android:id="@+id/tabHost"
         android:layout_width="match_parent"
@@ -60,7 +63,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="110dp">
 
             <TabWidget
                 android:id="@android:id/tabs"
@@ -81,7 +85,7 @@
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="331dp"
                         android:text="This is tab 1" />
 
                 </LinearLayout>
