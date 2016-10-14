@@ -11,7 +11,6 @@ import android.widget.TabHost;
  */
 
 public class MyProfile extends AppCompatActivity {
-    TabHost tabHost;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,12 +41,6 @@ public class MyProfile extends AppCompatActivity {
         host.addTab(spec);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
