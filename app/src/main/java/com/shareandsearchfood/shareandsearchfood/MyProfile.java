@@ -23,21 +23,21 @@ public class MyProfile extends AppCompatActivity {
         host.setup();
 
         //Tab 1
-        TabHost.TabSpec spec = host.newTabSpec("Tab One");
+        TabHost.TabSpec spec = host.newTabSpec("Feed");
         spec.setContent(R.id.tab1);
-        spec.setIndicator("Tab One");
+        spec.setIndicator("Feed");
         host.addTab(spec);
 
         //Tab 2
-        spec = host.newTabSpec("Tab Two");
+        spec = host.newTabSpec("Profile");
         spec.setContent(R.id.tab2);
-        spec.setIndicator("Tab Two");
+        spec.setIndicator("Profile");
         host.addTab(spec);
 
         //Tab 3
-        spec = host.newTabSpec("Tab Three");
+        spec = host.newTabSpec("Badges");
         spec.setContent(R.id.tab3);
-        spec.setIndicator("Tab Three");
+        spec.setIndicator("Badges");
         host.addTab(spec);
     }
 
