@@ -27,11 +27,7 @@
             android:name=".MenuActivity"
             android:label="@string/title_activity_feed_book"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity
@@ -42,6 +38,11 @@
         <activity
         android:name=".MyProfile"
         android:label="@string/profile_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
     </activity>
     </application>
 
