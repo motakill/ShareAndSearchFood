@@ -18,6 +18,41 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
+--martelada para aparecer os numeros das receitas, followers...
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:id="@+id/textView2"
+        android:hint="10"
+        android:layout_marginTop="55dp"
+        android:layout_marginLeft="110dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:id="@+id/textView3"
+            android:hint="8"
+            android:layout_marginTop="55dp"
+            android:layout_marginLeft="200dp" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:id="@+id/textView4"
+            android:hint="6"
+            android:layout_marginTop="55dp"
+            android:layout_marginLeft="295dp" />
+
+
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -52,6 +87,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/following"
         android:textAlignment="center" />
+
+
+
+
     </LinearLayout>
 
 
@@ -62,17 +101,21 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true">
 
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_marginTop="110dp"
-            >
+            android:layout_marginTop="115dp">
+
 
             <TabWidget
                 android:id="@android:id/tabs"
-                android:layout_width="match_parent"
-                android:layout_height="26dp"></TabWidget>
+                android:layout_height="26dp"
+                android:layout_width="match_parent">
+
+            </TabWidget>
 
             <FrameLayout
                 android:id="@android:id/tabcontent"
@@ -80,54 +123,170 @@
                 android:layout_height="match_parent">
 
                 <LinearLayout
-                    android:id="@+id/tab1"
+                    android:id="@+id/FEED"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#ffc916"
-                    android:orientation="vertical">
+                    android:layout_height="350dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/customborder">
 
-                    <ScrollView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                    --ME tiago
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        app:srcCompat="@drawable/com_facebook_profile_picture_blank_square"
+                        android:id="@+id/imageView4"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginTop="8dp"
+                        />
+
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+                                <TextView
+                                    android:layout_width="135dp"
+                                    android:layout_height="wrap_content"
+                                    android:ems="10"
+                                    android:id="@+id/nickname"
+                                    android:hint="Nickname"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginLeft="25dp"
+                                    android:textSize="18sp" />
+
+                                <TextView
+                                    android:layout_width="135dp"
+                                    android:layout_height="wrap_content"
+                                    android:ems="10"
+                                    android:id="@+id/titulo"
+                                    android:hint="Titulo"
+                                    android:layout_marginTop="30dp"
+                                    android:layout_marginLeft="25dp"
+                                    android:textSize="18sp" />
+
+                                </RelativeLayout>
+
+                        </LinearLayout>
+
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/bolos"
+                        android:id="@+id/imageView3"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginRight="25dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="75dp"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:text="timestamp"
+                            android:layout_width="wrap_content"
+                            android:id="@+id/data"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical" />
-                    </ScrollView>
+                            android:layout_marginLeft="25dp"
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="331dp"
-                        android:text="This is tab 1" />
+                            android:layout_marginTop="320dp"
+                            />
+
+                        <RatingBar
+                            android:id="@+id/ratingBar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:numStars="5"
+                            android:layout_marginTop="300dp"
+                            android:layout_marginLeft="30dp"
+                            android:rating="2.0"
+                            android:scaleX="0.5"
+                            android:scaleY="0.5"
+                            android:layout_weight="2.70" />
+                    </LinearLayout>
 
                 </LinearLayout>
 
+
+
                 <LinearLayout
-                    android:id="@+id/tab2"
+                    android:id="@+id/MYPUBS"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#da8200"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:background="@drawable/customborder">
 
-                    <ScrollView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical" />
-                    </ScrollView>
+                    --ME tiago
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
 
+
+                            <TextView
+                                android:layout_width="135dp"
+                                android:layout_height="wrap_content"
+                                android:ems="10"
+                                android:id="@+id/titulo1"
+                                android:hint="Titulo"
+                                android:layout_marginTop="30dp"
+                                android:layout_marginLeft="25dp"
+                                android:textSize="18sp" />
+
+
+                    </LinearLayout>
+
+                    --go on
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/pizza"
+                        android:id="@+id/imageView7"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginRight="25dp"
+                        />
+
+
+
+
+                </LinearLayout>
+
+                --here
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="This is tab 2" />
+                        android:text="timestamp"
+                        android:layout_width="wrap_content"
+                        android:id="@+id/data1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="25dp"
+
+                        android:layout_marginTop="300dp"
+                        />
+
+                    <RatingBar
+                        android:id="@+id/ratingBar1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:numStars="5"
+                        android:layout_marginTop="286dp"
+                        android:layout_marginLeft="30dp"
+                        android:rating="2.0"
+                        android:scaleX="0.5"
+                        android:scaleY="0.5"
+                        android:layout_weight="2.70" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/tab3"
+                    android:id="@+id/SHARE"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="#5b89ff"
@@ -148,8 +307,33 @@
                         android:layout_height="match_parent"
                         android:text="This is tab 3" />
                 </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/BADGES"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00FFFF"
+                    android:orientation="vertical">
+
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical" />
+                    </ScrollView>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="This is tab 4" />
+                </LinearLayout>
             </FrameLayout>
         </LinearLayout>
+
+
     </TabHost>
 
 
