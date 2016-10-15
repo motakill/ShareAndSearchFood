@@ -178,39 +178,40 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/bolos"
+                        android:src="@drawable/bolos"
                         android:id="@+id/imageView3"
                         android:layout_marginLeft="25dp"
                         android:layout_marginRight="25dp"
                         android:layout_marginTop="5dp"
-                        android:layout_marginBottom="75dp"
+                        android:layout_marginBottom="50dp"
                         />
-
+                    --lets go boy
+                    <!--
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
                         <TextView
                             android:text="timestamp"
                             android:layout_width="wrap_content"
                             android:id="@+id/data"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="25dp"
+                            android:layout_marginBottom="350dp"
 
-                            android:layout_marginTop="320dp"
                             />
 
                         <RatingBar
                             android:id="@+id/ratingBar"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="50dp"
                             android:numStars="5"
-                            android:layout_marginTop="300dp"
-                            android:layout_marginLeft="30dp"
                             android:rating="2.0"
                             android:scaleX="0.5"
                             android:scaleY="0.5"
-                            android:layout_weight="2.70" />
+                            android:layout_weight="2.70"
+                            android:layout_marginBottom="350dp"
+                            />
                     </LinearLayout>
+-->
 
                 </LinearLayout>
 
@@ -219,9 +220,9 @@
                 <LinearLayout
                     android:id="@+id/MYPUBS"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="350dp"
                     android:orientation="vertical"
-                    android:background="@drawable/customborder">
+                    android:background="@drawable/customborder1">
 
 
                     --ME tiago
@@ -236,7 +237,7 @@
                                 android:ems="10"
                                 android:id="@+id/titulo1"
                                 android:hint="Titulo"
-                                android:layout_marginTop="30dp"
+                                android:layout_marginTop="5dp"
                                 android:layout_marginLeft="25dp"
                                 android:textSize="18sp" />
 
@@ -251,84 +252,166 @@
                         android:id="@+id/imageView7"
                         android:layout_marginLeft="25dp"
                         android:layout_marginRight="25dp"
+                        android:layout_marginBottom="50dp"
                         />
-
-
 
 
                 </LinearLayout>
 
-                --here
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:text="timestamp"
-                        android:layout_width="wrap_content"
-                        android:id="@+id/data1"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="25dp"
 
-                        android:layout_marginTop="300dp"
-                        />
-
-                    <RatingBar
-                        android:id="@+id/ratingBar1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:numStars="5"
-                        android:layout_marginTop="286dp"
-                        android:layout_marginLeft="30dp"
-                        android:rating="2.0"
-                        android:scaleX="0.5"
-                        android:scaleY="0.5"
-                        android:layout_weight="2.70" />
-                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/SHARE"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#5b89ff"
                     android:orientation="vertical">
 
-                    <ScrollView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                    <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
+
+                    <AutoCompleteTextView
+                        android:id="@+id/title_receita"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:hint="@string/recipe_tittle"
+                        android:inputType="text"
+                        android:maxLines="1" />
+
+                        </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/Ingredientes"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical" />
-                    </ScrollView>
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:hint="@string/ingredients"
+                            android:inputType="text"
+                             />
+                        </LinearLayout>
 
-                    <TextView
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <AutoCompleteTextView
+                            android:id="@+id/Step_by_Step"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:hint="@string/step_by_step"
+                            android:inputType="text"
+                            />
+
+
+                    </LinearLayout>
+
+
+                <LinearLayout
+                android:id="@+id/btp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                    android:layout_marginTop="50dp">
+
+
+                <Button
+                    android:id="@+id/button3"
+                    style="?android:textAppearanceSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/add_photos"
+                    android:textStyle="bold"
+                    android:textSize="14sp" />
+
+
+                <Button
+                    android:id="@+id/email_sign_in_button"
+                    style="?android:textAppearanceSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/add_movies"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/buttons_save_pub"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="This is tab 3" />
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginTop="50dp">
+
+                        <Button
+                            android:id="@+id/Save"
+                            style="?android:textAppearanceSmall"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/save_receipe"
+                            android:textStyle="bold"
+                            android:textSize="14sp" />
+
+
+                        <Button
+                            android:id="@+id/Publish"
+                            style="?android:textAppearanceSmall"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/pub_receipe"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/BADGES"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#00FFFF"
                     android:orientation="vertical">
 
-                    <ScrollView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        app:srcCompat="@drawable/badge1"
+                        android:id="@+id/badge1"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginTop="8dp"
+                        />
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical" />
-                    </ScrollView>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="This is tab 4" />
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        app:srcCompat="@drawable/badge2"
+                        android:id="@+id/badge2"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginTop="8dp"
+                        />
+
+
+
                 </LinearLayout>
             </FrameLayout>
         </LinearLayout>

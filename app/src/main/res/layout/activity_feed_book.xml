@@ -22,4 +22,97 @@
         app:headerLayout="@layout/nav_header_feed_book"
         app:menu="@menu/activity_feed_book_drawer" />
 
+    <LinearLayout
+        android:id="@+id/FEED_BOOK"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:orientation="vertical"
+        android:background="@drawable/customborder">
+
+        --ME tiago
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:srcCompat="@drawable/com_facebook_profile_picture_blank_square"
+                android:id="@+id/imageView4"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="70dp"
+                />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="135dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:id="@+id/nickname"
+                    android:hint="Nickname"
+                    android:layout_marginTop="70dp"
+                    android:layout_marginLeft="25dp"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="135dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:id="@+id/titulo"
+                    android:hint="Titulo"
+                    android:layout_marginTop="100dp"
+                    android:layout_marginLeft="25dp"
+                    android:textSize="18sp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bolos"
+            android:id="@+id/imageView3"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="-50dp"
+            />
+        --lets go boy
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="-150dp"
+            android:layout_marginLeft="25dp">
+            <TextView
+                android:text="timestamp"
+                android:layout_width="wrap_content"
+                android:id="@+id/data"
+                android:layout_height="wrap_content"
+
+                />
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:numStars="5"
+                android:rating="2.0"
+                android:scaleX="0.5"
+                android:scaleY="0.5"
+                android:layout_weight="2.70"
+                />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
 </android.support.v4.widget.DrawerLayout>
