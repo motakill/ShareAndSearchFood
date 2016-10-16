@@ -51,11 +51,7 @@
         <activity android:name=".Restaurant"
             android:label="Restaurant Name">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".HowToDoIt"
@@ -64,6 +60,15 @@
         <activity
             android:name=".HowToDoItOption"
             android:label="how To Do It?">
+        </activity>
+        <activity
+            android:name=".RecipeContent"
+            android:label="Recipe Title">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 
