@@ -83,12 +83,11 @@
         android:stepSize="0.1" />
 
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent" android:layout_height="fill_parent"
-        android:scrollbars="vertical">
 
     <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="320px" android:layout_height="fill_parent">
+        android:layout_width="fill_parent" android:layout_height="fill_parent">
+
+
 
     <TabHost
         android:id="@+id/tabHost"
@@ -216,8 +215,7 @@
 
 
     </TabHost>
-    </HorizontalScrollView>
-    </ScrollView>
+        </HorizontalScrollView>
 
 
 </LinearLayout>
