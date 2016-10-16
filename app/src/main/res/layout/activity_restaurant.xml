@@ -72,6 +72,21 @@
                     android:orientation="vertical"
                     android:background="@drawable/customborder">
 
+                    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/gridview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:columnWidth="150dp"
+                        android:numColumns="2"
+                        android:verticalSpacing="30dp"
+                        android:horizontalSpacing="50dp"
+                        android:stretchMode="columnWidth"
+                        android:gravity="center"
+                        android:layout_marginTop="30dp"
+                        />
+
+
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -80,6 +95,19 @@
                     android:layout_height="350dp"
                     android:orientation="vertical"
                     android:background="@drawable/customborder">
+
+                    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/gridview1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:columnWidth="150dp"
+                        android:numColumns="2"
+                        android:verticalSpacing="30dp"
+                        android:horizontalSpacing="50dp"
+                        android:stretchMode="columnWidth"
+                        android:gravity="center"
+                        android:layout_marginTop="30dp"
+                        />
 
                 </LinearLayout>
 
@@ -94,18 +122,23 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Adress"
-                        android:layout_marginTop="15dp"/>
+                        android:layout_marginTop="30dp"
+                        android:layout_marginLeft="25dp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Email"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginLeft="25dp"
                         />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Telephone" />
+                        android:text="Telephone"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginLeft="25dp"/>
 
                 </LinearLayout>
             </FrameLayout>

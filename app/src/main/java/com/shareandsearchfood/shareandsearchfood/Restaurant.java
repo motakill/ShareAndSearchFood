@@ -39,7 +39,7 @@ public class Restaurant extends AppCompatActivity {
         spec.setContent(R.id.Contacts);
         spec.setIndicator("Contacts");
         host.addTab(spec);
-/*
+
         GridView gridview = (GridView) findViewById(R.id.gridview);
         gridview.setAdapter(new ImageAdapterMenus(this));
 
@@ -61,7 +61,7 @@ public class Restaurant extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
             }
         });
-*/
+
     }
 
 
