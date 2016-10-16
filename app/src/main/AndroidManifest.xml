@@ -54,6 +54,14 @@
             </intent-filter>
 
         </activity>
+        <activity
+            android:name=".HowToDoIt"
+            android:label="how To Do It?">
+        </activity>
+        <activity
+            android:name=".HowToDoItOption"
+            android:label="how To Do It?">
+        </activity>
     </application>
 
 </manifest>
