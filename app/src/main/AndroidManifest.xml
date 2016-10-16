@@ -30,7 +30,14 @@
             android:label="@string/register_name" />
         <activity
             android:name=".MyProfile"
-            android:label="@string/profile_name" />
+            android:label="@string/profile_name" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
+
         <activity
             android:name=".NotebookActivity"
             android:label="Notebook" />
@@ -64,11 +71,7 @@
         <activity
             android:name=".RecipeContent"
             android:label="Recipe Title">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
