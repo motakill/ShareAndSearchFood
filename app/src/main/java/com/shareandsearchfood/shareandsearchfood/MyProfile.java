@@ -35,12 +35,18 @@ public class MyProfile extends AppCompatActivity {
         host.addTab(spec);
 
         //Tab 3
+        spec = host.newTabSpec("Favorites");
+        spec.setContent(R.id.FAVORITES);
+        spec.setIndicator("Favorites");
+        host.addTab(spec);
+
+        //Tab 4
         spec = host.newTabSpec("Share");
         spec.setContent(R.id.SHARE);
         spec.setIndicator("Share");
         host.addTab(spec);
 
-        //Tab 4
+        //Tab 5
         spec = host.newTabSpec("Badges");
         spec.setContent(R.id.BADGES);
         spec.setIndicator("Badges");
