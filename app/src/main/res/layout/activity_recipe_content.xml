@@ -45,31 +45,32 @@
                 android:layout_marginLeft="25dp"
                 android:textSize="18sp" />
 
+            <CheckBox android:id="@+id/star"
+                style="?android:attr/starStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="250dp"
+                android:layout_marginTop="15dp"
+
+                />
+
         </RelativeLayout>
 
     </LinearLayout>
 
+
     <ImageView
-        android:layout_width="312dp"
-        android:layout_height="209dp"
-        android:src="@drawable/bolos"
+        android:layout_width="wrap_content"
+        android:background="@drawable/bolos"
         android:id="@+id/imageView6"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:layout_marginTop="5dp"
-        android:layout_margin="10dp" />
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/checkBox"
-            android:button="@android:drawable/btn_star_big_on"
-            android:layout_marginLeft="300dp"
-            />
+        android:layout_margin="10dp"
+        android:scaleType="center"
+        android:gravity="center"
+        android:layout_height="250dp" />
 
-    </RelativeLayout>
 
     <RatingBar
         android:id="@+id/ratingBar2"
@@ -81,10 +82,20 @@
         android:numStars="5"
         android:stepSize="0.1" />
 
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent" android:layout_height="fill_parent"
+        android:scrollbars="vertical">
+
+    <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="320px" android:layout_height="fill_parent">
+
     <TabHost
         android:id="@+id/tabHost"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:scaleX="1.0">
 
 
         <FrameLayout
@@ -198,12 +209,15 @@
         <TabWidget
             android:id="@android:id/tabs"
             android:layout_height="26dp"
-            android:layout_width="match_parent">
+            android:layout_width="match_parent"
+            android:scrollbarAlwaysDrawHorizontalTrack="true">
 
         </TabWidget>
 
 
     </TabHost>
+    </HorizontalScrollView>
+    </ScrollView>
 
 
 </LinearLayout>
