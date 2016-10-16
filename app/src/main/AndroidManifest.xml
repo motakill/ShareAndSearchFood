@@ -30,7 +30,10 @@
             android:label="@string/register_name" />
         <activity
             android:name=".MyProfile"
-            android:label="@string/profile_name" />
+            android:label="@string/profile_name">
+
+        </activity>
+
         <activity
             android:name=".NotebookActivity"
             android:label="Notebook" />
