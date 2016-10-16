@@ -45,7 +45,7 @@ public class RecipeContent extends AppCompatActivity {
         host.addTab(spec);
 
         //Tab 5
-        spec = host.newTabSpec("Video");
+        spec = host.newTabSpec("Video Help");
         spec.setContent(R.id.Video);
         spec.setIndicator("video");
         host.addTab(spec);
