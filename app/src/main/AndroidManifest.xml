@@ -39,7 +39,10 @@
             android:label="Person Name" />
         <activity
             android:name=".Search_places"
-            android:label="Eat Time"></activity>
+            android:label="Eat Time">
+
+
+        </activity>
         <activity
             android:name=".Search_people"
             android:label="Find People">
@@ -47,12 +50,12 @@
         </activity>
         <activity android:name=".Restaurant"
             android:label="Restaurant Name">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
     </application>
 

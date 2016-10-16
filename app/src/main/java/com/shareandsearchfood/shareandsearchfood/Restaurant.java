@@ -3,7 +3,11 @@ package com.shareandsearchfood.shareandsearchfood;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.TabHost;
+import android.widget.Toast;
 
 public class Restaurant extends AppCompatActivity {
 
@@ -31,10 +35,32 @@ public class Restaurant extends AppCompatActivity {
         host.addTab(spec);
 
         //Tab 3
-        spec = host.newTabSpec("Adress");
-        spec.setContent(R.id.Adress);
-        spec.setIndicator("Adress");
+        spec = host.newTabSpec("Contacts");
+        spec.setContent(R.id.Contacts);
+        spec.setIndicator("Contacts");
         host.addTab(spec);
+
+        GridView gridview = (GridView) findViewById(R.id.gridview);
+        gridview.setAdapter(new ImageAdapterMenus(this));
+
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                Toast.makeText(Restaurant.this, "" + position,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        GridView gridview1 = (GridView) findViewById(R.id.gridview1);
+        gridview1.setAdapter(new ImageAdapterRestaurantPhotos(this));
+
+        gridview1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                Toast.makeText(Restaurant.this, "" + position,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
