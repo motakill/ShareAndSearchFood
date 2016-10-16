@@ -91,6 +91,7 @@
                             android:text="Do it and do that"
                             android:id="@+id/editText2"
                             android:layout_marginTop="25dp" />
+
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/Videos"
