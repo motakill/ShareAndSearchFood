@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_search_places"
+    android:id="@+id/activity_search_people"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.shareandsearchfood.shareandsearchfood.Search_places">
+    tools:context="com.shareandsearchfood.shareandsearchfood.Search_people">
 
     <LinearLayout
         android:id="@+id/btnLL"
@@ -28,35 +28,34 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/radius"
             android:layout_marginTop="16dp"
-            android:hint="@string/radius_length"
-            android:inputType="numberDecimal"
+            android:hint="@string/search_people"
+            android:inputType="text"
             android:maxLines="1" />
         <Button
             android:id="@+id/button3"
             style="?android:textAppearanceSmall"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/search"
             android:textStyle="bold"
             android:textSize="14sp"
-            android:layout_marginTop="13dp"/>
+            android:layout_marginTop="13dp"
+            android:layout_marginLeft="100dp"/>
 
     </LinearLayout>
-
     <GridView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/gridview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:columnWidth="150dp"
-        android:numColumns="2"
+        android:numColumns="1"
         android:verticalSpacing="50dp"
         android:horizontalSpacing="50dp"
         android:stretchMode="columnWidth"
         android:gravity="center"
         android:layout_marginTop="100dp"
         />
-
 
 
 </RelativeLayout>

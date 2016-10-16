@@ -48,6 +48,11 @@
     <string name="add_friend">Add Friend</string>
     <string name="follow">Follow</string>
     <string name="others_badges">Badges</string>
+    <string name="radius_length">Radius Max(10km)</string>
+    <string name="search">Search</string>
+    <string name="search_people">Search People</string>
+    <string name="go">Go</string>
+
 
 
     <string name="from_date">From Date</string>
