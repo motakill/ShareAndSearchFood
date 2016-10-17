@@ -31,17 +31,20 @@
         <activity
             android:name=".MyProfile"
             android:label="@string/profile_name" >
+
+        </activity>
+
+        <activity
+            android:name=".NotebookActivity"
+            android:label="Notebook">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
-        </activity>
+    </activity>
 
-        <activity
-            android:name=".NotebookActivity"
-            android:label="Notebook" />
-        <activity
+    <activity
             android:name=".Visit_person"
             android:label="Person Name" />
         <activity

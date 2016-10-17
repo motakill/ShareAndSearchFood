@@ -76,8 +76,6 @@ public class MenuActivity extends AppCompatActivity
             // Handle the camera action
         } else if (id == R.id.nav_profile) {
 
-        } else if (id == R.id.nav_feed) {
-
         } else if (id == R.id.nav_notebook) {
 
         } else if (id == R.id.nav_how) {
