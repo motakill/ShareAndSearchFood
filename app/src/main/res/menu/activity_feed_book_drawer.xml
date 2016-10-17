@@ -11,10 +11,6 @@
             android:icon="@drawable/ic_menu_gallery"
             android:title="My Profile" />
         <item
-            android:id="@+id/nav_feed"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Feed" />
-        <item
             android:id="@+id/nav_notebook"
             android:icon="@drawable/ic_menu_manage"
             android:title="Notebook" />
