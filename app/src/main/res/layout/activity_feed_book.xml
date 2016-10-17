@@ -27,7 +27,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@drawable/customborder">
+        android:background="@drawable/customborder"
+        android:weightSum="1">
 
         --ME tiago
         <LinearLayout
@@ -75,13 +76,16 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="151dp"
-            android:src="@drawable/bolos"
-            android:id="@+id/imageView3"
+            android:background="@drawable/bolos"
+            android:id="@+id/imageView6"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             android:layout_marginTop="5dp"
-            android:layout_weight="0.35" />
+            android:layout_margin="10dp"
+            android:scaleType="center"
+            android:gravity="center"
+            android:layout_height="250dp" />
+
 
         <TableLayout
             android:layout_width="wrap_content"
