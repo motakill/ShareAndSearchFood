@@ -150,7 +150,7 @@
     <LinearLayout
         android:id="@+id/Person_Pubs"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@drawable/customborder1"
         android:layout_marginTop="110dp">
@@ -179,13 +179,55 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/pizza"
-            android:id="@+id/imageView7"
+            android:layout_height="151dp"
+            android:src="@drawable/bolos"
+            android:id="@+id/imageView4"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
-            android:layout_marginBottom="50dp"
-            />
+            android:layout_marginTop="2dp"
+            android:layout_weight="0.66" />
+
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:stretchColumns="2">
+
+            <TableRow
+                android:id="@+id/tableRow3"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+
+                <RatingBar
+                    android:id="@+id/ratingBar4"
+                    android:layout_marginLeft="250dp"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:stepSize="0.1" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tableRow4"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+
+                <TextView
+                    android:text="timestamp"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/data2"
+                    android:layout_marginLeft="25dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    />
+            </TableRow>
+        </TableLayout>
 
 
     </LinearLayout>
