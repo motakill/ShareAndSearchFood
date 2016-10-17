@@ -24,10 +24,7 @@
         <activity
             android:name=".MenuActivity"
             android:label="@string/title_activity_feed_book"
-            android:theme="@style/AppTheme.NoActionBar">
-
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".RegistActivity"
             android:label="@string/register_name" />
@@ -35,13 +32,19 @@
             android:name=".MyProfile"
             android:label="@string/profile_name" >
 
-
         </activity>
 
         <activity
             android:name=".NotebookActivity"
-            android:label="Notebook" />
-        <activity
+            android:label="Notebook">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
+
+    <activity
             android:name=".Visit_person"
             android:label="Person Name" />
         <activity
@@ -59,11 +62,6 @@
             android:label="Restaurant Name">
 
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".HowToDoIt"

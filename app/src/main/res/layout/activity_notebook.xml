@@ -28,12 +28,10 @@
             </TextView>
 
             <LinearLayout>
-                <RadioButton
+                <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:id="@+id/radioButton4"
-                    android:button="@android:drawable/checkbox_on_background" />
+                    android:id="@+id/checkBox3" />
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -56,12 +54,10 @@
                 android:layout_marginStart="10dp">
             </TextView>
             <LinearLayout>
-                <RadioButton
+                <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:id="@+id/radioButton6"
-                    android:button="@android:drawable/checkbox_on_background" />
+                    android:id="@+id/checkBox" />
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -83,12 +79,10 @@
                 android:layout_marginStart="10dp">
             </TextView>
             <LinearLayout>
-                <RadioButton
+                <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:id="@+id/radioButton8"
-                    android:button="@android:drawable/checkbox_on_background" />
+                    android:id="@+id/checkBox2" />
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
