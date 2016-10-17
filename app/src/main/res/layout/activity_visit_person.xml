@@ -153,7 +153,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@drawable/customborder1"
-        android:layout_marginTop="110dp">
+        android:layout_marginTop="110dp"
+        android:weightSum="1">
 
 
         --ME tiago
@@ -179,13 +180,13 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="151dp"
+            android:layout_height="195dp"
             android:src="@drawable/bolos"
             android:id="@+id/imageView4"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             android:layout_marginTop="2dp"
-            android:layout_weight="0.66" />
+            android:layout_weight="0.47" />
 
         <TableLayout
             android:layout_width="wrap_content"

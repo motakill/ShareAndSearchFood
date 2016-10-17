@@ -48,7 +48,6 @@
     <activity
             android:name=".Visit_person"
             android:label="Person Name" >
-
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 
