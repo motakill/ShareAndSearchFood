@@ -83,11 +83,6 @@
         android:stepSize="0.1" />
 
 
-
-
-
-
-
     <TabHost
         android:id="@+id/tabHost"
         android:layout_width="match_parent"
