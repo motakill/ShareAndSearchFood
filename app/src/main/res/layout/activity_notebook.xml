@@ -11,7 +11,7 @@
     <TableLayout
         android:layout_width="match_parent"
         android:layout_marginTop="30dp"
-        android:layout_height="match_parent"
+        android:layout_height="368dp"
         android:stretchColumns="2">
 
         <TableRow
@@ -70,7 +70,7 @@
         <TableRow
             android:id="@+id/tableRow3"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
             android:layout_weight="1">
             <TextView android:text="item 3"
@@ -102,10 +102,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/radioButton2"
             android:layout_weight="1"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="300dp"
             android:button="@android:drawable/ic_input_add"
             app:buttonTint="@color/colorPrimaryDark"
             android:checked="false" />
