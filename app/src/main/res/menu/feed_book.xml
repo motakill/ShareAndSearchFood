@@ -2,6 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item
+        android:id="@+id/action_name"
+        android:title="Text to be seen by user"
+        app:showAsAction="always"
+        android:orderInCategory="0"
+        android:icon="?android:attr/actionModeWebSearchDrawable" />
 
     <item
         android:id="@+id/action_settings"
@@ -24,4 +30,7 @@
         android:orderInCategory="100"
         android:title="Sign Out"
         app:showAsAction="never" />
+
 </menu>
+
+
