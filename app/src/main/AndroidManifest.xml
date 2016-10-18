@@ -26,12 +26,6 @@
             android:label="@string/title_activity_feed_book"
             android:theme="@style/AppTheme.NoActionBar" >
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
              </activity>
         <activity
             android:name=".RegistActivity"
@@ -77,7 +71,12 @@
         </activity>
         <activity
             android:name=".HowToDoItOption"
-            android:label="how To Do It?">
+            android:label="How To Do It?">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".RecipeContent"
