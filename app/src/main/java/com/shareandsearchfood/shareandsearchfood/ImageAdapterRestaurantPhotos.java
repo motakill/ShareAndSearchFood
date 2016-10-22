@@ -51,4 +51,6 @@ public class ImageAdapterRestaurantPhotos extends BaseAdapter {
             R.drawable.comida1, R.drawable.bolos
 
     };
+
+
 }

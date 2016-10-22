@@ -3,6 +3,7 @@ package com.shareandsearchfood.shareandsearchfood;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.support.annotation.NonNull;
@@ -98,13 +99,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
+       /*  Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+       mEmailSignInButton.setOnClickListener(new OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 attemptLogin();
             }
-        });
+        });*/
 
 
         mProgressView = findViewById(R.id.login_progress);
@@ -113,6 +115,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     }
 
+    public void register(View view){
+        Intent intent = new Intent(this, RegistActivity.class);
+        startActivity(intent);
+    }
+    public void signIn(View view){
+        Intent intent = new Intent(this, MenuActivity.class);
+        startActivity(intent);
+
+    }
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
             return;

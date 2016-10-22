@@ -20,20 +20,27 @@
 
         <activity
             android:name=".LoginActivity"
-            android:label="@string/app_name" />
+            android:label="@string/app_name">
+
+    </activity>
         <activity
             android:name=".MenuActivity"
             android:label="@string/title_activity_feed_book"
             android:theme="@style/AppTheme.NoActionBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-             </activity>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+
+        </activity>
         <activity
             android:name=".RegistActivity"
             android:label="@string/register_name" />
         <activity
             android:name=".MyProfile"
             android:label="@string/profile_name" >
-
 
         </activity>
 
@@ -53,7 +60,6 @@
             android:name=".Search_places"
             android:label="Eat Time">
 
-
         </activity>
         <activity
             android:name=".Search_people"
@@ -68,15 +74,12 @@
         <activity
             android:name=".HowToDoIt"
             android:label="how To Do It?">
+
         </activity>
         <activity
             android:name=".HowToDoItOption"
             android:label="How To Do It?">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".RecipeContent"

@@ -1,7 +1,9 @@
 package com.shareandsearchfood.shareandsearchfood;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TabHost;
 
 /**
@@ -51,5 +53,9 @@ public class RecipeContent extends AppCompatActivity {
         host.addTab(spec);
 
     }
+    public void clickProfile(View view){
+        Intent intent = new Intent(this, Visit_person.class);
+        startActivity(intent);
 
+    }
 }

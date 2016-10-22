@@ -21,7 +21,8 @@
         android:layout_marginBottom="20dp"
         android:layout_weight="0.68"
         android:text="@string/action_submit"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:onClick="signIn"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

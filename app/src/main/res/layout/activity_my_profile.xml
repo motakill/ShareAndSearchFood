@@ -146,6 +146,8 @@
                         android:layout_alignParentStart="true"
                         android:layout_marginLeft="25dp"
                         android:layout_marginTop="8dp"
+                        android:clickable="true"
+                        android:onClick="clickProfile"
                         />
 
                                 <RelativeLayout
@@ -193,7 +195,10 @@
                         android:layout_marginLeft="25dp"
                         android:layout_marginRight="25dp"
                         android:layout_marginTop="5dp"
-                        android:layout_weight="0.66" />
+                        android:layout_weight="0.66"
+                        android:clickable="true"
+                        android:onClick="clickRecipe"
+                        />
 
                     <TableLayout
                         android:layout_width="wrap_content"
@@ -277,7 +282,10 @@
                         android:layout_marginLeft="25dp"
                         android:layout_marginRight="25dp"
                         android:layout_marginTop="2dp"
-                        android:layout_weight="0.66" />
+                        android:layout_weight="0.66"
+                        android:clickable="true"
+                        android:onClick="clickRecipe"
+                        />
 
                     <TableLayout
                         android:layout_width="wrap_content"
@@ -347,6 +355,8 @@
                             android:layout_alignParentStart="true"
                             android:layout_marginLeft="25dp"
                             android:layout_marginTop="8dp"
+                            android:clickable="true"
+                            android:onClick="clickProfile"
                             />
 
                         <RelativeLayout
@@ -385,7 +395,10 @@
                         android:layout_marginLeft="25dp"
                         android:layout_marginRight="25dp"
                         android:layout_marginTop="5dp"
-                        android:layout_weight="0.66" />
+                        android:layout_weight="0.66"
+                        android:clickable="true"
+                        android:onClick="clickRecipe"
+                        />
 
                     <TableLayout
                         android:layout_width="wrap_content"

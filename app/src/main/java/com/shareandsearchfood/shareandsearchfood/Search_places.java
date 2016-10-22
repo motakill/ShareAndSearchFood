@@ -1,5 +1,6 @@
 package com.shareandsearchfood.shareandsearchfood;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +23,8 @@ public class Search_places extends AppCompatActivity {
                                     int position, long id) {
                 Toast.makeText(Search_places.this, "" + position,
                         Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(), Restaurant.class));
+
             }
         });
     }

@@ -1,9 +1,11 @@
 package com.shareandsearchfood.shareandsearchfood;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TabHost;
 
 /**
@@ -67,5 +69,16 @@ public class MyProfile extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void clickRecipe(View view){
+        Intent intent = new Intent(this, RecipeContent.class);
+        startActivity(intent);
+
+    }
+    public void clickProfile(View view){
+        Intent intent = new Intent(this, Visit_person.class);
+        startActivity(intent);
+
     }
 }
