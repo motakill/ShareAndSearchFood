@@ -1,10 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
+
+    <include
+        layout="@layout/nav_bar_drawer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_feed_book"
+        app:menu="@menu/activity_feed_book_drawer" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1">
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -18,7 +41,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginLeft="25dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="70dp"
             />
 
         <RelativeLayout
@@ -30,7 +53,7 @@
                 android:ems="10"
                 android:id="@+id/nickname"
                 android:hint="Nickname"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="70dp"
                 android:layout_marginLeft="25dp"
                 android:textSize="18sp" />
 
@@ -40,7 +63,7 @@
                 android:ems="10"
                 android:id="@+id/titulo"
                 android:hint="Titulo"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="100dp"
                 android:layout_marginLeft="25dp"
                 android:textSize="18sp" />
 
@@ -113,5 +136,5 @@
 
     </TabHost>
 
-
-</LinearLayout>
+    </LinearLayout>
+</android.support.v4.widget.DrawerLayout>

@@ -7,11 +7,11 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
-
     <include
-        layout="@layout/nav_bar_drawer"
+        layout="@layout/app_bar_feed_book"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
@@ -21,17 +21,4 @@
         app:headerLayout="@layout/nav_header_feed_book"
         app:menu="@menu/activity_feed_book_drawer" />
 
-    <GridView
-        android:id="@+id/gridview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:columnWidth="150dp"
-        android:numColumns="2"
-        android:verticalSpacing="50dp"
-        android:horizontalSpacing="50dp"
-        android:stretchMode="columnWidth"
-        android:gravity="center"
-        android:clickable="true"
-        android:layout_marginTop="100dp"
-        />
-</android.support.v4.widget.DrawerLayout >
+</android.support.v4.widget.DrawerLayout>

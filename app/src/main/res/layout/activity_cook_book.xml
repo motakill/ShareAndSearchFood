@@ -9,7 +9,7 @@
     tools:openDrawer="start">
 
     <include
-        layout="@layout/app_bar_feed_book"
+        layout="@layout/nav_bar_drawer"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -27,7 +27,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@drawable/customborder"
         android:weightSum="1">
 
         --ME tiago
@@ -142,9 +141,6 @@
                     />
             </TableRow>
         </TableLayout>
-
-
-
 
     </LinearLayout>
 
