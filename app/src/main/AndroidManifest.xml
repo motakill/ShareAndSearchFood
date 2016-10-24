@@ -23,6 +23,7 @@
             android:theme="@style/AppTheme2"
             android:label="@string/app_name">
 
+
     </activity>
         <activity
             android:name=".MenuActivity"
@@ -39,7 +40,11 @@
         <activity
             android:name=".MyProfile"
             android:label="@string/profile_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity
@@ -83,11 +88,6 @@
         <activity
             android:name=".RecipeContent"
             android:label="Recipe Title">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
         </activity>
     </application>

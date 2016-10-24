@@ -19,8 +19,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_feed_book"
-        app:menu="@menu/activity_feed_book_drawer" />
+        app:headerLayout="@layout/nav_header_menu"
+        app:menu="@menu/activity_menu_drawer" />
 
     <RelativeLayout
         android:layout_width="match_parent"
