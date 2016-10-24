@@ -8,6 +8,7 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
+
     <include
         layout="@layout/nav_bar_drawer"
         android:layout_width="match_parent"
@@ -21,6 +22,10 @@
         app:headerLayout="@layout/nav_header_feed_book"
         app:menu="@menu/activity_feed_book_drawer" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        android:layout_marginTop="100dp"
     <GridView
         android:id="@+id/gridview"
         android:layout_width="match_parent"
@@ -34,4 +39,6 @@
         android:clickable="true"
         android:layout_marginTop="100dp"
         />
+    </RelativeLayout>
+
 </android.support.v4.widget.DrawerLayout >

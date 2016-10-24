@@ -2,8 +2,10 @@ package com.shareandsearchfood.shareandsearchfood;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TabHost;
@@ -12,7 +14,7 @@ import android.widget.TabHost;
  * Created by david_000 on 13/10/2016.
  */
 
-public class MyProfile extends AppCompatActivity {
+public class MyProfile extends NavBar {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +22,16 @@ public class MyProfile extends AppCompatActivity {
         // create the TabHost that will contain the Tabs
         TabHost tabHost = (TabHost)findViewById(android.R.id.tabhost);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         TabHost host = (TabHost)findViewById(R.id.tabHost);
         host.setup();
@@ -53,6 +65,7 @@ public class MyProfile extends AppCompatActivity {
         spec.setContent(R.id.BADGES);
         spec.setIndicator("Badges");
         host.addTab(spec);
+
     }
 
 

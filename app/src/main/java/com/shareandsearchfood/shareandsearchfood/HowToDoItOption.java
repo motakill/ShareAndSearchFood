@@ -20,6 +20,17 @@ public class HowToDoItOption extends NavBar {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_how_to_do_it_option);
 
+        Toolbar toolbar2 = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar2);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar2, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
         TabHost host = (TabHost)findViewById(R.id.tabHost);
         host.setup();
 
@@ -35,16 +46,7 @@ public class HowToDoItOption extends NavBar {
         spec.setIndicator("Videos");
         host.addTab(spec);
 
-        Toolbar toolbar2 = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar2);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar2, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
     }
 
 

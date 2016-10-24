@@ -1,7 +1,11 @@
 package com.shareandsearchfood.shareandsearchfood;
 
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -9,7 +13,7 @@ import android.widget.GridView;
 import android.widget.TabHost;
 import android.widget.Toast;
 
-public class Restaurant extends AppCompatActivity {
+public class Restaurant extends NavBar {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +22,16 @@ public class Restaurant extends AppCompatActivity {
         // create the TabHost that will contain the Tabs
         TabHost tabHost = (TabHost)findViewById(android.R.id.tabhost);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         TabHost host = (TabHost)findViewById(R.id.tabHost);
         host.setup();
@@ -39,6 +53,7 @@ public class Restaurant extends AppCompatActivity {
         spec.setContent(R.id.Contacts);
         spec.setIndicator("Contacts");
         host.addTab(spec);
+
 
         GridView gridview = (GridView) findViewById(R.id.gridview);
         gridview.setAdapter(new ImageAdapterMenus(this));
