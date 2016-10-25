@@ -9,6 +9,8 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/app_bar_my_profile">
 
+
+
         <ImageView
             android:layout_width="86dp"
             android:layout_height="102dp"
@@ -89,7 +91,13 @@
 
         </RelativeLayout>
 
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        >
     <TabHost
             android:id="@+id/tabHost"
             android:layout_width="match_parent"
@@ -620,7 +628,7 @@
 
 
     </TabHost>
-
+    </ScrollView>
 
     </RelativeLayout>
 

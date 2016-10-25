@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_recipe"
-    android:layout_marginTop="-70dp"
+    android:layout_marginTop="-100dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/app_bar_recipe_content">
 
@@ -95,6 +95,13 @@ android:layout_marginTop="100dp">
     android:stepSize="0.1" />
 
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+     >
 <TabHost
     android:id="@+id/tabHost"
     android:layout_width="match_parent"
@@ -225,6 +232,6 @@ android:layout_marginTop="100dp">
     </FrameLayout>
 
 </TabHost>
-
+</ScrollView>
 </LinearLayout>
 </RelativeLayout>
