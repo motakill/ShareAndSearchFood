@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_recipe"
+    android:layout_marginTop="-70dp"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/app_bar_recipe_content">
+
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+android:layout_marginTop="100dp">
+
+<LinearLayout
+    android:layout_width="349dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:srcCompat="@drawable/com_facebook_profile_picture_blank_square"
+        android:id="@+id/imageView4"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:onClick="clickProfile"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="135dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:id="@+id/nickname"
+            android:hint="Nickname"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="25dp"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="135dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:id="@+id/titulo"
+            android:hint="Titulo"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="25dp"
+            android:textSize="18sp" />
+
+        <CheckBox android:id="@+id/star"
+            style="?android:attr/starStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="320dp"
+            android:layout_marginTop="15dp"
+
+            />
+
+    </RelativeLayout>
+
+</LinearLayout>
+
+
+<ImageView
+    android:layout_width="wrap_content"
+    android:background="@drawable/bolos"
+    android:id="@+id/imageView6"
+    android:layout_marginLeft="25dp"
+    android:layout_marginRight="25dp"
+    android:layout_marginTop="5dp"
+    android:layout_margin="10dp"
+    android:scaleType="center"
+    android:gravity="center"
+    android:layout_height="250dp" />
+
+
+<RatingBar
+    android:id="@+id/ratingBar2"
+    android:layout_marginLeft="250dp"
+    style="?android:attr/ratingBarStyleSmall"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:isIndicator="true"
+    android:numStars="5"
+    android:stepSize="0.1" />
+
+
+<TabHost
+    android:id="@+id/tabHost"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="10dp"
+    android:scaleX="1.0">
+
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
+
+        <TabWidget
+            android:id="@android:id/tabs"
+            android:layout_width="fill_parent"
+            android:layout_height="25dp" >
+
+        </TabWidget>
+    </HorizontalScrollView>
+
+    <FrameLayout
+        android:id="@android:id/tabcontent"
+        android:layout_width="360dp"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/Ingredients"
+            android:layout_width="360dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+            <TableLayout
+                android:layout_width="360dp"
+                android:layout_marginTop="30dp"
+                android:layout_height="match_parent"
+                android:stretchColumns="3">
+
+                <TableRow
+                    android:id="@+id/tableRow1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_weight="1">
+
+                    <ImageView
+
+                        android:layout_weight="1"
+                        app:srcCompat="@android:drawable/ic_menu_recent_history"
+                        android:id="@+id/imageView5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView android:text="test2" android:layout_weight="1"
+                        android:textAlignment="center"></TextView>
+                    <TextView android:text="test3" android:layout_weight="1"
+                        android:textAlignment="center"></TextView>
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tableRow2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_weight="1">
+                    <TextView android:text="test1" android:layout_weight="1"
+                        android:textAlignment="center"></TextView>
+                    <TextView android:text="test2" android:layout_weight="1"
+                        android:textAlignment="center"></TextView>
+                    <TextView android:text="test3" android:layout_weight="1"
+                        android:textAlignment="center"></TextView>
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tableRow3"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_weight="1">
+                    <TextView android:text="test1" android:layout_weight="1"
+                        android:textAlignment="center"></TextView>
+                    <TextView android:text="test2" android:layout_weight="1"
+                        android:textAlignment="center"></TextView>
+                    <TextView android:text="test3" android:layout_weight="1"
+                        android:textAlignment="center"></TextView>
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/Preparation"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:orientation="vertical">
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/Nutrition"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/Comments"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="360dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView7" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/Video"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:orientation="vertical">
+
+            <VideoView
+                android:layout_width="360dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/videoView" />
+        </LinearLayout>
+    </FrameLayout>
+
+</TabHost>
+
+</LinearLayout>
+</RelativeLayout>

@@ -22,12 +22,18 @@
             android:name=".LoginActivity"
             android:theme="@style/AppTheme2"
             android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
     </activity>
         <activity
             android:name=".MenuActivity"
             android:label="@string/title_activity_feed_book" >
+
+
 
         </activity>
         <activity
@@ -40,11 +46,9 @@
         <activity
             android:name=".MyProfile"
             android:label="@string/profile_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
+
         </activity>
 
         <activity
@@ -77,7 +81,7 @@
         </activity>
         <activity
             android:name=".HowToDoIt"
-            android:label="how To Do It?">
+            android:label="How To Do It?">
 
         </activity>
         <activity
@@ -88,6 +92,30 @@
         <activity
             android:name=".RecipeContent"
             android:label="Recipe Title">
+
+        </activity>
+
+        <activity
+            android:name=".AboutSSFood"
+            android:label="About S&amp;SFood" >
+
+
+
+        </activity>
+
+        <activity
+            android:name=".FeedBackSSFood"
+            android:label="Send us FeedBack" >
+
+
+
+        </activity>
+
+        <activity
+            android:name=".SettingsSSFood"
+            android:label="Settings" >
+
+
 
         </activity>
     </application>

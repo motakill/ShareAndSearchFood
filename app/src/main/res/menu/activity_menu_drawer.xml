@@ -4,19 +4,20 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_book"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_menu_gallery"
             android:title="Cook Book" />
         <item
             android:id="@+id/nav_profile"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="My Profile" />
+            android:icon="@drawable/ic_menu_manage"
+            android:title="My Profile"
+            />
         <item
             android:id="@+id/nav_notebook"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_menu_send"
             android:title="Notebook" />
         <item
             android:id="@+id/nav_how"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_menu_slideshow"
             android:title="How To Do It?" />
         <item
             android:id="@+id/nav_eatTime"

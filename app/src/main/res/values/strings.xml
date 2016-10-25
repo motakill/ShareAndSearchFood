@@ -24,8 +24,8 @@
     <string name="step_by_step">Step By Step</string>
     <string name="add_photos">Add Photos</string>
     <string name="add_movies">Add Movies</string>
-    <string name="save_receipe">Save Receipe</string>
-    <string name="pub_receipe">Publish her</string>
+    <string name="save_recipe">Save Recipe</string>
+    <string name="pub_recipe">Publish her</string>
 
 
     <string name="action_sign_in_short">Sign in</string>
@@ -52,6 +52,9 @@
     <string name="search">Search</string>
     <string name="search_people">Search People</string>
     <string name="go">Eat Now</string>
+    <string name="save_receipe">Save Recipe</string>
+    <string name="pub_receipe">Pub Now</string>
+
 
 
 

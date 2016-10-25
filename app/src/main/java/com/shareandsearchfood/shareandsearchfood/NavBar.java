@@ -37,6 +37,8 @@ public class NavBar extends AppCompatActivity
         return true;
     }
 
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -44,8 +46,33 @@ public class NavBar extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_sign_out) {
+            // Intent homescreen=new Intent(this,LoginActivity.class);
+            // homescreen.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            // startActivity(homescreen);
+
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            this.finish();
+
+            return true;
+        }
+        if (id == R.id.action_settings){
+            Intent intent = new Intent(this, SettingsSSFood.class);
+            startActivity(intent);
+
+            return true;
+        }
+        else if(id == R.id.action_feedBack){
+            Intent intent = new Intent(this, FeedBackSSFood.class);
+            startActivity(intent);
+
+            return true;
+        }
+        else if(id == R.id.action_about){
+            Intent intent = new Intent(this, AboutSSFood.class);
+            startActivity(intent);
+
             return true;
         }
 
