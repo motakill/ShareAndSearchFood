@@ -181,22 +181,15 @@
                                     android:layout_marginTop="30dp"
                                     android:layout_marginLeft="25dp"
                                     android:textSize="18sp" />
-
-                                <CheckBox android:id="@+id/star"
-                                    style="?android:attr/starStyle"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="250dp"
-                                    android:layout_marginTop="15dp"
-
-                                    />
-
                             </RelativeLayout>
 
                         </LinearLayout>
 
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
 
-                        <ImageView
+                            <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="151dp"
                             android:src="@drawable/bolos"
@@ -204,34 +197,37 @@
                             android:layout_marginLeft="25dp"
                             android:layout_marginRight="25dp"
                             android:layout_marginTop="5dp"
-                            android:layout_weight="0.66"
                             android:clickable="true"
                             android:onClick="clickRecipe"
                             />
+
+                            <CheckBox android:id="@+id/star"
+                                style="?android:attr/starStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignTop="@+id/imageView3"
+                                android:layout_alignRight="@+id/imageView3"
+                                android:layout_alignEnd="@+id/imageView3"
+                                android:layout_marginRight="50dp"
+                                android:layout_marginEnd="50dp" />
+
+                            <RatingBar
+                                android:id="@+id/ratingBar2"
+                                style="?android:attr/ratingBarStyleSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:numStars="5"
+                                android:stepSize="1.0"
+                                android:isIndicator="false"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignRight="@+id/star"
+                                android:layout_alignEnd="@+id/star" />
+                        </RelativeLayout>
 
                         <TableLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:stretchColumns="2">
-
-                            <TableRow
-                                android:id="@+id/tableRow1"
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:layout_weight="1">
-
-                                <RatingBar
-                                    android:id="@+id/ratingBar2"
-                                    android:layout_marginLeft="250dp"
-                                    style="?android:attr/ratingBarStyleSmall"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:isIndicator="true"
-                                    android:numStars="5"
-                                    android:stepSize="0.1" />
-
-                            </TableRow>
 
                             <TableRow
                                 android:id="@+id/tableRow2"
@@ -264,7 +260,6 @@
                         android:weightSum="1">
 
 
-                        --ME tiago
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
@@ -283,42 +278,51 @@
 
                         </LinearLayout>
 
-                        <ImageView
+                        <RelativeLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="151dp"
-                            android:src="@drawable/bolos"
-                            android:id="@+id/imageView4"
-                            android:layout_marginLeft="25dp"
-                            android:layout_marginRight="25dp"
-                            android:layout_marginTop="2dp"
-                            android:layout_weight="0.66"
-                            android:clickable="true"
-                            android:onClick="clickRecipe"
-                            />
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="151dp"
+                                android:src="@drawable/bolos"
+                                android:id="@+id/imageView4"
+                                android:layout_marginLeft="25dp"
+                                android:layout_marginRight="25dp"
+                                android:layout_marginTop="5dp"
+                                android:clickable="true"
+                                android:onClick="clickRecipe"
+                                />
+
+                            <CheckBox android:id="@+id/star2"
+                                style="?android:attr/starStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignTop="@+id/imageView4"
+                                android:layout_alignRight="@+id/imageView4"
+                                android:layout_alignEnd="@+id/imageView4"
+                                android:layout_marginRight="50dp"
+                                android:layout_marginEnd="50dp"/>
+
+                            <RatingBar
+                                android:id="@+id/ratingBar6"
+                                style="?android:attr/ratingBarStyleSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:numStars="5"
+                                android:stepSize="1.0"
+                                android:isIndicator="false"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignRight="@+id/star2"
+                                android:layout_alignEnd="@+id/star2" />
+
+
+                        </RelativeLayout>
 
                         <TableLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:stretchColumns="2">
-
-                            <TableRow
-                                android:id="@+id/tableRow3"
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:layout_weight="1">
-
-                                <RatingBar
-                                    android:id="@+id/ratingBar4"
-                                    android:layout_marginLeft="250dp"
-                                    style="?android:attr/ratingBarStyleSmall"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:isIndicator="true"
-                                    android:numStars="5"
-                                    android:stepSize="0.1" />
-
-                            </TableRow>
 
                             <TableRow
                                 android:id="@+id/tableRow4"
@@ -396,42 +400,50 @@
                         </LinearLayout>
 
 
-                        <ImageView
+                        <RelativeLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="151dp"
-                            android:src="@drawable/bolos"
-                            android:id="@+id/imageView6"
-                            android:layout_marginLeft="25dp"
-                            android:layout_marginRight="25dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_weight="0.66"
-                            android:clickable="true"
-                            android:onClick="clickRecipe"
-                            />
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="151dp"
+                                android:src="@drawable/bolos"
+                                android:id="@+id/imageView6"
+                                android:layout_marginLeft="25dp"
+                                android:layout_marginRight="25dp"
+                                android:layout_marginTop="5dp"
+                                android:clickable="true"
+                                android:onClick="clickRecipe"
+                                />
+                            <CheckBox android:id="@+id/star1"
+                                style="?android:attr/starStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignTop="@+id/imageView6"
+                                android:layout_alignRight="@+id/imageView6"
+                                android:layout_alignEnd="@+id/imageView6"
+                                android:layout_marginRight="50dp"
+                                android:layout_marginEnd="50dp"/>
+
+                            <RatingBar
+                                android:id="@+id/ratingBar1"
+                                style="?android:attr/ratingBarStyleSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:numStars="5"
+                                android:stepSize="1.0"
+                                android:isIndicator="false"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignRight="@+id/star1"
+                                android:layout_alignEnd="@+id/star1"/>
+
+
+                        </RelativeLayout>
 
                         <TableLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:stretchColumns="2">
-
-                            <TableRow
-                                android:id="@+id/tableRow5"
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:layout_weight="1">
-
-                                <RatingBar
-                                    android:id="@+id/ratingBar5"
-                                    android:layout_marginLeft="250dp"
-                                    style="?android:attr/ratingBarStyleSmall"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:isIndicator="true"
-                                    android:numStars="5"
-                                    android:stepSize="0.1" />
-
-                            </TableRow>
 
                             <TableRow
                                 android:id="@+id/tableRow7"

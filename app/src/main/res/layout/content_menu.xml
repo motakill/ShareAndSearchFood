@@ -69,20 +69,16 @@
                 android:layout_marginLeft="25dp"
                 android:textSize="18sp" />
 
-            <CheckBox android:id="@+id/star"
-                style="?android:attr/starStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="250dp"
-                android:layout_marginTop="60dp"
 
-                />
 
         </RelativeLayout>
 
     </LinearLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-    <ImageView
+            <ImageView
         android:layout_width="wrap_content"
         android:background="@drawable/bolos"
         android:id="@+id/imageView6"
@@ -97,30 +93,33 @@
         android:onClick="clickRecipe"
         />
 
+            <CheckBox android:id="@+id/star"
+                style="?android:attr/starStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_alignTop="@+id/imageView6"
+                android:layout_alignRight="@+id/imageView6"
+                android:layout_alignEnd="@+id/imageView6" />
+
+            <RatingBar
+                android:id="@+id/ratingBarContentMenu"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:stepSize="1.0"
+                android:isIndicator="false"
+                android:layout_alignBottom="@+id/imageView6"
+                android:layout_alignRight="@+id/imageView6"
+                android:layout_alignEnd="@+id/imageView6" />
+        </RelativeLayout>
+
 
     <TableLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:stretchColumns="2">
-
-        <TableRow
-            android:id="@+id/tableRow1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_weight="1">
-
-            <RatingBar
-                android:id="@+id/ratingBar2"
-                android:layout_marginLeft="250dp"
-                style="?android:attr/ratingBarStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:isIndicator="true"
-                android:numStars="5"
-                android:stepSize="0.1" />
-
-        </TableRow>
 
         <TableRow
             android:id="@+id/tableRow2"

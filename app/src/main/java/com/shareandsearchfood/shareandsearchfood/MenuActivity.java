@@ -7,6 +7,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 
 public class MenuActivity extends NavBar {
@@ -27,6 +30,9 @@ public class MenuActivity extends NavBar {
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        RatingBar simpleRatingBar = (RatingBar) findViewById(R.id.ratingBarContentMenu); // initiate a rating bar
+        int numberOfStars = simpleRatingBar.getNumStars(); // get total number of stars of rating bar
     }
 
     public void clickProfile(View view){
@@ -39,4 +45,7 @@ public class MenuActivity extends NavBar {
         startActivity(intent);
 
     }
+
+
+
 }
