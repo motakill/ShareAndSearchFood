@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_menu"
+    android:layout_marginTop="-65dp"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/app_bar_menu">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+       >
+
+
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:srcCompat="@drawable/com_facebook_profile_picture_blank_square"
+            android:id="@+id/imageView4"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="70dp"
+            android:clickable="true"
+            android:onClick="clickProfile"
+            />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="135dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:id="@+id/nickname"
+                android:hint="Nickname"
+                android:layout_marginTop="70dp"
+                android:layout_marginLeft="25dp"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="135dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:id="@+id/titulo"
+                android:hint="Titulo"
+                android:layout_marginTop="100dp"
+                android:layout_marginLeft="25dp"
+                android:textSize="18sp" />
+
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+        android:layout_width="wrap_content"
+        android:background="@drawable/bolos"
+        android:id="@+id/imageView6"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="5dp"
+        android:layout_margin="10dp"
+        android:scaleType="center"
+        android:gravity="center"
+        android:layout_height="250dp"
+        android:clickable="true"
+        android:onClick="clickRecipe"
+        />
+
+            <CheckBox android:id="@+id/star"
+                style="?android:attr/starStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_alignTop="@+id/imageView6"
+                android:layout_alignRight="@+id/imageView6"
+                android:layout_alignEnd="@+id/imageView6" />
+
+            <RatingBar
+                android:id="@+id/ratingBarContentMenu"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:stepSize="1.0"
+                android:isIndicator="false"
+                android:layout_alignBottom="@+id/imageView6"
+                android:layout_alignRight="@+id/imageView6"
+                android:layout_alignEnd="@+id/imageView6" />
+        </RelativeLayout>
+
+
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:stretchColumns="2">
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
+            <TextView
+                android:text="timestamp"
+                android:layout_width="wrap_content"
+                android:id="@+id/data"
+                android:layout_marginLeft="25dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                />
+        </TableRow>
+    </TableLayout>
+
+    </LinearLayout>
+
+</ScrollView>
+
+    </RelativeLayout>

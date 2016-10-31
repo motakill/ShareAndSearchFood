@@ -67,8 +67,7 @@
                 android:imeActionLabel="@string/action_sign_in_short"
                 android:imeOptions="actionUnspecified"
                 android:inputType="textPassword"
-                android:maxLines="1"
-                android:singleLine="true" />
+                android:maxLines="1"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -95,8 +94,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/action_register"
-                android:textStyle="bold" />
-
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:onClick="register" />
 
             <Button
                 android:id="@+id/email_sign_in_button"
@@ -105,7 +105,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/action_sign_in"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:onClick="signIn" />
 
         </LinearLayout>
 
