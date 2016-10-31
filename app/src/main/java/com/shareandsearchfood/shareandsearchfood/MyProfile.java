@@ -8,13 +8,22 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 /**
  * Created by david_000 on 13/10/2016.
  */
 
 public class MyProfile extends NavBar {
+    private LinearLayout mLayout, mLayout2;
+    private EditText mEditText, mEditText2;
+    private Button mButton, mButton2;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +74,22 @@ public class MyProfile extends NavBar {
         spec.setIndicator("Badges");
         host.addTab(spec);
 
+
+        // cenas para adicionar mais ingredientes no share
+        mLayout = (LinearLayout) findViewById(R.id.layoutIngredientes);
+        mEditText = (EditText) findViewById(R.id.Ingredientes);
+        mButton = (Button) findViewById(R.id.moreIngredients);
+        mButton.setOnClickListener(onClick());
+        TextView textView = new TextView(this);
+        textView.setText("More ingredients");
+
+        mLayout2 = (LinearLayout) findViewById(R.id.layoutSteps);
+        mEditText2 = (EditText) findViewById(R.id.Step_by_Step);
+        mButton2 = (Button) findViewById(R.id.moreSteps);
+        mButton2.setOnClickListener(onClick());
+        TextView textView2 = new TextView(this);
+        textView2.setText("More Steps");
+
     }
 
 
@@ -93,4 +118,60 @@ public class MyProfile extends NavBar {
         startActivity(intent);
 
     }
+
+
+
+
+    private View.OnClickListener onClick() {
+        return new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                    mLayout.addView(createNewTextView(mEditText.getText().toString()));
+                    mLayout2.addView(createNewTextView2(mEditText2.getText().toString()));
+                mEditText.setText("");
+                mEditText2.setText("");
+
+            }
+        };
+    }
+
+
+
+    private TextView createNewTextView(String text) {
+        final DrawerLayout.LayoutParams lparams = new DrawerLayout.LayoutParams(DrawerLayout.LayoutParams.WRAP_CONTENT, DrawerLayout.LayoutParams.WRAP_CONTENT);
+        final TextView textView = new TextView(this);
+        textView.setLayoutParams(lparams);
+        if (!text.isEmpty()) {
+
+            textView.setText(text + "; ");
+            return textView;
+        }
+        else {
+
+            textView.setText("");
+            return textView;
+        }
+
+    }
+
+    private TextView createNewTextView2(String text) {
+        final DrawerLayout.LayoutParams lparams = new DrawerLayout.LayoutParams(DrawerLayout.LayoutParams.WRAP_CONTENT, DrawerLayout.LayoutParams.WRAP_CONTENT);
+        final TextView textView2 = new TextView(this);
+        textView2.setLayoutParams(lparams);
+
+        if (!text.isEmpty()) {
+
+            textView2.setText(text + "; ");
+            return textView2;
+        }
+        else {
+
+            textView2.setText("");
+            return textView2;
+        }
+    }
+
+
 }
