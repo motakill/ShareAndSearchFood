@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "401812612086",
+    "project_id": "ss-food"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:401812612086:android:7cf6208900385a55",
+        "android_client_info": {
+          "package_name": "com.shareandsearchfood.shareandsearchfood"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "401812612086-8l2vo6bpkauoef2mvqqit7gco8umd20g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shareandsearchfood.shareandsearchfood",
+            "certificate_hash": "BEBBEB34414168DFC1B93B193A975149F2F3820E"
+          }
+        },
+        {
+          "client_id": "401812612086-sdid1jdfreq5pvs34kpqo3kdv7udbv7e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2sdhuqzGQNyJ-zqjwYVKNPfK09joRsyQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
