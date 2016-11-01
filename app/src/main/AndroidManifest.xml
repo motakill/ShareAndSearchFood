@@ -21,7 +21,8 @@
         <activity
             android:name=".LoginActivity"
             android:theme="@style/AppTheme2"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,7 +32,8 @@
     </activity>
         <activity
             android:name=".MenuActivity"
-            android:label="@string/title_activity_feed_book" >
+            android:label="@string/title_activity_feed_book"
+            android:screenOrientation="portrait" >
 
 
 
@@ -40,12 +42,13 @@
             android:name=".RegistActivity"
             android:label="@string/register_name"
             android:theme="@style/AppTheme2"
-
+            android:screenOrientation="portrait"
             />
 
         <activity
             android:name=".MyProfile"
-            android:label="@string/profile_name" >
+            android:label="@string/profile_name"
+            android:screenOrientation="portrait" >
 
 
 
@@ -53,51 +56,60 @@
 
         <activity
             android:name=".NotebookActivity"
-            android:label="Notebook">
+            android:label="Notebook"
+            android:screenOrientation="portrait" >
 
     </activity>
 
     <activity
             android:name=".Visit_person"
-            android:label="Person Name" >
+            android:label="Person Name"
+            android:screenOrientation="portrait" >
 
 
         </activity>
         <activity
             android:name=".Search_places"
-            android:label="Eat Time">
+            android:label="Eat Time"
+            android:screenOrientation="portrait" >
 
         </activity>
         <activity
             android:name=".Search_people"
-            android:label="Find People">
+            android:label="Find People"
+            android:screenOrientation="portrait" >
 
 
         </activity>
         <activity android:name=".Restaurant"
-            android:label="Restaurant Name">
+            android:label="Restaurant Name"
+            android:screenOrientation="portrait" >
 
 
         </activity>
         <activity
             android:name=".HowToDoIt"
-            android:label="How To Do It?">
+            android:label="How To Do It?"
+            android:screenOrientation="portrait" >
 
         </activity>
         <activity
             android:name=".HowToDoItOption"
-            android:label="How To Do It?">
+            android:label="How To Do It?"
+            android:screenOrientation="portrait" >
 
         </activity>
         <activity
             android:name=".RecipeContent"
-            android:label="Recipe Title">
+            android:label="Recipe Title"
+            android:screenOrientation="portrait" >
 
         </activity>
 
         <activity
             android:name=".AboutSSFood"
-            android:label="About S&amp;SFood" >
+            android:label="About S&amp;SFood"
+            android:screenOrientation="portrait" >
 
 
 
@@ -105,7 +117,8 @@
 
         <activity
             android:name=".FeedBackSSFood"
-            android:label="Send us FeedBack" >
+            android:label="Send us FeedBack"
+            android:screenOrientation="portrait" >
 
 
 
@@ -113,7 +126,8 @@
 
         <activity
             android:name=".SettingsSSFood"
-            android:label="Settings" >
+            android:label="Settings"
+            android:screenOrientation="portrait" >
 
 
 

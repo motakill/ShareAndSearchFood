@@ -31,7 +31,7 @@ public class Search_people extends NavBar {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        GridView gridview = (GridView) findViewById(R.id.gridview);
+        GridView gridview = (GridView) findViewById(R.id.gridview_people);
         gridview.setAdapter(new ImageAdapter(this));
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {

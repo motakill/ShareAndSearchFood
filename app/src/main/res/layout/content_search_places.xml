@@ -36,24 +36,25 @@ android:layout_marginTop="70dp">
         android:layout_alignParentStart="true"
         android:layout_below="@+id/radius"
         android:layout_marginTop="16dp"
-        android:hint="@string/radius_length"
-        android:inputType="numberDecimal"
+        android:hint="Food Name"
+        android:inputType="textAutoComplete"
         android:maxLines="1" />
     <Button
         android:id="@+id/button3"
         style="?android:textAppearanceSmall"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="0.66"
         android:text="@string/search"
         android:textStyle="bold"
         android:textSize="14sp"
+        android:layout_marginLeft="120dp"
         android:layout_marginTop="13dp"/>
 
 </LinearLayout>
 
 <GridView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/gridview"
+    android:id="@+id/gridview100"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:columnWidth="150dp"

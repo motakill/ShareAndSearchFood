@@ -37,7 +37,7 @@ public class HowToDoIt extends NavBar {
         navigationView.setNavigationItemSelectedListener(this);
 
         GridView gridview = (GridView) findViewById(R.id.gridview);
-        gridview.setAdapter(new ImageAdapter(this));
+        gridview.setAdapter(new ImageAdapterRestaurantPhotos(this));
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,

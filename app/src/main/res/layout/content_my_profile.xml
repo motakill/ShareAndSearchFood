@@ -133,6 +133,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
+
+
                     <LinearLayout
                         android:id="@+id/FEED"
                         android:layout_width="match_parent"
@@ -247,9 +249,9 @@
                             </TableRow>
                         </TableLayout>
 
+
+
                     </LinearLayout>
-
-
 
                     <LinearLayout
                         android:id="@+id/MYPUBS"
@@ -344,6 +346,8 @@
 
 
                     </LinearLayout>
+
+
 
                     <LinearLayout
                         android:id="@+id/FAVORITES"
@@ -466,6 +470,7 @@
 
                     </LinearLayout>
 
+
                     <LinearLayout
                         android:id="@+id/SHARE"
                         android:layout_width="match_parent"
@@ -500,14 +505,18 @@
                                 android:layout_alignParentStart="true"
                                 android:layout_below="@+id/email"
                                 android:layout_marginTop="16dp"
+                                android:imeOptions="actionUnspecified"
                                 android:hint="Recipe Tittle"
                                 android:inputType="text"
                                 android:maxLines="1" />
 
                         </LinearLayout>
-                        <LinearLayout
+
+                            <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                                android:id="@+id/layoutIngredientes99"
+                                >
 
                             <AutoCompleteTextView
                                 android:id="@+id/Ingredientes"
@@ -515,15 +524,40 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
+                                android:imeOptions="actionUnspecified"
                                 android:layout_alignParentTop="true"
                                 android:hint="@string/ingredients"
-                                android:inputType="text"
+                                android:inputType="textAutoComplete"
                                 />
+
+                                 </LinearLayout>
+
+                        <HorizontalScrollView
+                            android:id="@+id/horizontalScrollView2"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:fillViewport="true">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/layoutIngredientes"
+                            >
+                            <RadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/moreIngredients"
+                                android:layout_weight="1"
+                                android:button="@android:drawable/ic_input_add"
+                                android:imeOptions="actionUnspecified"
+                                app:buttonTint="@color/colorPrimaryDark"
+                                android:checked="false" />
+
                         </LinearLayout>
+                        </HorizontalScrollView>
 
                         <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"               >
                             <AutoCompleteTextView
                                 android:id="@+id/Step_by_Step"
                                 android:layout_width="400dp"
@@ -531,10 +565,55 @@
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
                                 android:layout_alignParentTop="true"
+                                android:imeOptions="actionUnspecified"
                                 android:hint="@string/step_by_step"
-                                android:inputType="text"
+                                android:inputType="textAutoComplete"
                                 />
+                            </LinearLayout>
+                            <HorizontalScrollView
+                                android:id="@+id/horizontalScrollView3"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:fillViewport="true">
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/layoutSteps"
+                                    >
+                                    <RadioButton
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:id="@+id/moreSteps"
+                                        android:layout_weight="1"
+                                        android:button="@android:drawable/ic_input_add"
+                                        android:imeOptions="actionUnspecified"
+                                        app:buttonTint="@color/colorPrimaryDark"
+                                        android:checked="false" />
 
+                                </LinearLayout>
+                            </HorizontalScrollView>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:orientation="vertical"
+                            android:layout_marginTop="-10dp">
+
+
+                            <AutoCompleteTextView
+                                android:id="@+id/calories"
+                                android:layout_width="400dp"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:layout_below="@+id/email"
+                                android:layout_marginTop="16dp"
+                                android:hint="Calories"
+                                android:inputType="textAutoComplete"
+                                android:maxLines="1" />
 
                         </LinearLayout>
 
@@ -544,7 +623,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:layout_marginTop="50dp">
+                            android:layout_marginTop="20dp">
 
 
                             <Button
@@ -574,7 +653,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:layout_marginTop="50dp">
+                            android:layout_marginTop="10dp">
 
                             <Button
                                 android:id="@+id/Save"
@@ -600,6 +679,8 @@
 
 
                     </LinearLayout>
+
+
 
                     <LinearLayout
                         android:id="@+id/BADGES"
@@ -635,6 +716,7 @@
 
 
                     </LinearLayout>
+
                 </FrameLayout>
             </LinearLayout>
 
