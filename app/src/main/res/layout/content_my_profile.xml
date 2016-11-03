@@ -21,11 +21,11 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
-        <RelativeLayout
+    <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <TextView
+        <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -224,6 +224,21 @@
                                 android:layout_alignParentBottom="true"
                                 android:layout_alignRight="@+id/star"
                                 android:layout_alignEnd="@+id/star" />
+
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_above="@+id/ratingBar2"
+                                android:layout_toRightOf="@+id/ratingBar2"
+                                android:layout_toEndOf="@+id/ratingBar2"
+                                android:layout_marginBottom="25dp"></RelativeLayout>
+
+                            <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/username"
+                                android:layout_alignTop="@+id/ratingBar2"
+                                android:layout_centerHorizontal="true" />
                         </RelativeLayout>
 
                         <TableLayout

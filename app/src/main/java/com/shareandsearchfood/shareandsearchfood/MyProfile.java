@@ -29,6 +29,10 @@ public class MyProfile extends NavBar {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
 
+        String text = getIntent().getStringExtra("username");
+        TextView textView3 = (TextView)findViewById(R.id.username);
+        textView3.setText(text);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -119,9 +123,6 @@ public class MyProfile extends NavBar {
 
     }
 
-
-
-
     private View.OnClickListener onClick() {
         return new View.OnClickListener() {
 
@@ -136,8 +137,6 @@ public class MyProfile extends NavBar {
             }
         };
     }
-
-
 
     private TextView createNewTextView(String text) {
         final DrawerLayout.LayoutParams lparams = new DrawerLayout.LayoutParams(DrawerLayout.LayoutParams.WRAP_CONTENT, DrawerLayout.LayoutParams.WRAP_CONTENT);

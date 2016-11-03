@@ -6,7 +6,6 @@ import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.PixelFormat;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -34,10 +33,15 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.CallbackManager;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.SignInButton;
@@ -79,18 +83,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         FacebookSdk.sdkInitialize(getApplicationContext());
-        callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_login);
         info = (TextView)findViewById(R.id.info);
         loginButton = (LoginButton)findViewById(R.id.login_button);
-
         setContentView(R.layout.activity_login);
-        // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
-
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -112,9 +111,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });*/
 
-
         mProgressView = findViewById(R.id.login_progress);
 
+        //google
         SignInButton mGoogleSignInButton = (SignInButton)findViewById(R.id.sign_in_button);
         mGoogleSignInButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -122,8 +121,41 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 signInWithGoogle();
             }
         });
+        //facebook
+        LoginButton faceButton = (LoginButton)findViewById(R.id.login_button);
+        callbackManager = CallbackManager.Factory.create();
+        faceButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Intent intent = new Intent(LoginActivity.this, MyProfile.class);
+                startActivity(intent);
+            }
 
+            @Override
+            public void onCancel() {
+                // App code
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(LoginActivity.this);
+                dlgAlert.setMessage("Sign In Failed");
+                dlgAlert.setTitle("Error Message...");
+                dlgAlert.setPositiveButton("OK", null);
+                dlgAlert.setCancelable(true);
+                dlgAlert.create().show();
+
+                dlgAlert.setPositiveButton("Ok",
+                        new DialogInterface.OnClickListener(){
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+            }
+        });
     }
+
+    //login com google
     private static final int RC_SIGN_IN = 9001;
 
     private void signInWithGoogle() {
@@ -153,7 +185,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if(result.isSuccess()) {
                 final GoogleApiClient client = mGoogleApiClient;
-                Intent intent = new Intent(this, MenuActivity.class);
+                GoogleSignInAccount acct = result.getSignInAccount();
+                String personName = acct.getDisplayName();
+                String personGivenName = acct.getGivenName();
+                String personFamilyName = acct.getFamilyName();
+                String personEmail = acct.getEmail();
+                String personId = acct.getId();
+                Uri personPhoto = acct.getPhotoUrl();
+
+                Intent intent = new Intent(this, MyProfile.class);
+                intent.putExtra("username", personName);
                 startActivity(intent);
             } else {
             AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
@@ -175,7 +216,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-    //Usado para facebook daqui para baixo
+    //login facebook
+
+    //Usado para login por mail daqui para baixo
     public void register(View view){
         Intent intent = new Intent(this, RegistActivity.class);
         startActivity(intent);

@@ -130,6 +130,7 @@
             android:layout_centerInParent="true"
             android:layout_gravity="center"
             android:layout_weight="1" />
+
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
         android:layout_width="match_parent"
