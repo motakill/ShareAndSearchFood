@@ -1,9 +1,12 @@
-package com.shareandsearchfood.shareandsearchfood;
+package com.shareandsearchfood.login;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+
+import com.shareandsearchfood.shareandsearchfood.MenuActivity;
+import com.shareandsearchfood.shareandsearchfood.R;
 
 public class RegistActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.shareandsearchfood.shareandsearchfood;
+package com.shareandsearchfood.imageAdapter;
 
 import android.content.Context;
 import android.view.View;
@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+
+import com.shareandsearchfood.shareandsearchfood.R;
 
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;

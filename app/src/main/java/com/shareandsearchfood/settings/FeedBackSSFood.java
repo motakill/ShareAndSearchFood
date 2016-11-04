@@ -1,4 +1,4 @@
-package com.shareandsearchfood.shareandsearchfood;
+package com.shareandsearchfood.settings;
 
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -6,12 +6,15 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
-public class AboutSSFood extends NavBar {
+import com.shareandsearchfood.shareandsearchfood.NavBar;
+import com.shareandsearchfood.shareandsearchfood.R;
+
+public class FeedBackSSFood extends NavBar {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about_ssfood);
+        setContentView(R.layout.activity_feed_back_ssfood);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -24,6 +27,5 @@ public class AboutSSFood extends NavBar {
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
     }
 }

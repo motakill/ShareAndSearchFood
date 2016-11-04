@@ -17,9 +17,8 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
         <activity
-            android:name=".LoginActivity"
+            android:name="com.shareandsearchfood.login.LoginActivity"
             android:theme="@style/AppTheme2"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
@@ -39,7 +38,7 @@
 
         </activity>
         <activity
-            android:name=".RegistActivity"
+            android:name="com.shareandsearchfood.login.RegistActivity"
             android:label="@string/register_name"
             android:theme="@style/AppTheme2"
             android:screenOrientation="portrait"
@@ -107,7 +106,7 @@
         </activity>
 
         <activity
-            android:name=".AboutSSFood"
+            android:name="com.shareandsearchfood.settings.AboutSSFood"
             android:label="About S&amp;SFood"
             android:screenOrientation="portrait" >
 
@@ -116,7 +115,7 @@
         </activity>
 
         <activity
-            android:name=".FeedBackSSFood"
+            android:name="com.shareandsearchfood.settings.FeedBackSSFood"
             android:label="Send us FeedBack"
             android:screenOrientation="portrait" >
 
@@ -125,7 +124,7 @@
         </activity>
 
         <activity
-            android:name=".SettingsSSFood"
+            android:name="com.shareandsearchfood.settings.SettingsSSFood"
             android:label="Settings"
             android:screenOrientation="portrait" >
 

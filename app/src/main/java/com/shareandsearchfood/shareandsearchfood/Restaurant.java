@@ -3,7 +3,6 @@ package com.shareandsearchfood.shareandsearchfood;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -12,6 +11,9 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TabHost;
 import android.widget.Toast;
+
+import com.shareandsearchfood.imageAdapter.ImageAdapterMenus;
+import com.shareandsearchfood.imageAdapter.ImageAdapterRestaurantPhotos;
 
 public class Restaurant extends NavBar {
 

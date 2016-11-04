@@ -1,4 +1,4 @@
-package com.shareandsearchfood.shareandsearchfood;
+package com.shareandsearchfood.login;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -33,12 +33,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
 import com.facebook.CallbackManager;
-import com.facebook.appevents.AppEventsLogger;
-import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -46,6 +41,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.shareandsearchfood.shareandsearchfood.MenuActivity;
+import com.shareandsearchfood.shareandsearchfood.MyProfile;
+import com.shareandsearchfood.shareandsearchfood.R;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -83,11 +81,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(getApplicationContext());
+        //FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_login);
+
         info = (TextView)findViewById(R.id.info);
-        loginButton = (LoginButton)findViewById(R.id.login_button);
-        setContentView(R.layout.activity_login);
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -121,6 +118,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 signInWithGoogle();
             }
         });
+
+        /*
         //facebook
         LoginButton faceButton = (LoginButton)findViewById(R.id.login_button);
         callbackManager = CallbackManager.Factory.create();
@@ -152,7 +151,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             }
                         });
             }
-        });
+        });*/
     }
 
     //login com google

@@ -1,4 +1,4 @@
-package com.shareandsearchfood.shareandsearchfood;
+package com.shareandsearchfood.imageAdapter;
 
 import android.content.Context;
 import android.view.View;
@@ -7,14 +7,16 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import com.shareandsearchfood.shareandsearchfood.R;
+
 /**
  * Created by tiagomota on 16/10/16.
  */
 
-public class ImageAdapterRestaurantPhotos extends BaseAdapter {
+public class ImageAdapterMenus extends BaseAdapter {
     private Context mContext;
 
-    public ImageAdapterRestaurantPhotos(Context c) {
+    public ImageAdapterMenus(Context c) {
         mContext = c;
     }
 
@@ -48,9 +50,7 @@ public class ImageAdapterRestaurantPhotos extends BaseAdapter {
 
     // references to our images
     private Integer[] mThumbIds = {
-            R.drawable.comida1, R.drawable.bolos
+            R.drawable.menu3, R.drawable.menu4
 
     };
-
-
 }
