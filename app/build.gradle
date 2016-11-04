@@ -22,7 +22,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -31,4 +31,22 @@ dependencies {
     compile 'com.google.android.gms:play-services-auth:9.0.0'
     compile 'com.facebook.android:facebook-android-sdk:[4,5]'
     testCompile 'junit:junit:4.12'
+    compile files('libs/greendao-3.2.0.jar')
 }
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.0'
+    }
+}
+
+apply plugin: 'org.greenrobot.greendao'
+
+dependencies {
+    compile 'org.greenrobot:greendao:3.2.0'
+}
+
+

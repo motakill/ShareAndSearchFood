@@ -45,6 +45,8 @@ import com.shareandsearchfood.shareandsearchfood.MenuActivity;
 import com.shareandsearchfood.shareandsearchfood.MyProfile;
 import com.shareandsearchfood.shareandsearchfood.R;
 
+import org.greenrobot.greendao.query.QueryBuilder;
+
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
@@ -192,8 +194,37 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 String personId = acct.getId();
                 Uri personPhoto = acct.getPhotoUrl();
 
+
+
+
+                DaoSession daoSession = ((App) getApplication()).getDaoSession();
+                UserDao userDao = daoSession.getUserDao();
+                //UserSession userSession = new UserSession(this);
+
+
+                QueryBuilder qb = userDao.queryBuilder();
+                qb.where(UserDao.Properties.Email.eq(personEmail));
+                long userCount = qb.list().size();
+
+                if(userCount == 0){
+                    userDao.insert(new User(null,personName,personEmail,null,1));
+                }
+
+
+                }
+
+        /*       if(userSession.isUserLoggedIn()){
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                }else{
+                    if(userCount == 0)
+                        userDao.insert(new User(null,name,email,gID,url));
+
+                    userSession.createUserLoginSession(name,email,gID,url);
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
+        */
+
                 Intent intent = new Intent(this, MyProfile.class);
-                intent.putExtra("username", personName);
                 startActivity(intent);
             } else {
             AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
@@ -210,10 +241,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         }
                     });
         }
-        } else {
-
         }
-    }
+
 
     //login facebook
 
