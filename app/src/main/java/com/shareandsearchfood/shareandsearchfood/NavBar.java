@@ -1,6 +1,8 @@
 package com.shareandsearchfood.shareandsearchfood;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -8,7 +10,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.shareandsearchfood.login.LoginActivity;
+import com.shareandsearchfood.login.Session;
 import com.shareandsearchfood.settings.AboutSSFood;
 import com.shareandsearchfood.settings.FeedBackSSFood;
 import com.shareandsearchfood.settings.SettingsSSFood;
@@ -20,7 +26,7 @@ import com.shareandsearchfood.settings.SettingsSSFood;
 
 public class NavBar extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+private GoogleApiClient mGoogleApiClient;
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -48,13 +54,13 @@ public class NavBar extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.action_sign_out) {
-            // Intent homescreen=new Intent(this,LoginActivity.class);
-            // homescreen.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            // startActivity(homescreen);
+            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            editor.clear();
+            editor.apply();
 
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
-            this.finish();
 
             return true;
         }

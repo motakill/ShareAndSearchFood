@@ -14,6 +14,16 @@ import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.shareandsearchfood.login.App;
+import com.shareandsearchfood.login.DaoSession;
+import com.shareandsearchfood.login.Session;
+import com.shareandsearchfood.login.User;
+import com.shareandsearchfood.login.UserDao;
+
+import org.greenrobot.greendao.query.QueryBuilder;
+
+import java.util.List;
+
 /**
  * Created by david_000 on 13/10/2016.
  */
@@ -22,16 +32,16 @@ public class MyProfile extends NavBar {
     private LinearLayout mLayout, mLayout2;
     private EditText mEditText, mEditText2;
     private Button mButton, mButton2;
-
+    private Session session;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
+        session = new Session(this);
 
-        String text = getIntent().getStringExtra("username");
         TextView textView3 = (TextView)findViewById(R.id.username);
-        textView3.setText(text);
+        textView3.setText(getUser(session.getEmail()));
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -172,5 +182,12 @@ public class MyProfile extends NavBar {
         }
     }
 
-
+    private String getUser(String email){
+        DaoSession daoSession = ((App) getApplication()).getDaoSession();
+        UserDao userDao = daoSession.getUserDao();
+        QueryBuilder qb = userDao.queryBuilder();
+        qb.where(UserDao.Properties.Email.eq(email));
+        List<User> user = qb.list();
+        return user.get(0).getUsername();
+    }
 }

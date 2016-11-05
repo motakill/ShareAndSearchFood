@@ -5,7 +5,9 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -41,7 +43,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.shareandsearchfood.shareandsearchfood.MenuActivity;
 import com.shareandsearchfood.shareandsearchfood.MyProfile;
 import com.shareandsearchfood.shareandsearchfood.R;
 
@@ -80,12 +81,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private CallbackManager callbackManager;
     private TextView info;
     private GoogleApiClient mGoogleApiClient;
+    private Session session;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_login);
-
+        session = new Session(this);
         info = (TextView)findViewById(R.id.info);
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -184,7 +188,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
 
-            if(result.isSuccess()) {
+            if (result.isSuccess()) {
                 final GoogleApiClient client = mGoogleApiClient;
                 GoogleSignInAccount acct = result.getSignInAccount();
                 String personName = acct.getDisplayName();
@@ -195,53 +199,38 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Uri personPhoto = acct.getPhotoUrl();
 
 
-
-
                 DaoSession daoSession = ((App) getApplication()).getDaoSession();
                 UserDao userDao = daoSession.getUserDao();
-                //UserSession userSession = new UserSession(this);
-
+                session.setEmail(personEmail);
 
                 QueryBuilder qb = userDao.queryBuilder();
                 qb.where(UserDao.Properties.Email.eq(personEmail));
                 long userCount = qb.list().size();
 
-                if(userCount == 0){
-                    userDao.insert(new User(null,personName,personEmail,null,1));
+                if (userCount == 0) {
+                    userDao.insert(new User(null, personName, personEmail, null, 1));
                 }
 
-
-                }
-
-        /*       if(userSession.isUserLoggedIn()){
-                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                }else{
-                    if(userCount == 0)
-                        userDao.insert(new User(null,name,email,gID,url));
-
-                    userSession.createUserLoginSession(name,email,gID,url);
-                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
-
-        */
 
                 Intent intent = new Intent(this, MyProfile.class);
                 startActivity(intent);
             } else {
-            AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
-            dlgAlert.setMessage("Sign In Failed");
-            dlgAlert.setTitle("Error Message...");
-            dlgAlert.setPositiveButton("OK", null);
-            dlgAlert.setCancelable(true);
-            dlgAlert.create().show();
+                AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
+                dlgAlert.setMessage("Sign In Failed");
+                dlgAlert.setTitle("Error Message...");
+                dlgAlert.setPositiveButton("OK", null);
+                dlgAlert.setCancelable(true);
+                dlgAlert.create().show();
 
-            dlgAlert.setPositiveButton("Ok",
-                    new DialogInterface.OnClickListener(){
-                        public void onClick(DialogInterface dialog, int which) {
+                dlgAlert.setPositiveButton("Ok",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
 
-                        }
-                    });
+                            }
+                        });
+            }
         }
-        }
+    }
 
 
     //login facebook
@@ -252,7 +241,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         startActivity(intent);
     }
     public void signIn(View view){
-        Intent intent = new Intent(this, MenuActivity.class);
+        SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.clear();
+        editor.apply();
+
+        if(mGoogleApiClient != null)
+            mGoogleApiClient.disconnect();
+
+        Intent intent = new Intent(this, MyProfile.class);
         startActivity(intent);
 
     }

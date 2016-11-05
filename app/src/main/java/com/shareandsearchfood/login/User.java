@@ -11,7 +11,6 @@ public class User {
 
     @Id(autoincrement = true)
     private Long id;
-
     @NotNull
     private String username;
     @NotNull
