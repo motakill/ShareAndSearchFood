@@ -1,5 +1,6 @@
 package com.shareandsearchfood.shareandsearchfood;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -7,21 +8,53 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.shareandsearchfood.login.App;
+import com.shareandsearchfood.login.DaoSession;
+import com.shareandsearchfood.login.Notebook;
+import com.shareandsearchfood.login.NotebookDao;
+import com.shareandsearchfood.login.Session;
+import com.shareandsearchfood.login.User;
+import com.shareandsearchfood.login.UserDao;
+
+import org.greenrobot.greendao.query.QueryBuilder;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by david_000 on 14/10/2016.
  */
 
 public class NotebookActivity extends NavBar {
-
+    EditText textIn;
+    RadioButton buttonAdd;
+    LinearLayout container;
+    Session session;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notebook);
+        session = new Session(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -34,54 +67,52 @@ public class NotebookActivity extends NavBar {
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        init();
 
+        textIn = (EditText)findViewById(R.id.textin);
+        buttonAdd = (RadioButton)findViewById(R.id.add);
+        container = (LinearLayout)findViewById(R.id.container);
+
+        buttonAdd.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                LayoutInflater layoutInflater =
+                        (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                final View row = layoutInflater.inflate(R.layout.row, null);
+                createNote(row);
+                saveNote();
+                deleteNote(row);
     }
 
-    public void init() {
-        TableLayout stk = (TableLayout) findViewById(R.id.table_main);
-        TableRow tbrow0 = new TableRow(this);
-        TextView tv0 = new TextView(this);
-        tv0.setText(" Sl.No ");
-        tv0.setTextColor(Color.WHITE);
-        tbrow0.addView(tv0);
-        TextView tv1 = new TextView(this);
-        tv1.setText(" Product ");
-        tv1.setTextColor(Color.WHITE);
-        tbrow0.addView(tv1);
-        TextView tv2 = new TextView(this);
-        tv2.setText(" Unit Price ");
-        tv2.setTextColor(Color.WHITE);
-        tbrow0.addView(tv2);
-        TextView tv3 = new TextView(this);
-        tv3.setText(" Stock Remaining ");
-        tv3.setTextColor(Color.WHITE);
-        tbrow0.addView(tv3);
-        stk.addView(tbrow0);
-        for (int i = 0; i < 25; i++) {
-            TableRow tbrow = new TableRow(this);
-            TextView t1v = new TextView(this);
-            t1v.setText("" + i);
-            t1v.setTextColor(Color.WHITE);
-            t1v.setGravity(Gravity.CENTER);
-            tbrow.addView(t1v);
-            TextView t2v = new TextView(this);
-            t2v.setText("Product " + i);
-            t2v.setTextColor(Color.WHITE);
-            t2v.setGravity(Gravity.CENTER);
-            tbrow.addView(t2v);
-            TextView t3v = new TextView(this);
-            t3v.setText("Rs." + i);
-            t3v.setTextColor(Color.WHITE);
-            t3v.setGravity(Gravity.CENTER);
-            tbrow.addView(t3v);
-            TextView t4v = new TextView(this);
-            t4v.setText("" + i * 15 / 32 * 10);
-            t4v.setTextColor(Color.WHITE);
-            t4v.setGravity(Gravity.CENTER);
-            tbrow.addView(t4v);
-            stk.addView(tbrow);
-        }
+    private void createNote(View row ){
 
+        final TextView textOut = (TextView)row.findViewById(R.id.textout);
+        textOut.setText(textIn.getText().toString());
+        container.addView(row);
+    }
+
+    private void deleteNote( final View row ){
+        CheckBox buttonRemove = (CheckBox)row.findViewById(R.id.remove);
+        buttonRemove.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Log.d("id:", Integer.toString(row.getId()));
+                ((LinearLayout)row.getParent()).removeView(row);
+            }
+        });
+    }
+        });
+    }
+    private void saveNote(){
+        DaoSession daoSession = ((App) getApplication()).getDaoSession();
+        NotebookDao noteDao = daoSession.getNotebookDao();
+        noteDao.insert(new Notebook(null,getUserID(session.getEmail()),textIn.getText().toString(),new Date()));
+    }
+    private long getUserID(String email){
+        DaoSession daoSession = ((App) getApplication()).getDaoSession();
+        UserDao userDao = daoSession.getUserDao();
+        QueryBuilder qb = userDao.queryBuilder();
+        qb.where(UserDao.Properties.Email.eq(email));
+        List<User> user = qb.list();
+        return user.get(0).getId();
     }
 }
