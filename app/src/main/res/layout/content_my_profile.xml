@@ -14,8 +14,7 @@
         <ImageView
             android:layout_width="86dp"
             android:layout_height="102dp"
-            app:srcCompat="@drawable/com_facebook_profile_picture_blank_square"
-            android:id="@+id/imageView2"
+            android:id="@+id/profileImage"
             android:layout_marginTop="70dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"

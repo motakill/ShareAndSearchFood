@@ -1,15 +1,20 @@
 package com.shareandsearchfood.shareandsearchfood;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -22,6 +27,10 @@ import com.shareandsearchfood.login.UserDao;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -38,10 +47,19 @@ public class MyProfile extends NavBar {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
+
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
         session = new Session(this);
 
         TextView textView3 = (TextView)findViewById(R.id.username);
         textView3.setText(getUser(session.getEmail()));
+
+        try{
+        setPhoto();}
+        catch (IOException w){}
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -189,5 +207,24 @@ public class MyProfile extends NavBar {
         qb.where(UserDao.Properties.Email.eq(email));
         List<User> user = qb.list();
         return user.get(0).getUsername();
+    }
+    private String getPhotoUri(String email){
+        DaoSession daoSession = ((App) getApplication()).getDaoSession();
+        UserDao userDao = daoSession.getUserDao();
+        QueryBuilder qb = userDao.queryBuilder();
+        qb.where(UserDao.Properties.Email.eq(email));
+        List<User> user = qb.list();
+        return user.get(0).getPhoto();
+    }
+    private void setPhoto()throws IOException {
+        String photoUri = getPhotoUri(session.getEmail());
+        ImageView photo = (ImageView) findViewById(R.id.profileImage);
+
+        if (photoUri != null) {
+            URL url = new URL(photoUri);
+            Bitmap myBitmap = BitmapFactory.decodeStream(url.openStream());
+            photo.setImageBitmap(myBitmap);
+        } else
+            photo.setImageResource(R.drawable.com_facebook_profile_picture_blank_square);
     }
 }
