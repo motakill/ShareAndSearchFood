@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="wrap_content"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/content_notebook"
+    android:id="@+id/row_notebook"
     android:layout_marginTop="-70dp"
     tools:context="com.shareandsearchfood.shareandsearchfood.NotebookActivity">
 
@@ -20,7 +21,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:textAlignment="center"
-            android:button="@android:drawable/ic_menu_delete" />
+            android:button="@android:drawable/ic_menu_delete"
+            android:onClick="clickDeleteNote"/>
 
         <CheckBox
             android:id="@+id/check"
