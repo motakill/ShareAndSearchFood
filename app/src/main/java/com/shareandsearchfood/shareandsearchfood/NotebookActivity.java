@@ -20,8 +20,10 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.SimpleAdapter;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -48,13 +50,18 @@ import java.util.List;
 public class NotebookActivity extends NavBar {
     EditText textIn;
     RadioButton buttonAdd;
-    LinearLayout container;
+    Button buttonRemove;
     Session session;
+    ListView listView;
+    List<String> list;
+    ArrayAdapter<String> itemsAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notebook);
         session = new Session(this);
+        listView = (ListView) findViewById(R.id.listView);
+        createNote();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -70,42 +77,47 @@ public class NotebookActivity extends NavBar {
 
         textIn = (EditText)findViewById(R.id.textin);
         buttonAdd = (RadioButton)findViewById(R.id.add);
-        container = (LinearLayout)findViewById(R.id.container);
-
-        buttonAdd.setOnClickListener(new View.OnClickListener(){
+        buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LayoutInflater layoutInflater =
-                        (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                final View row = layoutInflater.inflate(R.layout.row, null);
-                createNote(row);
                 saveNote();
-                deleteNote(row);
+            }
+        });
+        deleteNote();
     }
 
-    private void createNote(View row ){
-
-        final TextView textOut = (TextView)row.findViewById(R.id.textout);
-        textOut.setText(textIn.getText().toString());
-        container.addView(row);
+    private void createNote(){
+        list = getUserNotes(session.getEmail());
+        if(list != null) {
+            itemsAdapter = new ArrayAdapter<>(this, R.layout.row, R.id.textRow, list);
+            listView.setAdapter(itemsAdapter);
+        }
     }
 
-    private void deleteNote( final View row ){
-        CheckBox buttonRemove = (CheckBox)row.findViewById(R.id.remove);
+    private void deleteNote(){
+        LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View row = layoutInflater.inflate(R.layout.row, null);
+        buttonRemove = (Button)row.findViewById(R.id.remove);
         buttonRemove.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Log.d("id:", Integer.toString(row.getId()));
-                ((LinearLayout)row.getParent()).removeView(row);
+                DaoSession daoSession = ((App) getApplication()).getDaoSession();
+                NotebookDao noteDao = daoSession.getNotebookDao();
+                noteDao.delete(getNoteByContentAndUserId(itemsAdapter.getItem(row.getId()),session.getEmail()));
+                finish();
+                startActivity(getIntent());
             }
         });
     }
-        });
-    }
+
     private void saveNote(){
         DaoSession daoSession = ((App) getApplication()).getDaoSession();
         NotebookDao noteDao = daoSession.getNotebookDao();
         noteDao.insert(new Notebook(null,getUserID(session.getEmail()),textIn.getText().toString(),new Date()));
+        itemsAdapter.notifyDataSetChanged();
+        finish();
+        startActivity(getIntent());
+
     }
     private long getUserID(String email){
         DaoSession daoSession = ((App) getApplication()).getDaoSession();
@@ -114,5 +126,27 @@ public class NotebookActivity extends NavBar {
         qb.where(UserDao.Properties.Email.eq(email));
         List<User> user = qb.list();
         return user.get(0).getId();
+    }
+    private List<String> getUserNotes(String email){
+        DaoSession daoSession = ((App) getApplication()).getDaoSession();
+        UserDao userDao = daoSession.getUserDao();
+        QueryBuilder qb = userDao.queryBuilder();
+        qb.where(UserDao.Properties.Email.eq(email));
+        List<User> user = qb.list();
+        List<String> notes = new ArrayList<String>();
+        List<Notebook> userNotes = user.get(0).getNotes();
+        for (Notebook note : userNotes) {
+            notes.add(note.getNote());
+        }
+        return notes;
+    }
+
+    private Notebook getNoteByContentAndUserId(String content,String email){
+        DaoSession daoSession = ((App) getApplication()).getDaoSession();
+        NotebookDao noteDao = daoSession.getNotebookDao();
+        QueryBuilder qb = noteDao.queryBuilder();
+        qb.where(NotebookDao.Properties.Note.eq(content),NotebookDao.Properties.UserId.eq(getUserID(email)));
+        List<Notebook> note = qb.list();
+        return note.get(0);
     }
 }

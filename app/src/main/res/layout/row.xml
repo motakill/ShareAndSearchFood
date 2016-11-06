@@ -14,15 +14,16 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
-        <CheckBox
+        <RadioButton
             android:id="@+id/remove"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:background="@android:drawable/ic_menu_delete" />
+            android:textAlignment="center"
+            android:button="@android:drawable/ic_menu_delete" />
 
         <CheckBox
-            android:id="@+id/checkbox"
+            android:id="@+id/check"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/remove"
@@ -31,15 +32,12 @@
             android:layout_toStartOf="@+id/remove" />
 
         <TextView
-            android:id="@+id/textout"
-            android:layout_width="match_parent"
+            android:id="@+id/textRow"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/checkbox"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_toLeftOf="@+id/checkbox"
-            android:layout_toStartOf="@+id/checkbox"
-            android:layout_alignTop="@+id/checkbox" />
+            android:layout_toLeftOf="@+id/check"
+            android:layout_toStartOf="@+id/check"/>
+
     </RelativeLayout>
 
 </RelativeLayout>
