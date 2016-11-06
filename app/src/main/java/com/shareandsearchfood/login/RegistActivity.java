@@ -1,19 +1,36 @@
 package com.shareandsearchfood.login;
 
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.facebook.internal.Utility;
 import com.shareandsearchfood.shareandsearchfood.MenuActivity;
 import com.shareandsearchfood.shareandsearchfood.R;
 
+import java.io.File;
+
 public class RegistActivity extends AppCompatActivity {
 
+    ImageView result;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
 
+    //funciona
     private static final int PICK_IMAGE = 100;
     private ImageView imageView;
 
@@ -23,6 +40,10 @@ public class RegistActivity extends AppCompatActivity {
         setContentView(R.layout.activity_regist);
         imageView = (ImageView) findViewById(R.id.display_personal_photo);
 
+        Button click = (Button)findViewById(R.id.camera);
+        result = (ImageView)findViewById(R.id.imageView);
+
+
         Button pickImageButton = (Button) findViewById(R.id.mypersonal_photo_button);
         pickImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -30,6 +51,8 @@ public class RegistActivity extends AppCompatActivity {
                 openGallery();
             }
         });
+
+
     }
 
     private void openGallery() {
@@ -39,6 +62,34 @@ public class RegistActivity extends AppCompatActivity {
         startActivityForResult(gallery, PICK_IMAGE);
     }
 
+    public void signIn(View view){
+        Intent intent = new Intent(this, MenuActivity.class);
+        startActivity(intent);
+
+    }
+
+
+
+public void dispatchTakePictureIntent(View view) {
+    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+    if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+    }
+
+
+
+}
+// tirar foto
+  /**  @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            result.setImageBitmap(imageBitmap);
+        }
+    }
+  */
+// carregar foto
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -46,11 +97,10 @@ public class RegistActivity extends AppCompatActivity {
             Uri imageUri = data.getData();
             imageView.setImageURI(imageUri);
         }
-    }
-
-    public void signIn(View view){
-        Intent intent = new Intent(this, MenuActivity.class);
-        startActivity(intent);
-
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            result.setImageBitmap(imageBitmap);
+        }
     }
 }
