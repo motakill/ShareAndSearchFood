@@ -3,6 +3,7 @@ package com.shareandsearchfood.shareandsearchfood;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
@@ -42,6 +43,10 @@ public class MyProfile extends NavBar {
     private EditText mEditText, mEditText2;
     private Button mButton, mButton2;
     private Session session;
+    private ImageView imageView;
+    private static final int PICK_IMAGE = 100;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -122,8 +127,35 @@ public class MyProfile extends NavBar {
         TextView textView2 = new TextView(this);
         textView2.setText("More Steps");
 
+        //para se clicar na imagem do perfil e altera-la
+        imageView = (ImageView) findViewById(R.id.profileImage);
+        ImageView pickImageButton = (ImageView) findViewById(R.id.profileImage);
+        pickImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openGallery();
+            }
+        });
+
     }
 
+    //para se clicar na imagem do perfil e altera-la
+
+    private void openGallery() {
+        Intent gallery =
+                new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(gallery, PICK_IMAGE);
+    }
+    //para se clicar na imagem do perfil e altera-la
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
+            Uri imageUri = data.getData();
+            imageView.setImageURI(imageUri);
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
