@@ -39,6 +39,10 @@ public class User {
     @Generated(hash = 1507654846)
     private transient UserDao myDao;
 
+
+
+
+
     @Generated(hash = 179411637)
     public User(Long id, @NotNull String username, @NotNull String email,
             String password, String photo, int flag) {
@@ -53,6 +57,10 @@ public class User {
     @Generated(hash = 586692638)
     public User() {
     }
+
+
+
+
 
     //falta ligar amigos a conta actual...
 
@@ -96,12 +104,6 @@ public class User {
         this.flag = flag;
     }
 
-    public void setPassword(String password){
-        this.password = password;
-    }
-    public String getPassword(){
-        return password;
-    }
 
     public Long getId() {
         return this.id;
@@ -109,6 +111,14 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     /**
@@ -209,6 +219,5 @@ public class User {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getUserDao() : null;
     }
-
-
+    
 }

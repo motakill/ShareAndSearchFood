@@ -8,6 +8,11 @@
     <string name="prompt_user">Username</string>
     <string name="prompt_password">Password</string>
     <string name="prompt_confirmpassword">Confirm Password</string>
+    <string name="error_invalid_username">Username is empty</string>
+    <string name="not_yet_registed">You need to register first</string>
+    <string name="already_register">You have already one regist</string>
+    <string name="wrong_pass">Wrong password</string>
+
 
     <!-- Strings related to login -->
     <string name="action_sign_in">Sign in</string>

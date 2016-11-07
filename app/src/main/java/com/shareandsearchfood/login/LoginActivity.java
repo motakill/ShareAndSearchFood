@@ -85,6 +85,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private Session session;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -210,7 +211,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                 if (userCount == 0) {
                     if(personPhoto != null)
-                        userDao.insert(new User(null, personName, personEmail, null,personPhoto.toString(), 1));
+                        userDao.insert(new User(null, personName, personEmail,null,personPhoto.toString(), 1));
                     else
                         userDao.insert(new User(null, personName, personEmail,null, null, 1));
 
@@ -355,19 +356,39 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             session.setEmail(email);
 
             QueryBuilder qb = userDao.queryBuilder();
+            QueryBuilder qbpass = userDao.queryBuilder();
             qb.where(UserDao.Properties.Email.eq(email));
+            qbpass.where(UserDao.Properties.Password.eq(password));
+            long userPass = qbpass.list().size();
+
             long userCount = qb.list().size();
 
             if (userCount == 0) {
+                if(email!= null)
+                    mEmailView.setError(getString(R.string.not_yet_registed));
+                else
+                    mEmailView.setError(getString(R.string.error_field_required));
                 if(password != null)
-                    userDao.insert(new User(null, email, email,null, null, 0));
+                    mPasswordView.setError(getString(R.string.not_yet_registed));
+                else
+                    mPasswordView.setError(getString(R.string.error_field_required));
             }
-            Intent intent = new Intent(this, MyProfile.class);
-            startActivity(intent);
+            else{
+                // valida se as passwords coincidem
+                if(userPass != 0) {
 
-            showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+                    Intent intent = new Intent(this, MyProfile.class);
+                    startActivity(intent);
+
+                    showProgress(true);
+                    mAuthTask = new UserLoginTask(email, password);
+                    mAuthTask.execute((Void) null);
+                }
+                else
+                    mPasswordView.setError(getString(R.string.wrong_pass));
+
+            }
+
         }
     }
 

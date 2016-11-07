@@ -135,6 +135,10 @@ public class RegistActivity extends AppCompatActivity {
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
+        } else if (user.isEmpty()){
+            mUserNameView.setError(getString(R.string.error_invalid_username));
+            focusView = mUserNameView;
+            cancel = true;
         }
 
         if (cancel) {
@@ -155,15 +159,19 @@ public class RegistActivity extends AppCompatActivity {
             long userCount = qb.list().size();
 
             if (userCount == 0) {
-                if(password != null)
-                    userDao.insert(new User(null, user, email, photo.toString(), 0));
-            }
-            Intent intent = new Intent(this, MyProfile.class);
-            startActivity(intent);
+                if (password != null) {
+                    userDao.insert(new User(null, user, email, password,photo.toString(), 0));
+                    Intent intent = new Intent(this, MyProfile.class);
+                    startActivity(intent);
 
-          //  showProgress(true);
-            mAuthTask = new RegistActivity.UserLoginTask(email,password,user,photo);
-            mAuthTask.execute((Void) null);
+                    //  showProgress(true);
+                    mAuthTask = new RegistActivity.UserLoginTask(email, password, user, photo);
+                    mAuthTask.execute((Void) null);
+                }
+            }
+            else
+                mEmailView.setError(getString(R.string.already_register));
+
         }
     }
 
@@ -208,7 +216,7 @@ public class RegistActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
-           // showProgress(false);
+            // showProgress(false);
 
             if (success) {
                 finish();
@@ -221,7 +229,7 @@ public class RegistActivity extends AppCompatActivity {
         @Override
         protected void onCancelled() {
             mAuthTask = null;
-        //    showProgress(false);
+            //    showProgress(false);
         }
     }
 
@@ -250,24 +258,24 @@ public class RegistActivity extends AppCompatActivity {
 
 
 
-public void dispatchTakePictureIntent(View view) {
-    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-    if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-    }
-
-
-}
-// tirar foto
-  /**  @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            result.setImageBitmap(imageBitmap);
+    public void dispatchTakePictureIntent(View view) {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
+
+
     }
-  */
+// tirar foto
+    /**  @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+    Bundle extras = data.getExtras();
+    Bitmap imageBitmap = (Bitmap) extras.get("data");
+    result.setImageBitmap(imageBitmap);
+    }
+    }
+     */
 // carregar foto
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -282,6 +290,4 @@ public void dispatchTakePictureIntent(View view) {
             imageView.setImageBitmap(imageBitmap);
         }
     }
-
-
 }
