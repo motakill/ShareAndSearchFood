@@ -20,10 +20,15 @@ public class User {
     private String username;
     @NotNull
     private String email;
-    //private String password;
+    private String password;
     private String photo;
     @NotNull
     private int flag;
+
+    @ToMany(referencedJoinProperty= "userId")
+    @OrderBy("date ASC")
+    private List<Receipt> receipts;
+
     @ToMany(referencedJoinProperty= "userId")
     @OrderBy("date ASC")
     private List<Notebook> notes;
@@ -34,14 +39,13 @@ public class User {
     @Generated(hash = 1507654846)
     private transient UserDao myDao;
 
-
-
-    @Generated(hash = 368032225)
+    @Generated(hash = 179411637)
     public User(Long id, @NotNull String username, @NotNull String email,
-            String photo, int flag) {
+            String password, String photo, int flag) {
         this.id = id;
         this.username = username;
         this.email = email;
+        this.password = password;
         this.photo = photo;
         this.flag = flag;
     }
@@ -50,16 +54,6 @@ public class User {
     public User() {
     }
 
-
-
-  /**  public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-*/
     //falta ligar amigos a conta actual...
 
     public String getName() {
@@ -102,12 +96,47 @@ public class User {
         this.flag = flag;
     }
 
+    public void setPassword(String password){
+        this.password = password;
+    }
+    public String getPassword(){
+        return password;
+    }
+
     public Long getId() {
         return this.id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    /**
+     * To-many relationship, resolved on first access (and after reset).
+     * Changes to to-many relations are not persisted, make changes to the target entity.
+     */
+    @Generated(hash = 655281302)
+    public List<Receipt> getReceipts() {
+        if (receipts == null) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            ReceiptDao targetDao = daoSession.getReceiptDao();
+            List<Receipt> receiptsNew = targetDao._queryUser_Receipts(id);
+            synchronized (this) {
+                if (receipts == null) {
+                    receipts = receiptsNew;
+                }
+            }
+        }
+        return receipts;
+    }
+
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    @Generated(hash = 1409076908)
+    public synchronized void resetReceipts() {
+        receipts = null;
     }
 
     /**
@@ -180,6 +209,6 @@ public class User {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getUserDao() : null;
     }
-    
+
 
 }

@@ -3,6 +3,7 @@ package com.shareandsearchfood.shareandsearchfood;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
@@ -12,25 +13,34 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.shareandsearchfood.imageAdapter.MyPubsListAdapter;
 import com.shareandsearchfood.login.App;
 import com.shareandsearchfood.login.DaoSession;
+import com.shareandsearchfood.login.Receipt;
+import com.shareandsearchfood.login.ReceiptDao;
 import com.shareandsearchfood.login.Session;
 import com.shareandsearchfood.login.User;
 import com.shareandsearchfood.login.UserDao;
 
 import org.greenrobot.greendao.query.QueryBuilder;
+import org.w3c.dom.Text;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,6 +52,17 @@ public class MyProfile extends NavBar {
     private EditText mEditText, mEditText2;
     private Button mButton, mButton2;
     private Session session;
+    private static final int PICK_IMAGE = 100;
+    private Uri photoReceipt;
+    private ReceiptDao receiptDao;
+    private AutoCompleteTextView title_receipt;
+    private AutoCompleteTextView ingredients;
+    private AutoCompleteTextView steps;
+    private CheckBox favorite;
+    private RatingBar rate;
+    Button saveReceipt;
+    Button pubReceipt;
+    private MyPubsListAdapter customAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -106,15 +127,15 @@ public class MyProfile extends NavBar {
         spec.setIndicator("Badges");
         host.addTab(spec);
 
-
         // cenas para adicionar mais ingredientes no share
         mLayout = (LinearLayout) findViewById(R.id.layoutIngredientes);
-        mEditText = (EditText) findViewById(R.id.Ingredientes);
+        mEditText = (EditText) findViewById(R.id.ingredients);
         mButton = (Button) findViewById(R.id.moreIngredients);
         mButton.setOnClickListener(onClick());
         TextView textView = new TextView(this);
         textView.setText("More ingredients");
 
+        // cenas para adicionar mais steps no share
         mLayout2 = (LinearLayout) findViewById(R.id.layoutSteps);
         mEditText2 = (EditText) findViewById(R.id.Step_by_Step);
         mButton2 = (Button) findViewById(R.id.moreSteps);
@@ -122,8 +143,26 @@ public class MyProfile extends NavBar {
         TextView textView2 = new TextView(this);
         textView2.setText("More Steps");
 
-    }
+        //Save and Pubb receipts
+        saveReceipt = (Button) findViewById(R.id.Save) ;
+        pubReceipt = (Button) findViewById(R.id.Publish) ;
+        saveReceipt.setOnClickListener(new View.OnClickListener (){
+            @Override
+            public void onClick(View v) {
+                saveReceipt(saveReceipt.getId());
+            }
+        });
 
+        pubReceipt.setOnClickListener(new View.OnClickListener (){
+            @Override
+            public void onClick(View v) {
+                saveReceipt(pubReceipt.getId());
+            }
+            });
+
+        //cria a view das receitas criadas
+        createPubs();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -200,6 +239,7 @@ public class MyProfile extends NavBar {
         }
     }
 
+    //Data from profile
     private String getUser(String email){
         DaoSession daoSession = ((App) getApplication()).getDaoSession();
         UserDao userDao = daoSession.getUserDao();
@@ -226,5 +266,80 @@ public class MyProfile extends NavBar {
             photo.setImageBitmap(myBitmap);
         } else
             photo.setImageResource(R.drawable.com_facebook_profile_picture_blank_square);
+    }
+
+    //Share receipt
+    private long getUserID(String email){
+        DaoSession daoSession = ((App) getApplication()).getDaoSession();
+        UserDao userDao = daoSession.getUserDao();
+        QueryBuilder qb = userDao.queryBuilder();
+        qb.where(UserDao.Properties.Email.eq(email));
+        List<User> user = qb.list();
+        return user.get(0).getId();
+    }
+    public void openGalleryShare(View v) {
+        Intent gallery =
+                new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(gallery, PICK_IMAGE);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
+            photoReceipt = data.getData();
+            TextView photoName = (TextView) findViewById(R.id.photoName);
+            photoName.setText(photoReceipt.getPath());
+        }
+    }
+    public void saveReceipt(int buttomId){
+        DaoSession daoSession = ((App) getApplication()).getDaoSession();
+        receiptDao = daoSession.getReceiptDao();
+
+        title_receipt = (AutoCompleteTextView) findViewById(R.id.title_receita);
+        ingredients = (AutoCompleteTextView) findViewById(R.id.ingredients);
+        steps = (AutoCompleteTextView) findViewById(R.id.Step_by_Step);
+
+
+       if(buttomId == saveReceipt.getId())
+                receiptDao.insert(new Receipt(null,  title_receipt.getText().toString(), ingredients.toString(),
+                        steps.toString(), photoReceipt.toString(),null,0,getUserID(session.getEmail()),new Date(),0,false));
+
+
+        else
+                receiptDao.insert(new Receipt(null,  title_receipt.getText().toString(), ingredients.toString(),
+                        steps.toString(), photoReceipt.toString(),null,1,getUserID(session.getEmail()),new Date(),0,false));
+
+        finish();
+        startActivity(getIntent());
+    }
+
+    //MyPubs
+    private List<Receipt> getUserReceipts(){
+        long userId = getUserID(session.getEmail());
+        DaoSession daoSession = ((App) getApplication()).getDaoSession();
+        ReceiptDao receiptDao = daoSession.getReceiptDao();
+        QueryBuilder qb = receiptDao.queryBuilder();
+        qb.where(ReceiptDao.Properties.UserId.eq(userId));
+        List<Receipt> receipts = qb.list();
+        return receipts;
+    }
+    private void createPubs(){
+        ListView yourListView = (ListView) findViewById(R.id.myPubsList);
+        List<Receipt> userReceipts = getUserReceipts();
+        customAdapter = new MyPubsListAdapter(this, R.layout.row_my_pubs,userReceipts);
+        yourListView .setAdapter(customAdapter);
+    }
+
+    public void saveFavorite(View v){
+        DaoSession daoSession = ((App) getApplication()).getDaoSession();
+        receiptDao = daoSession.getReceiptDao();
+
+        View parentView = (View) v.getParent();
+        favorite = (CheckBox) parentView.findViewById(R.id.star2);
+
+        Receipt receipt = customAdapter.getItem(favorite.getVerticalScrollbarPosition());
+        receipt.setFavorite(favorite.isChecked());
+        receiptDao.update(receipt);
     }
 }

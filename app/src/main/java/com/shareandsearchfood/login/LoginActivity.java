@@ -209,9 +209,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                 if (userCount == 0) {
                     if(personPhoto != null)
-                        userDao.insert(new User(null, personName, personEmail, personPhoto.toString(), 1));
+                        userDao.insert(new User(null, personName, personEmail, null,personPhoto.toString(), 1));
                     else
-                        userDao.insert(new User(null, personName, personEmail, null, 1));
+                        userDao.insert(new User(null, personName, personEmail,null, null, 1));
 
                 }
 
