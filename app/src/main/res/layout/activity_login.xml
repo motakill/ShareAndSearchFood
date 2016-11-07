@@ -100,7 +100,7 @@
                 android:onClick="register" />
 
             <Button
-                android:id="@+id/email_sign_in_button"
+                android:id="@+id/sign_in_ssFood"
                 style="?android:textAppearanceSmall"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

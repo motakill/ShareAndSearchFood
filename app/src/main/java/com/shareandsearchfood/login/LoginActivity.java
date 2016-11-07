@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -105,14 +106,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-       /*  Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-       mEmailSignInButton.setOnClickListener(new OnClickListener() {
-
+        Button mEmailSignInButton = (Button) findViewById(R.id.sign_in_ssFood);
+        mEmailSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptLogin();
             }
-        });*/
+        });
+
 
         mProgressView = findViewById(R.id.login_progress);
 
@@ -347,6 +348,23 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
+
+            //MOTA Sign In SSFood
+            DaoSession daoSession = ((App) getApplication()).getDaoSession();
+            UserDao userDao = daoSession.getUserDao();
+            session.setEmail(email);
+
+            QueryBuilder qb = userDao.queryBuilder();
+            qb.where(UserDao.Properties.Email.eq(email));
+            long userCount = qb.list().size();
+
+            if (userCount == 0) {
+                if(password != null)
+                    userDao.insert(new User(null, email, email, null, 0));
+            }
+            Intent intent = new Intent(this, MyProfile.class);
+            startActivity(intent);
+
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
