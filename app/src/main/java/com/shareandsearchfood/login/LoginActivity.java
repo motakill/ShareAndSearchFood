@@ -360,7 +360,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (userCount == 0) {
                 if(password != null)
-                    userDao.insert(new User(null, email, email, null, 0));
+                    userDao.insert(new User(null, email, email,null, null, 0));
             }
             Intent intent = new Intent(this, MyProfile.class);
             startActivity(intent);
