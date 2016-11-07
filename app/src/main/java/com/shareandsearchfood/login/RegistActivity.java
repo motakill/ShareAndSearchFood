@@ -27,7 +27,6 @@ import java.io.File;
 
 public class RegistActivity extends AppCompatActivity {
 
-    ImageView result;
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
     //funciona
@@ -41,8 +40,6 @@ public class RegistActivity extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.display_personal_photo);
 
         Button click = (Button)findViewById(R.id.camera);
-        result = (ImageView)findViewById(R.id.imageView);
-
 
         Button pickImageButton = (Button) findViewById(R.id.mypersonal_photo_button);
         pickImageButton.setOnClickListener(new View.OnClickListener() {
@@ -100,7 +97,7 @@ public void dispatchTakePictureIntent(View view) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            result.setImageBitmap(imageBitmap);
+            imageView.setImageBitmap(imageBitmap);
         }
     }
 }

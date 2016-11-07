@@ -30,7 +30,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="1">
 
     <AutoCompleteTextView
         android:id="@+id/email"
@@ -110,25 +111,22 @@
             android:onClick="dispatchTakePictureIntent"
             android:nestedScrollingEnabled="true" />
 </LinearLayout>
+
+        <ImageView
+            android:id="@+id/display_personal_photo"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:minHeight="100dp"
+            android:minWidth="100dp"
+            android:layout_gravity="center"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="0.51" />
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/display_personal_photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minHeight="100dp"
-            android:minWidth="100dp"
-            android:layout_gravity="center"/>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView"
-            android:minHeight="100dp"
-            android:layout_marginLeft="230dp"
-            android:minWidth="100dp"
-            android:layout_gravity="center"/>
         </RelativeLayout>
     </LinearLayout>
 
