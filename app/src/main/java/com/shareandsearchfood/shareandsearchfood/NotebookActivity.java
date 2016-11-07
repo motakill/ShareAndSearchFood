@@ -1,6 +1,7 @@
 package com.shareandsearchfood.shareandsearchfood;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -49,6 +50,7 @@ public class NotebookActivity extends NavBar {
 
         session = new Session(this);
         listView = (ListView) findViewById(R.id.listView);
+
         createNote();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -83,12 +85,10 @@ public class NotebookActivity extends NavBar {
     public void clickDeleteNote(View v){
         DaoSession daoSession = ((App) getApplication()).getDaoSession();
         NotebookDao noteDao = daoSession.getNotebookDao();
-
         View parentView = (View) v.getParent();
         TextView  text = ((TextView) parentView.findViewById(R.id.textRow));
-
-        list.remove(text.getText().toString());
         noteDao.delete(getNoteByContentAndUserId(text.getText().toString(),session.getEmail()));
+        itemsAdapter.notifyDataSetChanged();
         createNote();
         finish();
         startActivity(getIntent());
@@ -99,10 +99,12 @@ public class NotebookActivity extends NavBar {
         DaoSession daoSession = ((App) getApplication()).getDaoSession();
         NotebookDao noteDao = daoSession.getNotebookDao();
         noteDao.insert(new Notebook(null,getUserID(session.getEmail()),textIn.getText().toString(),new Date()));
+        Intent intent = new Intent(this, NotebookActivity.class);
+        startActivity(intent);
+        itemsAdapter.notifyDataSetChanged();
         createNote();
         finish();
         startActivity(getIntent());
-
     }
     private long getUserID(String email){
         DaoSession daoSession = ((App) getApplication()).getDaoSession();
@@ -130,7 +132,7 @@ public class NotebookActivity extends NavBar {
         DaoSession daoSession = ((App) getApplication()).getDaoSession();
         NotebookDao noteDao = daoSession.getNotebookDao();
         QueryBuilder qb = noteDao.queryBuilder();
-        qb.where(NotebookDao.Properties.Note.eq(content),NotebookDao.Properties.UserId.eq(getUserID(email)));
+        qb.and(NotebookDao.Properties.Note.eq(content),NotebookDao.Properties.UserId.eq(getUserID(email)));
         List<Notebook> note = qb.list();
         return note.get(0);
     }
