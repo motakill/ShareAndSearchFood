@@ -132,7 +132,7 @@ public class MyProfile extends NavBar {
         spec.setIndicator("Badges");
         host.addTab(spec);
 
-        
+
         // cenas para adicionar mais ingredientes no share
         mLayout = (LinearLayout) findViewById(R.id.layoutIngredientes);
         mEditText = (EditText) findViewById(R.id.ingredients);
@@ -297,7 +297,7 @@ public class MyProfile extends NavBar {
     }
 
     //Share receipt
-    private long getUserID(String email){
+    private Long getUserID(String email){
         DaoSession daoSession = ((App) getApplication()).getDaoSession();
         UserDao userDao = daoSession.getUserDao();
         QueryBuilder qb = userDao.queryBuilder();
@@ -337,8 +337,6 @@ public class MyProfile extends NavBar {
         else
                 receiptDao.insert(new Receipt(null,  title_receipt.getText().toString(), ingredients.toString(),
                         steps.toString(), photoReceipt.toString(),null,1,getUserID(session.getEmail()),new Date(),0,false));
-
-     reload();
     }
 
     //MyPubs
@@ -356,7 +354,7 @@ public class MyProfile extends NavBar {
         List<Receipt> userReceipts = getUserReceipts();
         updated = checkIfFavorite(userReceipts);
         customAdapter = new MyPubsListAdapter(this, R.layout.row_my_pubs,updated);
-        yourListView .setAdapter(customAdapter);
+        yourListView.setAdapter(customAdapter);
     }
 
     //Favorites
@@ -393,7 +391,7 @@ public class MyProfile extends NavBar {
 
         return checked;
     }
-    public void unchecked(long userId, long receiptId){
+    public void unchecked(Long userId, Long receiptId){
         for (Receipt receipt: updated) {
                 if(receipt.getUserId() == userId && receipt.getId() == receiptId)
                     receipt.setFavorite(false);
@@ -406,7 +404,7 @@ public class MyProfile extends NavBar {
         List<Receipt> userFavReceipts = getUserFavReceipts();
         updatedFav = checkIfFavorite(userFavReceipts);
         customAdapterFav = new MyFavoritesListAdapter(this, R.layout.row_my_favorites,updatedFav);
-        yourListView .setAdapter(customAdapterFav);
+        yourListView.setAdapter(customAdapterFav);
     }
     private List<Receipt> getUserFavReceipts(){
         long userId = getUserID(session.getEmail());
