@@ -2,6 +2,7 @@ package com.shareandsearchfood.login;
 
 import com.shareandsearchfood.shareandsearchfood.Favorite;
 
+import com.shareandsearchfood.shareandsearchfood.HowToDoItTable;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
@@ -12,6 +13,7 @@ import org.greenrobot.greendao.annotation.ToMany;
 import java.util.List;
 import org.greenrobot.greendao.DaoException;
 import com.shareandsearchfood.shareandsearchfood.FavoriteDao;
+import com.shareandsearchfood.shareandsearchfood.HowToDoItTableDao;
 
 
 @Entity
@@ -36,12 +38,15 @@ public class User {
     private List<Notebook> notes;
     @ToMany(referencedJoinProperty= "userId")
     private List<Favorite> favorites;
+    @ToMany(referencedJoinProperty= "userId")
+    private List<HowToDoItTable> howToDoIt;
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
     /** Used for active entity operations. */
     @Generated(hash = 1507654846)
     private transient UserDao myDao;
+
 
     @Generated(hash = 179411637)
     public User(Long id, @NotNull String username, @NotNull String email,
@@ -58,11 +63,17 @@ public class User {
     public User() {
     }
 
+
     //falta ligar amigos a conta actual...
 
     public String getName() {
         return username;
     }
+
+    public String getName(long id) {
+        return username;
+    }
+
 
     public void setName(String username) {
         this.username = username;
@@ -79,6 +90,11 @@ public class User {
     public String getPhoto() {
         return photo;
     }
+
+    public String getPhoto(long id) {
+        return photo;
+    }
+
 
     public void setPhoto(String photo) {
         this.photo = photo;
@@ -201,6 +217,34 @@ public class User {
     }
 
     /**
+     * To-many relationship, resolved on first access (and after reset).
+     * Changes to to-many relations are not persisted, make changes to the target entity.
+     */
+    @Generated(hash = 1816243740)
+    public List<HowToDoItTable> getHowToDoIt() {
+        if (howToDoIt == null) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            HowToDoItTableDao targetDao = daoSession.getHowToDoItTableDao();
+            List<HowToDoItTable> howToDoItNew = targetDao._queryUser_HowToDoIt(id);
+            synchronized (this) {
+                if (howToDoIt == null) {
+                    howToDoIt = howToDoItNew;
+                }
+            }
+        }
+        return howToDoIt;
+    }
+
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    @Generated(hash = 1350598330)
+    public synchronized void resetHowToDoIt() {
+        howToDoIt = null;
+    }
+
+    /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
      * Entity must attached to an entity context.
      */
@@ -243,5 +287,6 @@ public class User {
         myDao = daoSession != null ? daoSession.getUserDao() : null;
     }
 
+   
 
 }

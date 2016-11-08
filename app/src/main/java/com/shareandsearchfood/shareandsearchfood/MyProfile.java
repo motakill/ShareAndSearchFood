@@ -67,6 +67,10 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
     private MyFavoritesListAdapter customAdapterFav;
     private  List<Receipt> updated;
     private  List<Receipt> updatedFav;
+    private TextView photoName;
+    private boolean added_ingredients = false;
+    private boolean added_steps = false;
+
     TabHost host;
 
     @Override
@@ -173,6 +177,14 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
         TextView textView2 = new TextView(this);
         textView2.setText("More Steps");
 
+
+        title_receipt = (AutoCompleteTextView) findViewById(R.id.title_receita_share);
+        ingredients = (AutoCompleteTextView) findViewById(R.id.ingredients);
+        steps = (AutoCompleteTextView) findViewById(R.id.Step_by_Step);
+
+
+
+
         //Save and Pubb receipts
         saveReceipt = (Button) findViewById(R.id.Save) ;
         pubReceipt = (Button) findViewById(R.id.Publish) ;
@@ -226,6 +238,8 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
 
                     mLayout.addView(createNewTextView(mEditText.getText().toString()));
                     mLayout2.addView(createNewTextView2(mEditText2.getText().toString()));
+                added_ingredients = true;
+                added_steps = true;
                 mEditText.setText("");
                 mEditText2.setText("");
 
@@ -336,29 +350,65 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
             photoReceipt = data.getData();
-            TextView photoName = (TextView) findViewById(R.id.photoName);
+            photoName = (TextView) findViewById(R.id.photoName);
             photoName.setText(photoReceipt.getPath());
         }
     }
-    public void saveReceipt(int buttomId){
+    public void saveReceipt(int buttomId) {
+
+        boolean cancel = false;
+        View focusView = null;
+
         DaoSession daoSession = ((App) getApplication()).getDaoSession();
         receiptDao = daoSession.getReceiptDao();
 
-        title_receipt = (AutoCompleteTextView) findViewById(R.id.title_receita);
-        ingredients = (AutoCompleteTextView) findViewById(R.id.ingredients);
-        steps = (AutoCompleteTextView) findViewById(R.id.Step_by_Step);
+        // Store values at the time of the login attempt.
+        String title = title_receipt.getText().toString();
+//        String name_photo = photoName.toString();
 
 
-       if(buttomId == saveReceipt.getId())
-                receiptDao.insert(new Receipt(null,  title_receipt.getText().toString(), ingredients.toString(),
-                        steps.toString(), photoReceipt.toString(),null,0,getUserID(session.getEmail()),new Date(),0,false));
+        if (title.isEmpty()) {
+            Log.d("incha: ", "devia de dar o setError");
+            title_receipt.setError(getString(R.string.how_to_do_it_tittle_empty));
+            focusView = title_receipt;
+            cancel = true;
+        }
+
+        else if (added_ingredients == false){
+            ingredients.setError(getString(R.string.how_to_do_it_tittle_empty));
+            focusView = ingredients;
+            cancel = true;
+        }
+        else if (added_steps == false){
+            steps.setError(getString(R.string.how_to_do_it_tittle_empty));
+            focusView = steps;
+            cancel = true;
+        }
+        // nao sei se funcaaaaaa
+      /**  else if (name_photo.isEmpty()){
+            Log.d("inchaporca: ", "devia de dar o setError");
+            steps.setError(getString(R.string.need_photo));
+            focusView = steps;
+            cancel = true;
+        }
+*/
+        if (cancel) {
+            // There was an error; don't attempt login and focus the first
+            // form field with an error.
+            focusView.requestFocus();
+        } else {
 
 
-        else
-                receiptDao.insert(new Receipt(null,  title_receipt.getText().toString(), ingredients.toString(),
-                        steps.toString(), photoReceipt.toString(),null,1,getUserID(session.getEmail()),new Date(),0,false));
+            if (buttomId == saveReceipt.getId())
+                receiptDao.insert(new Receipt(null, title_receipt.getText().toString(), ingredients.toString(),
+                        steps.toString(), photoReceipt.toString(), null, 0, getUserID(session.getEmail()), new Date(), 0, false));
+
+
+            else
+                receiptDao.insert(new Receipt(null, title_receipt.getText().toString(), ingredients.toString(),
+                        steps.toString(), photoReceipt.toString(), null, 1, getUserID(session.getEmail()), new Date(), 0, false));
+        }
     }
-
     //MyPubs
 /*
     private void createPubs(){

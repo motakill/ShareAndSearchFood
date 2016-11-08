@@ -13,7 +13,7 @@ import org.greenrobot.greendao.DaoException;
 import com.shareandsearchfood.shareandsearchfood.FavoriteDao;
 
 @Entity
-public class Receipt {
+public class Receipt extends User {
 
     @Id(autoincrement = true)
     private Long id;
@@ -41,6 +41,9 @@ public class Receipt {
     private List<Video> videos;
     @ToMany(referencedJoinProperty= "receiptId")
     private List<Favorite> favorites;
+
+
+
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;

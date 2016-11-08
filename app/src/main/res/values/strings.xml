@@ -13,6 +13,10 @@
     <string name="already_register">You have already one regist</string>
     <string name="wrong_pass">Wrong password</string>
 
+    <string name="how_to_do_it_tittle_empty">You need to complete this one</string>
+
+    <string name="need_photo">You need add one photo</string>
+
 
     <!-- Strings related to login -->
     <string name="action_sign_in">Sign in</string>

@@ -9,12 +9,14 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <!--<uses-permission android:name="android.permission.CAMERA"
+    <!--
+        <uses-permission android:name="android.permission.CAMERA"
                      />
--->
+    -->
 
-    <uses-feature android:name="android.hardware.camera"
-                  android:required="true"/>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
@@ -42,7 +44,7 @@
         <activity
             android:name=".MenuActivity"
             android:label="@string/title_activity_feed_book"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.shareandsearchfood.login.RegistActivity"
             android:label="@string/register_name"
@@ -51,51 +53,55 @@
         <activity
             android:name=".MyProfile"
             android:label="@string/profile_name"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".NotebookActivity"
             android:label="Notebook"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Visit_person"
             android:label="Person Name"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Search_places"
             android:label="Eat Time"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Search_people"
             android:label="Find People"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Restaurant"
             android:label="Restaurant Name"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".HowToDoIt"
             android:label="How To Do It?"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".HowToDoItOption"
             android:label="How To Do It?"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".RecipeContent"
             android:label="Recipe Title"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.shareandsearchfood.settings.AboutSSFood"
             android:label="About S&amp;SFood"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.shareandsearchfood.settings.FeedBackSSFood"
             android:label="Send us FeedBack"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.shareandsearchfood.settings.SettingsSSFood"
             android:label="Settings"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ShareHowToDoItOption"
+            android:label="Share How To Do It?"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

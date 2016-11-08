@@ -51,4 +51,10 @@ public class HowToDoIt extends NavBar {
         });
 
 }
+    public void shareHowToDoIt (View view){
+        Intent intent = new Intent(this, ShareHowToDoItOption.class);
+        startActivity(intent);
+    }
+
+
 }

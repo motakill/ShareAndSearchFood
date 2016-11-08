@@ -303,8 +303,8 @@
 
 
                             <AutoCompleteTextView
-                                android:id="@+id/title_receita"
-                                android:layout_width="400dp"
+                                android:id="@+id/title_receita_share"
+                                android:layout_width="350dp"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
@@ -325,7 +325,7 @@
 
                             <AutoCompleteTextView
                                 android:id="@+id/ingredients"
-                                android:layout_width="400dp"
+                                android:layout_width="350dp"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
@@ -364,7 +364,7 @@
                             android:layout_height="wrap_content"               >
                             <AutoCompleteTextView
                                 android:id="@+id/Step_by_Step"
-                                android:layout_width="400dp"
+                                android:layout_width="350dp"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentLeft="true"
                                 android:layout_alignParentStart="true"
