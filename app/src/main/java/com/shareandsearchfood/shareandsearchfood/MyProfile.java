@@ -367,10 +367,10 @@ public class MyProfile extends NavBar {
 
         Receipt receipt = customAdapter.getItem(favorite.getVerticalScrollbarPosition());
 
-        if(favorite.isChecked()){
+        if(favorite.isChecked() && !existFav(getUserID(session.getEmail()),receipt.getId())) {
             favoriteDao.insert(new Favorite(null,getUserID(session.getEmail()),receipt.getId()));
         }
-        else{
+        else if(!favorite.isChecked() && existFav(getUserID(session.getEmail()),receipt.getId())){
             favoriteDao.deleteByKeyInTx(getUserID(session.getEmail()),receipt.getId());
             unchecked(getUserID(session.getEmail()),receipt.getId());
         }
@@ -396,6 +396,17 @@ public class MyProfile extends NavBar {
                 if(receipt.getUserId() == userId && receipt.getId() == receiptId)
                     receipt.setFavorite(false);
         }
+    }
+    public boolean existFav(Long userId, Long receiptId){
+        boolean status = false;
+        DaoSession daoSession = ((App) getApplication()).getDaoSession();
+        FavoriteDao favoriteDao= daoSession.getFavoriteDao();
+        List<Favorite> favorites = favoriteDao.loadAll();
+            for (Favorite favorite:favorites) {
+                if(userId== favorite.getUserId() && receiptId == favorite.getReceiptId())
+                    status = true;
+        }
+        return status;
     }
 
     //My Favorites
