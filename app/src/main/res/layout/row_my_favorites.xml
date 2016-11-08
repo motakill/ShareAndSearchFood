@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/row_my_favorites"
+    android:layout_marginTop="-70dp"
+    tools:context="com.shareandsearchfood.shareandsearchfood.MyProfile">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/data2_fav"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_below="@+id/imageView4_fav"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="151dp"
+            android:src="@drawable/bolos"
+            android:id="@+id/imageView4_fav"
+            android:clickable="true"
+            android:onClick="clickRecipe"
+            android:layout_below="@+id/titulo1_fav"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <CheckBox android:id="@+id/star2_fav"
+            style="?android:attr/starStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="65dp"
+            android:layout_marginEnd="65dp"
+            android:layout_alignTop="@+id/imageView4_fav"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:onClick="saveFavorite"/>
+
+        <RatingBar
+            android:id="@+id/ratingBar6_fav"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:stepSize="1.0"
+            android:isIndicator="false"
+            android:layout_alignBottom="@+id/imageView4_fav"
+            android:layout_alignRight="@+id/star2_fav"
+            android:layout_alignEnd="@+id/star2_fav"
+            />
+
+        <TextView
+            android:layout_width="135dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:id="@+id/titulo1_fav"
+            android:textSize="18sp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

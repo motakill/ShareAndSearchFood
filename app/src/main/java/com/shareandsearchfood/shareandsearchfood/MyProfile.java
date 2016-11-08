@@ -24,8 +24,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TabHost;
+import android.widget.TabWidget;
 import android.widget.TextView;
 
+import com.shareandsearchfood.imageAdapter.MyFavoritesListAdapter;
 import com.shareandsearchfood.imageAdapter.MyPubsListAdapter;
 import com.shareandsearchfood.login.App;
 import com.shareandsearchfood.login.DaoSession;
@@ -34,12 +36,11 @@ import com.shareandsearchfood.login.ReceiptDao;
 import com.shareandsearchfood.login.Session;
 import com.shareandsearchfood.login.User;
 import com.shareandsearchfood.login.UserDao;
-
 import org.greenrobot.greendao.query.QueryBuilder;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -55,6 +56,7 @@ public class MyProfile extends NavBar {
     private static final int PICK_IMAGE = 100;
     private Uri photoReceipt;
     private ReceiptDao receiptDao;
+    private FavoriteDao favoriteDao;
     private AutoCompleteTextView title_receipt;
     private AutoCompleteTextView ingredients;
     private AutoCompleteTextView steps;
@@ -63,7 +65,10 @@ public class MyProfile extends NavBar {
     Button saveReceipt;
     Button pubReceipt;
     private MyPubsListAdapter customAdapter;
-
+    private MyFavoritesListAdapter customAdapterFav;
+    private  List<Receipt> updated;
+    private  List<Receipt> updatedFav;
+    TabHost host;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,7 +99,7 @@ public class MyProfile extends NavBar {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        TabHost host = (TabHost)findViewById(R.id.tabHost);
+        host = (TabHost)findViewById(R.id.tabHost);
         host.setup();
 
         //Tab 1
@@ -127,6 +132,7 @@ public class MyProfile extends NavBar {
         spec.setIndicator("Badges");
         host.addTab(spec);
 
+        
         // cenas para adicionar mais ingredientes no share
         mLayout = (LinearLayout) findViewById(R.id.layoutIngredientes);
         mEditText = (EditText) findViewById(R.id.ingredients);
@@ -162,6 +168,8 @@ public class MyProfile extends NavBar {
 
         //cria a view das receitas criadas
         createPubs();
+        //cria a view das receitas favoritas
+        createFav();
     }
 
     @Override
@@ -221,7 +229,6 @@ public class MyProfile extends NavBar {
         }
 
     }
-
     private TextView createNewTextView2(String text) {
         final DrawerLayout.LayoutParams lparams = new DrawerLayout.LayoutParams(DrawerLayout.LayoutParams.WRAP_CONTENT, DrawerLayout.LayoutParams.WRAP_CONTENT);
         final TextView textView2 = new TextView(this);
@@ -239,7 +246,14 @@ public class MyProfile extends NavBar {
         }
     }
 
+
+    //Reload page
+    private  void reload(){
+        finish();
+        startActivity(getIntent());
+    }
     //Data from profile
+
     private String getUser(String email){
         DaoSession daoSession = ((App) getApplication()).getDaoSession();
         UserDao userDao = daoSession.getUserDao();
@@ -256,14 +270,28 @@ public class MyProfile extends NavBar {
         List<User> user = qb.list();
         return user.get(0).getPhoto();
     }
+    private int getuserFlag(String email){
+        DaoSession daoSession = ((App) getApplication()).getDaoSession();
+        UserDao userDao = daoSession.getUserDao();
+        QueryBuilder qb = userDao.queryBuilder();
+        qb.where(UserDao.Properties.Email.eq(email));
+        List<User> user = qb.list();
+        return user.get(0).getFlag();
+    }
     private void setPhoto()throws IOException {
         String photoUri = getPhotoUri(session.getEmail());
         ImageView photo = (ImageView) findViewById(R.id.profileImage);
+        int flag = getuserFlag(session.getEmail());
 
-        if (photoUri != null) {
+        Log.d("bandeira",Integer.toString(flag));
+        Log.d("foto",photoUri);
+
+        if (photoUri != null && flag == 1 ) {
             URL url = new URL(photoUri);
             Bitmap myBitmap = BitmapFactory.decodeStream(url.openStream());
             photo.setImageBitmap(myBitmap);
+        }else if (photoUri != null && flag == 0 ) {
+            photo.setImageURI(Uri.parse(photoUri));
         } else
             photo.setImageResource(R.drawable.com_facebook_profile_picture_blank_square);
     }
@@ -310,8 +338,7 @@ public class MyProfile extends NavBar {
                 receiptDao.insert(new Receipt(null,  title_receipt.getText().toString(), ingredients.toString(),
                         steps.toString(), photoReceipt.toString(),null,1,getUserID(session.getEmail()),new Date(),0,false));
 
-        finish();
-        startActivity(getIntent());
+     reload();
     }
 
     //MyPubs
@@ -327,19 +354,83 @@ public class MyProfile extends NavBar {
     private void createPubs(){
         ListView yourListView = (ListView) findViewById(R.id.myPubsList);
         List<Receipt> userReceipts = getUserReceipts();
-        customAdapter = new MyPubsListAdapter(this, R.layout.row_my_pubs,userReceipts);
+        updated = checkIfFavorite(userReceipts);
+        customAdapter = new MyPubsListAdapter(this, R.layout.row_my_pubs,updated);
         yourListView .setAdapter(customAdapter);
     }
 
+    //Favorites
     public void saveFavorite(View v){
         DaoSession daoSession = ((App) getApplication()).getDaoSession();
-        receiptDao = daoSession.getReceiptDao();
+        favoriteDao = daoSession.getFavoriteDao();
 
         View parentView = (View) v.getParent();
         favorite = (CheckBox) parentView.findViewById(R.id.star2);
 
         Receipt receipt = customAdapter.getItem(favorite.getVerticalScrollbarPosition());
-        receipt.setFavorite(favorite.isChecked());
-        receiptDao.update(receipt);
+
+        if(favorite.isChecked()){
+            favoriteDao.insert(new Favorite(null,getUserID(session.getEmail()),receipt.getId()));
+        }
+        else{
+            favoriteDao.deleteByKeyInTx(getUserID(session.getEmail()),receipt.getId());
+            unchecked(getUserID(session.getEmail()),receipt.getId());
+        }
     }
+    public List<Receipt> checkIfFavorite(List<Receipt> firstList){
+        List<Receipt> checked = firstList;
+
+        DaoSession daoSession = ((App) getApplication()).getDaoSession();
+        FavoriteDao favoriteDao= daoSession.getFavoriteDao();
+        List<Favorite> favorites = favoriteDao.loadAll();
+
+        for (Receipt receipt: checked) {
+            for (Favorite favorite:favorites) {
+                if(receipt.getUserId() == favorite.getUserId() && receipt.getId() == favorite.getReceiptId())
+                    receipt.setFavorite(true);
+            }
+        }
+
+        return checked;
+    }
+    public void unchecked(long userId, long receiptId){
+        for (Receipt receipt: updated) {
+                if(receipt.getUserId() == userId && receipt.getId() == receiptId)
+                    receipt.setFavorite(false);
+        }
+    }
+
+    //My Favorites
+    private void createFav(){
+        ListView yourListView = (ListView) findViewById(R.id.myFavList);
+        List<Receipt> userFavReceipts = getUserFavReceipts();
+        updatedFav = checkIfFavorite(userFavReceipts);
+        customAdapterFav = new MyFavoritesListAdapter(this, R.layout.row_my_favorites,updatedFav);
+        yourListView .setAdapter(customAdapterFav);
+    }
+    private List<Receipt> getUserFavReceipts(){
+        long userId = getUserID(session.getEmail());
+        DaoSession daoSession = ((App) getApplication()).getDaoSession();
+        FavoriteDao favoriteDao = daoSession.getFavoriteDao();
+        QueryBuilder qb = favoriteDao.queryBuilder();
+        qb.where(FavoriteDao.Properties.UserId.eq(userId));
+        List<Favorite> favorites = qb.list();
+
+        return getReceiptsById(favorites);
+
+    }
+    private List<Receipt> getReceiptsById(List<Favorite> favorites){
+        DaoSession daoSession = ((App) getApplication()).getDaoSession();
+        ReceiptDao receiptDao= daoSession.getReceiptDao();
+        List<Receipt> receipts = receiptDao.loadAll();
+        List<Receipt> receiptsByID = new ArrayList<>();
+        for (Receipt receipt: receipts) {
+            for (Favorite favorite: favorites)  {
+                if(receipt.getId() == favorite.getReceiptId())
+                    receiptsByID.add(receipt);
+            }
+        }
+        return  receiptsByID;
+    }
+
 }

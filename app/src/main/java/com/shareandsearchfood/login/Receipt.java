@@ -1,5 +1,7 @@
 package com.shareandsearchfood.login;
 
+import com.shareandsearchfood.shareandsearchfood.Favorite;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
@@ -8,6 +10,7 @@ import org.greenrobot.greendao.annotation.ToMany;
 import java.util.List;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
+import com.shareandsearchfood.shareandsearchfood.FavoriteDao;
 
 @Entity
 public class Receipt {
@@ -31,10 +34,13 @@ public class Receipt {
     private float rate;
     @NotNull
     private boolean favorite;
+
     @ToMany(referencedJoinProperty = "receiptId")
     private List<Photo> photos;
     @ToMany(referencedJoinProperty = "receiptId")
     private List<Video> videos;
+    @ToMany(referencedJoinProperty= "receiptId")
+    private List<Favorite> favorites;
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
@@ -140,16 +146,16 @@ public class Receipt {
         this.favorite = favorite;
     }
 
+    public float getRate() {
+        return this.rate;
+    }
+
     public Long getId() {
         return this.id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public float getRate() {
-        return this.rate;
     }
 
     /**
@@ -209,6 +215,34 @@ public class Receipt {
     }
 
     /**
+     * To-many relationship, resolved on first access (and after reset).
+     * Changes to to-many relations are not persisted, make changes to the target entity.
+     */
+    @Generated(hash = 878704513)
+    public List<Favorite> getFavorites() {
+        if (favorites == null) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            FavoriteDao targetDao = daoSession.getFavoriteDao();
+            List<Favorite> favoritesNew = targetDao._queryReceipt_Favorites(id);
+            synchronized (this) {
+                if (favorites == null) {
+                    favorites = favoritesNew;
+                }
+            }
+        }
+        return favorites;
+    }
+
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    @Generated(hash = 584992353)
+    public synchronized void resetFavorites() {
+        favorites = null;
+    }
+
+    /**
      * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
      * Entity must attached to an entity context.
      */
@@ -250,4 +284,5 @@ public class Receipt {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getReceiptDao() : null;
     }
+
 }

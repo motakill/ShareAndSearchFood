@@ -1,24 +1,15 @@
 package com.shareandsearchfood.login;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.Dialog;
-import android.content.ContentResolver;
-import android.content.DialogInterface;
+
+import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -27,18 +18,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.facebook.internal.Utility;
 import com.shareandsearchfood.shareandsearchfood.MenuActivity;
 import com.shareandsearchfood.shareandsearchfood.MyProfile;
 import com.shareandsearchfood.shareandsearchfood.R;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
-import java.io.File;
+import java.io.ByteArrayOutputStream;
 
-import static android.Manifest.permission.READ_CONTACTS;
 
 public class RegistActivity extends AppCompatActivity {
 
@@ -58,7 +46,7 @@ public class RegistActivity extends AppCompatActivity {
     private AutoCompleteTextView mUserNameView;
     private EditText mPasswordView;
     private Session session;
-
+    private Uri imageUri;
 
 
     @Override
@@ -67,7 +55,6 @@ public class RegistActivity extends AppCompatActivity {
         setContentView(R.layout.activity_regist);
         imageView = (ImageView) findViewById(R.id.display_personal_photo);
         session = new Session(this);
-
         Button click = (Button)findViewById(R.id.camera);
 
         Button pickImageButton = (Button) findViewById(R.id.mypersonal_photo_button);
@@ -114,7 +101,6 @@ public class RegistActivity extends AppCompatActivity {
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
         String user = mUserNameView.getText().toString();
-        ImageView photo = imageView;
 
         boolean cancel = false;
         View focusView = null;
@@ -160,12 +146,12 @@ public class RegistActivity extends AppCompatActivity {
 
             if (userCount == 0) {
                 if (password != null) {
-                    userDao.insert(new User(null, user, email, password,photo.toString(), 0));
+                    userDao.insert(new User(null, user, email, password,imageUri.toString(), 0));
                     Intent intent = new Intent(this, MyProfile.class);
                     startActivity(intent);
 
                     //  showProgress(true);
-                    mAuthTask = new RegistActivity.UserLoginTask(email, password, user, photo);
+                    mAuthTask = new RegistActivity.UserLoginTask(email, password, user, imageView);
                     mAuthTask.execute((Void) null);
                 }
             }
@@ -256,38 +242,32 @@ public class RegistActivity extends AppCompatActivity {
 
     }
 
-
-
     public void dispatchTakePictureIntent(View view) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
+    }
 
 
-    }
-// tirar foto
-    /**  @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-    Bundle extras = data.getExtras();
-    Bitmap imageBitmap = (Bitmap) extras.get("data");
-    result.setImageBitmap(imageBitmap);
-    }
-    }
-     */
 // carregar foto
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
-            Uri imageUri = data.getData();
+            imageUri = data.getData();
             imageView.setImageURI(imageUri);
         }
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             imageView.setImageBitmap(imageBitmap);
+
+            Context context = getApplicationContext();
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+            String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), imageBitmap, "Title", null);
+            imageUri = Uri.parse(path);
         }
     }
 }
