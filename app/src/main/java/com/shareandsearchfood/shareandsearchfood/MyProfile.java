@@ -306,9 +306,6 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
         ImageView photo = (ImageView) findViewById(R.id.profileImage);
         int flag = getuserFlag(session.getEmail());
 
-        Log.d("bandeira",Integer.toString(flag));
-        Log.d("foto",photoUri);
-
         if (photoUri != null && flag == 1 ) {
             URL url = new URL(photoUri);
             Bitmap myBitmap = BitmapFactory.decodeStream(url.openStream());
