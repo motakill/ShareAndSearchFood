@@ -1,4 +1,4 @@
-package com.shareandsearchfood.imageAdapter;
+package com.shareandsearchfood.Adapters;
 
 import android.content.Context;
 import android.view.View;

@@ -7,14 +7,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -24,11 +23,11 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TabHost;
-import android.widget.TabWidget;
 import android.widget.TextView;
 
-import com.shareandsearchfood.imageAdapter.MyFavoritesListAdapter;
-import com.shareandsearchfood.imageAdapter.MyPubsListAdapter;
+import com.shareandsearchfood.Adapters.MyFavoritesListAdapter;
+import com.shareandsearchfood.Adapters.MyPubsListAdapter;
+import com.shareandsearchfood.Fragments.MyPubsFragment;
 import com.shareandsearchfood.login.App;
 import com.shareandsearchfood.login.DaoSession;
 import com.shareandsearchfood.login.Receipt;
@@ -48,7 +47,7 @@ import java.util.List;
  * Created by david_000 on 13/10/2016.
  */
 
-public class MyProfile extends NavBar {
+public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentInteractionListener{
     private LinearLayout mLayout, mLayout2;
     private EditText mEditText, mEditText2;
     private Button mButton, mButton2;
@@ -69,6 +68,7 @@ public class MyProfile extends NavBar {
     private  List<Receipt> updated;
     private  List<Receipt> updatedFav;
     TabHost host;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,11 +102,14 @@ public class MyProfile extends NavBar {
         host = (TabHost)findViewById(R.id.tabHost);
         host.setup();
 
+
+
         //Tab 1
         TabHost.TabSpec spec = host.newTabSpec("Feed");
         spec.setContent(R.id.FEED);
         spec.setIndicator("Feed");
         host.addTab(spec);
+
 
         //Tab 2
         spec = host.newTabSpec("MyPubs");
@@ -132,6 +135,27 @@ public class MyProfile extends NavBar {
         spec.setIndicator("Badges");
         host.addTab(spec);
 
+        host.setOnTabChangedListener(new TabHost.OnTabChangeListener(){
+            @Override
+            public void onTabChanged(String tabId) {
+                if("MyPubs".equals(tabId)) {
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.content_my_profile, new MyPubsFragment());
+                    ft.addToBackStack(null).commit();
+                }
+                if("Feed".equals(tabId)) {
+                    //destroy mars
+                }
+                if("Favorites".equals(tabId)) {
+                    //destroy mars
+                }
+                if("Share".equals(tabId)) {
+                    //destroy mars
+                }
+                if("Badges".equals(tabId)) {
+                    //destroy mars
+                }
+            }});
 
         // cenas para adicionar mais ingredientes no share
         mLayout = (LinearLayout) findViewById(R.id.layoutIngredientes);
@@ -166,10 +190,6 @@ public class MyProfile extends NavBar {
             }
             });
 
-        //cria a view das receitas criadas
-        createPubs();
-        //cria a view das receitas favoritas
-        createFav();
     }
 
     @Override
@@ -340,23 +360,22 @@ public class MyProfile extends NavBar {
     }
 
     //MyPubs
-    private List<Receipt> getUserReceipts(){
-        long userId = getUserID(session.getEmail());
-        DaoSession daoSession = ((App) getApplication()).getDaoSession();
-        ReceiptDao receiptDao = daoSession.getReceiptDao();
-        QueryBuilder qb = receiptDao.queryBuilder();
-        qb.where(ReceiptDao.Properties.UserId.eq(userId));
-        List<Receipt> receipts = qb.list();
-        return receipts;
-    }
+/*
     private void createPubs(){
         ListView yourListView = (ListView) findViewById(R.id.myPubsList);
         List<Receipt> userReceipts = getUserReceipts();
         updated = checkIfFavorite(userReceipts);
         customAdapter = new MyPubsListAdapter(this, R.layout.row_my_pubs,updated);
         yourListView.setAdapter(customAdapter);
-    }
+    }*/
+    private List<Receipt> getUserReceipts() {
+        long userId = getUserID(session.getEmail());
 
+        QueryBuilder qb = receiptDao.queryBuilder();
+        qb.where(ReceiptDao.Properties.UserId.eq(userId));
+        List<Receipt> receipts = qb.list();
+        return receipts;
+    }
     //Favorites
     public void saveFavorite(View v){
         DaoSession daoSession = ((App) getApplication()).getDaoSession();
@@ -442,4 +461,8 @@ public class MyProfile extends NavBar {
         return  receiptsByID;
     }
 
+    public void onListFragmentInteraction(Receipt position) {
+        // The user selected the headline of an article from the HeadlinesFragment
+        // Do something here to display that article
+    }
 }

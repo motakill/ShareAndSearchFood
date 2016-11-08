@@ -11,7 +11,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
-import com.shareandsearchfood.imageAdapter.ImageAdapter;
+import com.shareandsearchfood.Adapters.ImageAdapter;
 
 public class Search_people extends NavBar {
 

@@ -12,8 +12,8 @@ import android.widget.GridView;
 import android.widget.TabHost;
 import android.widget.Toast;
 
-import com.shareandsearchfood.imageAdapter.ImageAdapterMenus;
-import com.shareandsearchfood.imageAdapter.ImageAdapterRestaurantPhotos;
+import com.shareandsearchfood.Adapters.ImageAdapterMenus;
+import com.shareandsearchfood.Adapters.ImageAdapterRestaurantPhotos;
 
 public class Restaurant extends NavBar {
 
