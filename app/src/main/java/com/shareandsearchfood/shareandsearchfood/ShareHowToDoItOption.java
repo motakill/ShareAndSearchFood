@@ -20,8 +20,6 @@ import com.shareandsearchfood.login.DaoSession;
 import com.shareandsearchfood.login.Session;
 import com.shareandsearchfood.login.User;
 import com.shareandsearchfood.login.UserDao;
-import com.shareandsearchfood.shareandsearchfood.HowToDoItTable;
-import com.shareandsearchfood.shareandsearchfood.HowToDoItTableDao;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 

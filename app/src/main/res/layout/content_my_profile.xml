@@ -138,7 +138,8 @@
                 <FrameLayout
                     android:id="@android:id/tabcontent"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/myPubsFragm" >
 
 
                     <LinearLayout
@@ -268,7 +269,11 @@
                         android:background="@drawable/customborder"
                         android:weightSum="1">
 
-
+                        <fragment
+                            android:id="@+id/myPubsFragm"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true" />
 
                     </LinearLayout>
 

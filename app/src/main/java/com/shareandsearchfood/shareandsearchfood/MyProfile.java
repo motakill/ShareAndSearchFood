@@ -26,7 +26,6 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.shareandsearchfood.Adapters.MyFavoritesListAdapter;
-import com.shareandsearchfood.Adapters.MyPubsListAdapter;
 import com.shareandsearchfood.Fragments.MyPubsFragment;
 import com.shareandsearchfood.login.App;
 import com.shareandsearchfood.login.DaoSession;
@@ -63,7 +62,6 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
     private RatingBar rate;
     Button saveReceipt;
     Button pubReceipt;
-    private MyPubsListAdapter customAdapter;
     private MyFavoritesListAdapter customAdapterFav;
     private  List<Receipt> updated;
     private  List<Receipt> updatedFav;
@@ -144,16 +142,13 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
             public void onTabChanged(String tabId) {
                 if("MyPubs".equals(tabId)) {
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.content_my_profile, new MyPubsFragment());
+                    ft.replace(R.id.myPubsFragm, new MyPubsFragment());
                     ft.addToBackStack(null).commit();
                 }
                 if("Feed".equals(tabId)) {
                     //destroy mars
                 }
                 if("Favorites".equals(tabId)) {
-                    //destroy mars
-                }
-                if("Share".equals(tabId)) {
                     //destroy mars
                 }
                 if("Badges".equals(tabId)) {
@@ -183,8 +178,6 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
         steps = (AutoCompleteTextView) findViewById(R.id.Step_by_Step);
 
 
-
-
         //Save and Pubb receipts
         saveReceipt = (Button) findViewById(R.id.Save) ;
         pubReceipt = (Button) findViewById(R.id.Publish) ;
@@ -192,6 +185,7 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
             @Override
             public void onClick(View v) {
                 saveReceipt(saveReceipt.getId());
+                reload();
             }
         });
 
@@ -199,6 +193,7 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
             @Override
             public void onClick(View v) {
                 saveReceipt(pubReceipt.getId());
+                reload();
             }
             });
 
@@ -409,23 +404,7 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
                         steps.toString(), photoReceipt.toString(), null, 1, getUserID(session.getEmail()), new Date(), 0, false));
         }
     }
-    //MyPubs
-/*
-    private void createPubs(){
-        ListView yourListView = (ListView) findViewById(R.id.myPubsList);
-        List<Receipt> userReceipts = getUserReceipts();
-        updated = checkIfFavorite(userReceipts);
-        customAdapter = new MyPubsListAdapter(this, R.layout.row_my_pubs,updated);
-        yourListView.setAdapter(customAdapter);
-    }*/
-    private List<Receipt> getUserReceipts() {
-        long userId = getUserID(session.getEmail());
-
-        QueryBuilder qb = receiptDao.queryBuilder();
-        qb.where(ReceiptDao.Properties.UserId.eq(userId));
-        List<Receipt> receipts = qb.list();
-        return receipts;
-    }
+    /*
     //Favorites
     public void saveFavorite(View v){
         DaoSession daoSession = ((App) getApplication()).getDaoSession();
@@ -510,7 +489,7 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
         }
         return  receiptsByID;
     }
-
+*/
     public void onListFragmentInteraction(Receipt position) {
         // The user selected the headline of an article from the HeadlinesFragment
         // Do something here to display that article
