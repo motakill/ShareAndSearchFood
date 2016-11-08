@@ -20,12 +20,12 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TabHost;
 import android.widget.TextView;
 
-import com.shareandsearchfood.Adapters.MyFavoritesListAdapter;
+import com.shareandsearchfood.Adapters.FavoriteRecyclerViewAdapter;
+import com.shareandsearchfood.Fragments.FavoriteFragment;
 import com.shareandsearchfood.Fragments.MyPubsFragment;
 import com.shareandsearchfood.login.App;
 import com.shareandsearchfood.login.DaoSession;
@@ -38,7 +38,6 @@ import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -46,7 +45,7 @@ import java.util.List;
  * Created by david_000 on 13/10/2016.
  */
 
-public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentInteractionListener{
+public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentInteractionListener,FavoriteFragment.OnListFragmentInteractionListenerFav{
     private LinearLayout mLayout, mLayout2;
     private EditText mEditText, mEditText2;
     private Button mButton, mButton2;
@@ -59,16 +58,12 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
     private AutoCompleteTextView ingredients;
     private AutoCompleteTextView steps;
     private CheckBox favorite;
-    private RatingBar rate;
     Button saveReceipt;
     Button pubReceipt;
-    private MyFavoritesListAdapter customAdapterFav;
-    private  List<Receipt> updated;
-    private  List<Receipt> updatedFav;
     private TextView photoName;
     private boolean added_ingredients = false;
     private boolean added_steps = false;
-
+    private FavoriteRecyclerViewAdapter favoriteRecyclerViewAdapter;
     TabHost host;
 
     @Override
@@ -142,15 +137,16 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
             public void onTabChanged(String tabId) {
                 if("MyPubs".equals(tabId)) {
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.myPubsFragm, new MyPubsFragment());
+                    ft.replace(R.id.content_my_profile, new MyPubsFragment());
                     ft.addToBackStack(null).commit();
                 }
                 if("Feed".equals(tabId)) {
                     //destroy mars
                 }
                 if("Favorites".equals(tabId)) {
-                    //destroy mars
-                }
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.content_my_profile, new FavoriteFragment());
+                    ft.addToBackStack(null).commit();                }
                 if("Badges".equals(tabId)) {
                     //destroy mars
                 }
@@ -185,7 +181,6 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
             @Override
             public void onClick(View v) {
                 saveReceipt(saveReceipt.getId());
-                reload();
             }
         });
 
@@ -193,7 +188,6 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
             @Override
             public void onClick(View v) {
                 saveReceipt(pubReceipt.getId());
-                reload();
             }
             });
 
@@ -402,9 +396,11 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
             else
                 receiptDao.insert(new Receipt(null, title_receipt.getText().toString(), ingredients.toString(),
                         steps.toString(), photoReceipt.toString(), null, 1, getUserID(session.getEmail()), new Date(), 0, false));
+
+            reload();
         }
     }
-    /*
+
     //Favorites
     public void saveFavorite(View v){
         DaoSession daoSession = ((App) getApplication()).getDaoSession();
@@ -413,84 +409,23 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
         View parentView = (View) v.getParent();
         favorite = (CheckBox) parentView.findViewById(R.id.star2);
 
-        Receipt receipt = customAdapter.getItem(favorite.getVerticalScrollbarPosition());
+        Receipt receipt = null;
+        onListFragmentInteraction(receipt);
 
-        if(favorite.isChecked() && !existFav(getUserID(session.getEmail()),receipt.getId())) {
+        if(favorite.isChecked()) {
             favoriteDao.insert(new Favorite(null,getUserID(session.getEmail()),receipt.getId()));
         }
-        else if(!favorite.isChecked() && existFav(getUserID(session.getEmail()),receipt.getId())){
+        else if(!favorite.isChecked()){
             favoriteDao.deleteByKeyInTx(getUserID(session.getEmail()),receipt.getId());
-            unchecked(getUserID(session.getEmail()),receipt.getId());
         }
     }
-    public List<Receipt> checkIfFavorite(List<Receipt> firstList){
-        List<Receipt> checked = firstList;
 
-        DaoSession daoSession = ((App) getApplication()).getDaoSession();
-        FavoriteDao favoriteDao= daoSession.getFavoriteDao();
-        List<Favorite> favorites = favoriteDao.loadAll();
 
-        for (Receipt receipt: checked) {
-            for (Favorite favorite:favorites) {
-                if(receipt.getUserId() == favorite.getUserId() && receipt.getId() == favorite.getReceiptId())
-                    receipt.setFavorite(true);
-            }
-        }
-
-        return checked;
-    }
-    public void unchecked(Long userId, Long receiptId){
-        for (Receipt receipt: updated) {
-                if(receipt.getUserId() == userId && receipt.getId() == receiptId)
-                    receipt.setFavorite(false);
-        }
-    }
-    public boolean existFav(Long userId, Long receiptId){
-        boolean status = false;
-        DaoSession daoSession = ((App) getApplication()).getDaoSession();
-        FavoriteDao favoriteDao= daoSession.getFavoriteDao();
-        List<Favorite> favorites = favoriteDao.loadAll();
-            for (Favorite favorite:favorites) {
-                if(userId== favorite.getUserId() && receiptId == favorite.getReceiptId())
-                    status = true;
-        }
-        return status;
-    }
-
-    //My Favorites
-    private void createFav(){
-        ListView yourListView = (ListView) findViewById(R.id.myFavList);
-        List<Receipt> userFavReceipts = getUserFavReceipts();
-        updatedFav = checkIfFavorite(userFavReceipts);
-        customAdapterFav = new MyFavoritesListAdapter(this, R.layout.row_my_favorites,updatedFav);
-        yourListView.setAdapter(customAdapterFav);
-    }
-    private List<Receipt> getUserFavReceipts(){
-        long userId = getUserID(session.getEmail());
-        DaoSession daoSession = ((App) getApplication()).getDaoSession();
-        FavoriteDao favoriteDao = daoSession.getFavoriteDao();
-        QueryBuilder qb = favoriteDao.queryBuilder();
-        qb.where(FavoriteDao.Properties.UserId.eq(userId));
-        List<Favorite> favorites = qb.list();
-
-        return getReceiptsById(favorites);
-
-    }
-    private List<Receipt> getReceiptsById(List<Favorite> favorites){
-        DaoSession daoSession = ((App) getApplication()).getDaoSession();
-        ReceiptDao receiptDao= daoSession.getReceiptDao();
-        List<Receipt> receipts = receiptDao.loadAll();
-        List<Receipt> receiptsByID = new ArrayList<>();
-        for (Receipt receipt: receipts) {
-            for (Favorite favorite: favorites)  {
-                if(receipt.getId() == favorite.getReceiptId())
-                    receiptsByID.add(receipt);
-            }
-        }
-        return  receiptsByID;
-    }
-*/
     public void onListFragmentInteraction(Receipt position) {
+        // The user selected the headline of an article from the HeadlinesFragment
+        // Do something here to display that article
+    }
+    public void onListFragmentInteractionFav(Receipt position) {
         // The user selected the headline of an article from the HeadlinesFragment
         // Do something here to display that article
     }
