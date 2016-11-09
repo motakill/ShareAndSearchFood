@@ -10,50 +10,5 @@
     tools:showIn="@layout/app_bar_how_to_do_it">
 
 
-<RelativeLayout
-android:layout_width="match_parent"
-android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/btnLL"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="11dp"
-        android:layout_marginTop="75dp"
-        android:layout_marginEnd="11dp">
-
-        <Button
-            android:id="@+id/button_share_how_to_do_it"
-            style="?android:textAppearanceSmall"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.66"
-            android:text="Share"
-            android:textStyle="bold"
-            android:textSize="14sp"
-            android:layout_marginLeft="230dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginTop="13dp"
-            android:onClick="shareHowToDoIt"/>
-
-    </LinearLayout>
-<!--
-    <GridView
-    android:id="@+id/gridview"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:columnWidth="150dp"
-    android:numColumns="2"
-    android:verticalSpacing="50dp"
-    android:horizontalSpacing="50dp"
-    android:stretchMode="columnWidth"
-    android:gravity="center"
-    android:clickable="true"
-    android:layout_marginTop="150dp"
-    />
-    -->
-</RelativeLayout>
 </RelativeLayout>
