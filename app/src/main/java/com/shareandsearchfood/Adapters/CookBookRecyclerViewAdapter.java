@@ -139,6 +139,7 @@ public class CookBookRecyclerViewAdapter extends RecyclerView.Adapter<CookBookRe
         public final CheckBox favorite;
         public final RatingBar rate;
         public final TextView nickname;
+
         public Receipt mItem;
 
         public ViewHolder(View v) {

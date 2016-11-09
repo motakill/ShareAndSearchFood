@@ -2,8 +2,11 @@ package com.shareandsearchfood.Adapters;
 
 import android.app.Application;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +28,8 @@ import com.shareandsearchfood.shareandsearchfood.R;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 
 
@@ -55,8 +60,23 @@ public class FavoriteRecyclerViewAdapter extends RecyclerView.Adapter<FavoriteRe
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+        User user = getUserByID(getUserID(session.getEmail()));
 
         holder.mItem = receipts.get(position);
+        holder.nickname.setText(user.getName());
+        int flag = user.getFlag();
+
+        try {
+            if (user.getPhoto() != null && flag == 1) {
+                URL url = new URL(user.getPhoto());
+                Bitmap myBitmap = BitmapFactory.decodeStream(url.openStream());
+                holder.userImage.setImageBitmap(myBitmap);
+            } else if (user.getPhoto() != null && flag == 0) {
+                holder.userImage.setImageURI(Uri.parse(user.getPhoto()));
+            } else
+                holder.userImage.setImageResource(R.drawable.com_facebook_profile_picture_blank_square);
+        }catch (IOException w){}
+
         holder.titulo.setText(receipts.get(position).getTitle());
         Uri imageUri = Uri.parse(receipts.get(position).getPhotoReceipt());
         holder.photo.setImageURI(imageUri);
@@ -99,6 +119,13 @@ public class FavoriteRecyclerViewAdapter extends RecyclerView.Adapter<FavoriteRe
         List<User> user = qb.list();
         return user.get(0).getId();
     }
+    private User getUserByID(Long id) {
+        QueryBuilder qb = userDao.queryBuilder();
+        qb.where(UserDao.Properties.Id.eq(id));
+        List<User> user = qb.list();
+        Log.d("user name:",user.get(0).getName() );
+        return user.get(0);
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
@@ -107,16 +134,22 @@ public class FavoriteRecyclerViewAdapter extends RecyclerView.Adapter<FavoriteRe
         public final TextView timestamp ;
         public final CheckBox favorite ;
         public final RatingBar rate ;
+        public final ImageView userImage ;
+        public final TextView nickname;
+
         public Receipt mItem;
 
         public ViewHolder(View v) {
             super(v);
             mView = v;
-            titulo = (TextView) v.findViewById(R.id.titulo1_fav);
-            photo = (ImageView) v.findViewById(R.id.imageView4_fav);
-            timestamp = (TextView) v.findViewById(R.id.data2_fav);
-            favorite = (CheckBox) v.findViewById(R.id.star2_fav);
-            rate = (RatingBar) v.findViewById((R.id.ratingBar6_fav));
+
+            nickname = (TextView) v.findViewById(R.id.nickname_my_favorites);
+            userImage = (ImageView) v.findViewById(R.id.user_image_my_favorites);
+            titulo = (TextView) v.findViewById(R.id.titulo_my_favorites);
+            photo = (ImageView) v.findViewById(R.id.receita_foto_my_favorites);
+            timestamp = (TextView) v.findViewById(R.id.data5_my_favorites);
+            favorite = (CheckBox) v.findViewById(R.id.star5_my_favorites);
+            rate = (RatingBar) v.findViewById((R.id.ratingBarContentMenu5_my_favorites));
         }
 
         @Override

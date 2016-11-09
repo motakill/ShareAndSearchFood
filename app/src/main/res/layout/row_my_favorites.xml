@@ -6,69 +6,133 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/row_my_favorites"
     android:layout_marginTop="-70dp"
-    tools:context="com.shareandsearchfood.shareandsearchfood.MyProfile">
+    tools:context="com.shareandsearchfood.shareandsearchfood.MenuActivity">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="23dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:id="@+id/data2_fav"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_below="@+id/imageView4_fav"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="151dp"
-            android:src="@drawable/bolos"
-            android:id="@+id/imageView4_fav"
-            android:clickable="true"
-            android:onClick="clickRecipe"
-            android:layout_below="@+id/titulo1_fav"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <CheckBox android:id="@+id/star2_fav"
-            style="?android:attr/starStyle"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="65dp"
-            android:layout_marginEnd="65dp"
-            android:layout_alignTop="@+id/imageView4_fav"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:onClick="saveFavorite"/>
+            android:weightSum="1">
 
-        <RatingBar
-            android:id="@+id/ratingBar6_fav"
-            style="?android:attr/ratingBarStyleSmall"
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="52dp"
+                android:id="@+id/user_image_my_favorites"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="70dp"
+                android:clickable="true"
+                android:onClick="clickProfile"
+                android:layout_weight="0.23" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="135dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:id="@+id/nickname_my_favorites"
+                    android:hint="Nickname"
+                    android:layout_marginTop="70dp"
+                    android:layout_marginLeft="25dp"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="135dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:id="@+id/titulo_my_favorites"
+                    android:hint="Titulo"
+                    android:layout_marginTop="100dp"
+                    android:layout_marginLeft="25dp"
+                    android:textSize="18sp" />
+
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="250dp"
+                android:minHeight="250dp"
+                android:maxHeight="250dp"
+                android:minWidth="400dp"
+                android:maxWidth="400dp"
+                android:id="@+id/receita_foto_my_favorites"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_margin="10dp"
+                android:scaleType="center"
+                android:gravity="center"
+                android:clickable="true"
+                android:onClick="clickRecipe"
+                />
+
+            <CheckBox android:id="@+id/star5_my_favorites"
+                style="?android:attr/starStyle"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="300dp"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/imageView6"
+                android:layout_alignRight="@+id/imageView6"
+                android:layout_alignEnd="@+id/imageView6"
+                android:onClick="saveFavoriteCookBook"/>
+
+            <RatingBar
+                android:id="@+id/ratingBarContentMenu5_my_favorites"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="235dp"
+                android:layout_marginLeft="20dp"
+                android:numStars="5"
+                android:stepSize="1.0"
+                android:isIndicator="false" />
+        </RelativeLayout>
+
+
+        <TableLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:numStars="5"
-            android:stepSize="1.0"
-            android:isIndicator="false"
-            android:layout_alignBottom="@+id/imageView4_fav"
-            android:layout_alignRight="@+id/star2_fav"
-            android:layout_alignEnd="@+id/star2_fav"
-            />
+            android:stretchColumns="2">
 
-        <TextView
-            android:layout_width="135dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:id="@+id/titulo1_fav"
-            android:textSize="18sp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            <TableRow
+                android:id="@+id/tableRow2_my_favorites"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1">
 
-    </RelativeLayout>
+                <TextView
+                    android:text="timestamp"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/data5_my_favorites"
+                    android:layout_marginLeft="25dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    />
+            </TableRow>
+        </TableLayout>
+
+    </LinearLayout>
+
 
 </RelativeLayout>

@@ -275,8 +275,8 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
         finish();
         startActivity(getIntent());
     }
-    //Data from profile
 
+    //Data from profile
     private String getUser(String email){
         DaoSession daoSession = ((App) getApplication()).getDaoSession();
         UserDao userDao = daoSession.getUserDao();
@@ -331,6 +331,7 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
                         android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(gallery, PICK_IMAGE);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
