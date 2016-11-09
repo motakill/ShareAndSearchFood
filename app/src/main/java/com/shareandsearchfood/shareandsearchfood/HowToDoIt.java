@@ -2,6 +2,7 @@ package com.shareandsearchfood.shareandsearchfood;
 
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
@@ -12,6 +13,9 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.shareandsearchfood.Adapters.ImageAdapterRestaurantPhotos;
+import com.shareandsearchfood.Fragments.CookBookFragment;
+import com.shareandsearchfood.Fragments.HowToDoItFragment;
+import com.shareandsearchfood.login.Receipt;
 
 
 /**
@@ -52,10 +56,20 @@ public class HowToDoIt extends NavBar {
         });
          */
 
+        //cria a view das receitas criadas
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.content_how_to_do_it, new HowToDoItFragment());
+        ft.addToBackStack(null).commit();
+
 }
     public void shareHowToDoIt (View view){
         Intent intent = new Intent(this, ShareHowToDoItOption.class);
         startActivity(intent);
+    }
+
+    public void OnListFragmentInteractionListenerHowToDoIT (HowToDoItTable position) {
+        // The user selected the headline of an article from the HeadlinesFragment
+        // Do something here to display that article
     }
 
 
