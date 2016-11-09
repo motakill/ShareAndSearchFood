@@ -24,6 +24,7 @@ import com.shareandsearchfood.login.UserDao;
 import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Date;
 import java.util.List;
 
 
@@ -125,7 +126,7 @@ public class ShareHowToDoItOption extends NavBar {
             HowToDoItTableDao howDao = daoSession.getHowToDoItTableDao();
            // session.setEmail(email);
 
-                howDao.insert(new HowToDoItTable(null, getUserID(session.getEmail()), title, obs,imageUri.toString(),null,null));
+                howDao.insert(new HowToDoItTable(null, getUserID(session.getEmail()), title, obs,imageUri.toString(),null,null,new Date()));
                 Intent intent = new Intent(this, HowToDoIt.class);
                 startActivity(intent);
 

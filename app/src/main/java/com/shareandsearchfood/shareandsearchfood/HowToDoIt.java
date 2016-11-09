@@ -38,6 +38,7 @@ public class HowToDoIt extends NavBar {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        /**
         GridView gridview = (GridView) findViewById(R.id.gridview);
         gridview.setAdapter(new ImageAdapterRestaurantPhotos(this));
 
@@ -49,6 +50,7 @@ public class HowToDoIt extends NavBar {
                 startActivity(new Intent(getApplicationContext(), HowToDoItOption.class));
             }
         });
+         */
 
 }
     public void shareHowToDoIt (View view){

@@ -5,6 +5,8 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.Generated;
 
+import java.util.Date;
+
 /**
  * Created by tiagomota on 08/11/16.
  */
@@ -29,10 +31,12 @@ public class HowToDoItTable {
 
     private String videos;
 
-    @Generated(hash = 1014251840)
+    private java.util.Date date;
+
+    @Generated(hash = 1700257450)
     public HowToDoItTable(Long id, long userId, @NotNull String title,
             @NotNull String obs, @NotNull String photo, String comments,
-            String videos) {
+            String videos, java.util.Date date) {
         this.id = id;
         this.userId = userId;
         this.title = title;
@@ -40,10 +44,19 @@ public class HowToDoItTable {
         this.photo = photo;
         this.comments = comments;
         this.videos = videos;
+        this.date = date;
     }
 
     @Generated(hash = 1683627809)
     public HowToDoItTable() {
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public Long getId() {

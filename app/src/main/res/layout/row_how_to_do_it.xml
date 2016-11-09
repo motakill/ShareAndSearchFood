@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/row_cook_book"
+    android:layout_marginTop="-70dp"
+    tools:context="com.shareandsearchfood.shareandsearchfood.HowToDoIt">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="23dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:weightSum="1">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="52dp"
+                android:id="@+id/user_imageHowToDoIt"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="70dp"
+                android:clickable="true"
+                android:onClick="clickProfile"
+                android:layout_weight="0.23" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="135dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:id="@+id/nicknameHowToDoIt"
+                    android:hint="Nickname"
+                    android:layout_marginTop="70dp"
+                    android:layout_marginLeft="25dp"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="135dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:id="@+id/tituloHowToDoIt"
+                    android:hint="Titulo"
+                    android:layout_marginTop="100dp"
+                    android:layout_marginLeft="25dp"
+                    android:textSize="18sp" />
+
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="250dp"
+                android:minHeight="250dp"
+                android:maxHeight="250dp"
+                android:minWidth="400dp"
+                android:maxWidth="400dp"
+                android:id="@+id/how_to_do_it_foto"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_margin="10dp"
+                android:scaleType="center"
+                android:gravity="center"
+                android:clickable="true"
+                android:onClick="clickRecipe"
+                />
+
+        </RelativeLayout>
+
+
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:stretchColumns="2">
+
+            <TableRow
+                android:id="@+id/tableRow2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1">
+
+                <TextView
+                    android:text="timestamp"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/data5_how_to_do_it"
+                    android:layout_marginLeft="25dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    />
+            </TableRow>
+        </TableLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>
