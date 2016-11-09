@@ -4,34 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/button_share_how_to_do_it"
-            style="?android:textAppearanceSmall"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.66"
-            android:text="Share"
-            android:textStyle="bold"
-            android:textSize="14sp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="11dp"
-            android:onClick="shareHowToDoIt"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="15dp" />
-
         <android.support.v7.widget.RecyclerView
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="0dp"
             android:id="@+id/recyclerHowToDoIt"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             />
 
-    </RelativeLayout>
+
 
 </android.support.v4.widget.SwipeRefreshLayout>

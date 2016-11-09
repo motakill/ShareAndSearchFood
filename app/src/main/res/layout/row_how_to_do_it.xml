@@ -7,7 +7,6 @@
     android:id="@+id/row_cook_book"
     tools:context="com.shareandsearchfood.shareandsearchfood.HowToDoIt">
 
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

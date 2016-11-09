@@ -59,7 +59,7 @@ public class HowToDoIt extends NavBar implements HowToDoItFragment.OnListFragmen
 
         //cria a view das receitas criadas
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.content_how_to_do_it, new HowToDoItFragment());
+        ft.replace(R.id.howToDoItList, new HowToDoItFragment());
         ft.addToBackStack(null).commit();
 
 }
