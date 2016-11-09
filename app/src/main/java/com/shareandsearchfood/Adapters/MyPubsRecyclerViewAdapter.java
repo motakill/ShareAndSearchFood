@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +35,7 @@ public class MyPubsRecyclerViewAdapter extends RecyclerView.Adapter<MyPubsRecycl
     private final MyPubsFragment.OnListFragmentInteractionListener mListener;
     private UserDao userDao;
     private Context ctx;
-    private CheckBox favorite;
+    private ViewHolder holder;
     private DaoSession daoSession;
     private int position;
     private Session session;
@@ -56,8 +57,8 @@ public class MyPubsRecyclerViewAdapter extends RecyclerView.Adapter<MyPubsRecycl
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+        this.holder = holder;
         this.position = position;
-        favorite = holder.favorite;
         holder.mItem = receipts.get(position);
         holder.titulo.setText(receipts.get(position).getTitle());
         Uri imageUri = Uri.parse(receipts.get(position).getPhotoReceipt());
@@ -85,10 +86,11 @@ public class MyPubsRecyclerViewAdapter extends RecyclerView.Adapter<MyPubsRecycl
     @Override
     public void onClick(View v) {
         FavoriteDao favoriteDao = daoSession.getFavoriteDao();
-        if(v.getId() == favorite.getId() && favorite.isChecked()) {
+        Log.d("Berto","entrou");
+        if(v.getId() == holder.favorite.getId() && holder.favorite.isChecked()) {
             favoriteDao.insert(new Favorite(null,getUserID(session.getEmail()),receipts.get(position).getId()));
         }
-        else if(v.getId() == favorite.getId() && !favorite.isChecked()){
+        else if(v.getId() == holder.favorite.getId() && !holder.favorite.isChecked()){
             favoriteDao.deleteByKeyInTx(getUserID(session.getEmail()),receipts.get(position).getId());
         }
     }
