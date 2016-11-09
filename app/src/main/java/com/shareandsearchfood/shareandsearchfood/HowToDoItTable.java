@@ -67,7 +67,7 @@ public class HowToDoItTable {
         this.id = id;
     }
 
-    public long getUserId() {
+    public long getUserId_how_to_do_it() {
         return userId;
     }
 
@@ -113,5 +113,9 @@ public class HowToDoItTable {
 
     public void setVideos(String videos) {
         this.videos = videos;
+    }
+
+    public long getUserId() {
+        return this.userId;
     }
 }

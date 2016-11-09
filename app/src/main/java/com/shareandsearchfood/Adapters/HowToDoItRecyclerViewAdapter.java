@@ -58,7 +58,7 @@ public class HowToDoItRecyclerViewAdapter extends RecyclerView.Adapter<HowToDoIt
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
-        User user = getUserByID(howToDoItTable.get(position).getUserId());
+        User user = getUserByID(howToDoItTable.get(position).getUserId_how_to_do_it());
         //vai ser how to do its
         holder.mItem = howToDoItTable.get(position);
         holder.nickname.setText(user.getName());

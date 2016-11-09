@@ -22,7 +22,7 @@ import com.shareandsearchfood.login.Receipt;
  * Created by david_000 on 16/10/2016.
  */
 
-public class HowToDoIt extends NavBar {
+public class HowToDoIt extends NavBar implements HowToDoItFragment.OnListFragmentInteractionListenerHowToDoIT{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,5 +72,9 @@ public class HowToDoIt extends NavBar {
         // Do something here to display that article
     }
 
+    public void clickHowToDoItImage (View view){
+        Intent intent = new Intent(this, HowToDoItOption.class);
+        startActivity(intent);
+    }
 
 }

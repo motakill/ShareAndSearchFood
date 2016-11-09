@@ -14,9 +14,9 @@ import android.view.ViewGroup;
 import com.shareandsearchfood.Adapters.HowToDoItRecyclerViewAdapter;
 import com.shareandsearchfood.login.App;
 import com.shareandsearchfood.login.DaoSession;
-import com.shareandsearchfood.login.ReceiptDao;
 import com.shareandsearchfood.login.Session;
 import com.shareandsearchfood.shareandsearchfood.HowToDoItTable;
+import com.shareandsearchfood.shareandsearchfood.HowToDoItTableDao;
 import com.shareandsearchfood.shareandsearchfood.R;
 
 import org.greenrobot.greendao.query.QueryBuilder;
@@ -40,7 +40,7 @@ public class HowToDoItFragment extends Fragment implements SwipeRefreshLayout.On
     private static final int SPAN_COUNT = 2;
     private Session session;
     private DaoSession daoSession;
-    private ReceiptDao receiptDao;
+    private HowToDoItTableDao howTodoItDao;
     private enum LayoutManagerType {
         GRID_LAYOUT_MANAGER,
         LINEAR_LAYOUT_MANAGER
@@ -70,7 +70,7 @@ public class HowToDoItFragment extends Fragment implements SwipeRefreshLayout.On
         mLayoutManager = new LinearLayoutManager(getActivity());
         mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
         daoSession = ((App) getActivity().getApplication()).getDaoSession();
-        receiptDao = daoSession.getReceiptDao();
+        howTodoItDao = daoSession.getHowToDoItTableDao();
 
         if (savedInstanceState != null) {
             // Restore saved layout manager type.
@@ -131,7 +131,7 @@ public class HowToDoItFragment extends Fragment implements SwipeRefreshLayout.On
     @Override
     public void onResume() {
         super.onResume();
-        if (receiptDao != null) {
+        if (howTodoItDao != null) {
             mAdapter.setNewData(getAllHowToDoIt());
             mAdapter.notifyDataSetChanged();
         }
@@ -152,8 +152,8 @@ public class HowToDoItFragment extends Fragment implements SwipeRefreshLayout.On
 
     }
     private List<HowToDoItTable> getAllHowToDoIt(){
-        ReceiptDao receiptDao = daoSession.getReceiptDao();
-        QueryBuilder qb = receiptDao.queryBuilder();
+        HowToDoItTableDao howTodoItDao = daoSession.getHowToDoItTableDao();
+        QueryBuilder qb = howTodoItDao.queryBuilder();
         List<HowToDoItTable> allHowToDoIt = qb.list();
         return allHowToDoIt;
     }
