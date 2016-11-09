@@ -1,18 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/row_cook_book"
-    android:layout_marginTop="70dp"
     tools:context="com.shareandsearchfood.shareandsearchfood.HowToDoIt">
 
     <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/button_share_how_to_do_it"
+            style="?android:textAppearanceSmall"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.66"
+            android:text="Share"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:layout_marginLeft="230dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="13dp"
+            android:onClick="shareHowToDoIt"/>
+    </LinearLayout>
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="23dp"
+        android:layout_marginTop="70dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
@@ -30,9 +47,8 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginLeft="25dp"
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="10dp"
                 android:clickable="true"
-                android:onClick="clickProfile"
                 android:layout_weight="0.23" />
 
             <RelativeLayout
@@ -44,7 +60,7 @@
                     android:ems="10"
                     android:id="@+id/nicknameHowToDoIt"
                     android:hint="Nickname"
-                    android:layout_marginTop="70dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="25dp"
                     android:textSize="18sp" />
 
@@ -54,7 +70,7 @@
                     android:ems="10"
                     android:id="@+id/tituloHowToDoIt"
                     android:hint="Titulo"
-                    android:layout_marginTop="100dp"
+                    android:layout_marginTop="40dp"
                     android:layout_marginLeft="25dp"
                     android:textSize="18sp" />
 
@@ -65,7 +81,8 @@
         </LinearLayout>
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -104,6 +121,7 @@
                     android:text="timestamp"
                     android:layout_width="wrap_content"
                     android:id="@+id/data5_how_to_do_it"
+                    android:layout_marginTop="330dp"
                     android:layout_marginLeft="25dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -111,7 +129,7 @@
             </TableRow>
         </TableLayout>
 
-    </LinearLayout>
+    </FrameLayout>
 
 
-</RelativeLayout>
+</LinearLayout>
