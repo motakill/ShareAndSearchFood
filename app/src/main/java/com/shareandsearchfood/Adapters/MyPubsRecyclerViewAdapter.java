@@ -54,6 +54,8 @@ public class MyPubsRecyclerViewAdapter extends RecyclerView.Adapter<MyPubsRecycl
         holder.timestamp.setText(receipts.get(position).getDate().toString());
         holder.favorite.setChecked(receipts.get(position).getFavorite());
         holder.rate.setRating(receipts.get(position).getRate());
+
+
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

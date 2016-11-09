@@ -90,6 +90,8 @@ public class MenuActivity extends NavBar implements CookBookFragment.OnListFragm
         startActivity(intent);
 
     }
+
+    @Override
     public void onListFragmentInteractionCookBook(Receipt position) {
         // The user selected the headline of an article from the HeadlinesFragment
         // Do something here to display that article

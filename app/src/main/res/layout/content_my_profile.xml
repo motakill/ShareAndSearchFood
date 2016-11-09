@@ -3,12 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_my_profile"
+    tools:context="com.shareandsearchfood.shareandsearchfood.MyProfile"
     android:layout_marginTop="-70dp"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/app_bar_my_profile">
+
+    <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="80dp">
 
         <ImageView
             android:layout_width="86dp"
@@ -20,9 +26,6 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
-    <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -97,434 +100,69 @@
 
         </RelativeLayout>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:stretchColumns="*"
+        android:layout_marginTop="270dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        >
-    <TabHost
-            android:id="@+id/tabHost"
-            android:layout_width="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+
+        <TableRow
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="60dp"
-            >
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginTop="115dp">
-
-                <HorizontalScrollView
-                    android:id="@+id/horizontalScrollView1"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:fillViewport="true">
-
-                    <TabWidget
-                        android:id="@android:id/tabs"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content" >
-
-                    </TabWidget>
-
-                </HorizontalScrollView>
-                <FrameLayout
-                    android:id="@android:id/tabcontent"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-
-                    <LinearLayout
-                        android:id="@+id/FEED"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:background="@drawable/customborder"
-                        android:weightSum="1">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
-
-                            <ImageView
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                app:srcCompat="@drawable/com_facebook_profile_picture_blank_square"
-                                android:id="@+id/imageView9"
-                                android:layout_alignParentTop="true"
-                                android:layout_alignParentLeft="true"
-                                android:layout_alignParentStart="true"
-                                android:layout_marginLeft="25dp"
-                                android:layout_marginTop="8dp"
-                                android:clickable="true"
-                                android:onClick="clickProfile"
-                                />
-
-                            <RelativeLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
-                                <TextView
-                                    android:layout_width="135dp"
-                                    android:layout_height="wrap_content"
-                                    android:ems="10"
-                                    android:id="@+id/nickname"
-                                    android:hint="Nickname"
-                                    android:layout_marginTop="5dp"
-                                    android:layout_marginLeft="25dp"
-                                    android:textSize="18sp" />
-
-                                <TextView
-                                    android:layout_width="135dp"
-                                    android:layout_height="wrap_content"
-                                    android:ems="10"
-                                    android:id="@+id/titulo"
-                                    android:hint="Titulo"
-                                    android:layout_marginTop="30dp"
-                                    android:layout_marginLeft="25dp"
-                                    android:textSize="18sp" />
-                            </RelativeLayout>
-
-                        </LinearLayout>
-
-                        <RelativeLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="151dp"
-                                android:src="@drawable/bolos"
-                                android:id="@+id/imageView3"
-                                android:layout_marginLeft="25dp"
-                                android:layout_marginRight="25dp"
-                                android:layout_marginTop="5dp"
-                                android:clickable="true"
-                                android:onClick="clickRecipe"
-                                />
-
-                            <CheckBox android:id="@+id/star"
-                                style="?android:attr/starStyle"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignTop="@+id/imageView3"
-                                android:layout_alignRight="@+id/imageView3"
-                                android:layout_alignEnd="@+id/imageView3"
-                                android:layout_marginRight="50dp"
-                                android:layout_marginEnd="50dp" />
-
-                            <RatingBar
-                                android:id="@+id/ratingBar2"
-                                style="?android:attr/ratingBarStyleSmall"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:numStars="5"
-                                android:stepSize="1.0"
-                                android:isIndicator="false"
-                                android:layout_alignParentBottom="true"
-                                android:layout_alignRight="@+id/star"
-                                android:layout_alignEnd="@+id/star" />
-
-                        </RelativeLayout>
-
-                        <TableLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:stretchColumns="2">
-
-                            <TableRow
-                                android:id="@+id/tableRow2"
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:layout_weight="1">
-
-                                <TextView
-                                    android:text="timestamp"
-                                    android:layout_width="wrap_content"
-                                    android:id="@+id/data"
-                                    android:layout_marginLeft="25dp"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="1"
-                                    />
-                            </TableRow>
-                        </TableLayout>
-
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/MYPUBS"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:background="@drawable/customborder"
-                        android:weightSum="1">
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/FAVORITES"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:background="@drawable/customborder"
-                        android:weightSum="1">
-
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/SHARE"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
-                            android:orientation="vertical">
-
-
-                            <AutoCompleteTextView
-                                android:id="@+id/title_receita_share"
-                                android:layout_width="350dp"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentLeft="true"
-                                android:layout_alignParentStart="true"
-                                android:layout_below="@+id/email"
-                                android:layout_marginTop="16dp"
-                                android:imeOptions="actionUnspecified"
-                                android:hint="Recipe Tittle"
-                                android:inputType="text"
-                                android:maxLines="1" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/layoutIngredientes99"
-                            >
-
-                            <AutoCompleteTextView
-                                android:id="@+id/ingredients"
-                                android:layout_width="350dp"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentLeft="true"
-                                android:layout_alignParentStart="true"
-                                android:imeOptions="actionUnspecified"
-                                android:layout_alignParentTop="true"
-                                android:hint="@string/ingredients"
-                                android:inputType="textAutoComplete"
-                                />
-
-                        </LinearLayout>
-
-                        <HorizontalScrollView
-                            android:id="@+id/horizontalScrollView2"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:fillViewport="true">
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/layoutIngredientes"
-                                >
-                                <RadioButton
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:id="@+id/moreIngredients"
-                                    android:layout_weight="1"
-                                    android:button="@android:drawable/ic_input_add"
-                                    android:imeOptions="actionUnspecified"
-                                    android:checked="false" />
-
-                            </LinearLayout>
-                        </HorizontalScrollView>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"               >
-                            <AutoCompleteTextView
-                                android:id="@+id/Step_by_Step"
-                                android:layout_width="350dp"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentLeft="true"
-                                android:layout_alignParentStart="true"
-                                android:layout_alignParentTop="true"
-                                android:imeOptions="actionUnspecified"
-                                android:hint="@string/step_by_step"
-                                android:inputType="textAutoComplete"
-                                />
-                        </LinearLayout>
-                        <HorizontalScrollView
-                            android:id="@+id/horizontalScrollView3"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:fillViewport="true">
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/layoutSteps"
-                                >
-                                <RadioButton
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:id="@+id/moreSteps"
-                                    android:layout_weight="1"
-                                    android:button="@android:drawable/ic_input_add"
-                                    android:imeOptions="actionUnspecified"
-                                    android:checked="false" />
-
-                            </LinearLayout>
-                        </HorizontalScrollView>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="-10dp">
-
-
-                            <Button
-                                android:id="@+id/buttonPhoto"
-                                android:layout_width="175dp"
-                                style="?android:textAppearanceSmall"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="16dp"
-                                android:text="Receipt Photo"
-                                android:textStyle="bold"
-                                android:onClick="openGalleryShare"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:id="@+id/photoName"
-                                style="?android:textAppearanceSmall"
-                                android:layout_width="188dp"
-                                android:layout_height="69dp"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
-
-
-                        <LinearLayout
-                            android:id="@+id/btp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:layout_marginTop="20dp">
-
-
-                            <Button
-                                android:id="@+id/button3"
-                                style="?android:textAppearanceSmall"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="@string/add_photos"
-                                android:textStyle="bold"
-                                android:textSize="14sp" />
-
-
-                            <Button
-                                android:id="@+id/email_sign_in_button"
-                                style="?android:textAppearanceSmall"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="@string/add_movies"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/buttons_save_pub"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:layout_marginTop="10dp">
-
-                            <Button
-                                android:id="@+id/Save"
-                                style="?android:textAppearanceSmall"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="@string/save_receipe"
-                                android:textStyle="bold"
-                                android:textSize="14sp" />
-
-
-                            <Button
-                                android:id="@+id/Publish"
-                                style="?android:textAppearanceSmall"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="@string/pub_receipe"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
-
-
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:id="@+id/BADGES"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            app:srcCompat="@drawable/badge1"
-                            android:id="@+id/badge1"
-                            android:layout_alignParentTop="true"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
-                            android:layout_marginLeft="25dp"
-                            android:layout_marginTop="8dp"
-                            />
-
-
-                        <ImageView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            app:srcCompat="@drawable/badge2"
-                            android:id="@+id/badge2"
-                            android:layout_alignParentTop="true"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
-                            android:layout_marginLeft="25dp"
-                            android:layout_marginTop="8dp"
-                            />
-
-
-
-                    </LinearLayout>
-
-                </FrameLayout>
-            </LinearLayout>
-
-
-    </TabHost>
-    </ScrollView>
-
-    </RelativeLayout>
+            android:orientation="horizontal">
+
+            <TextView
+                android:text="Feed"
+                android:id="@+id/feed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:clickable="true"/>
+
+            <TextView
+                android:text="My Pubs"
+                android:id="@+id/myPubs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:clickable="true" />
+
+
+            <TextView
+                android:text="My Favorites"
+                android:id="@+id/myFav"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="3"
+                android:clickable="true"/>
+
+            <TextView
+                android:text= "Share"
+                android:id="@+id/share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="4"
+                android:clickable="true" />
+            <TextView
+                android:text="Badges"
+                android:id="@+id/badges"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="5"
+                android:clickable="true" />
+
+        </TableRow>
+
+            <FrameLayout
+                android:id="@+id/frame"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:clickable="true" />
+
+    </TableLayout>
+</RelativeLayout>
 

@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.shareandsearchfood.Adapters.ImageAdapterRestaurantPhotos;
 import com.shareandsearchfood.Fragments.CookBookFragment;
 import com.shareandsearchfood.Fragments.HowToDoItFragment;
+import com.shareandsearchfood.Fragments.MyPubsFragment;
 import com.shareandsearchfood.login.Receipt;
 
 
@@ -67,6 +68,7 @@ public class HowToDoIt extends NavBar implements HowToDoItFragment.OnListFragmen
         startActivity(intent);
     }
 
+    @Override
     public void OnListFragmentInteractionListenerHowToDoIT (HowToDoItTable position) {
         // The user selected the headline of an article from the HeadlinesFragment
         // Do something here to display that article

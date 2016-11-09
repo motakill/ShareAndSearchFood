@@ -7,6 +7,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTabHost;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -27,6 +29,7 @@ import android.widget.TextView;
 import com.shareandsearchfood.Adapters.FavoriteRecyclerViewAdapter;
 import com.shareandsearchfood.Fragments.FavoriteFragment;
 import com.shareandsearchfood.Fragments.MyPubsFragment;
+import com.shareandsearchfood.Fragments.ShareFragment;
 import com.shareandsearchfood.login.App;
 import com.shareandsearchfood.login.DaoSession;
 import com.shareandsearchfood.login.Receipt;
@@ -63,8 +66,6 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
     private TextView photoName;
     private boolean added_ingredients = false;
     private boolean added_steps = false;
-    private FavoriteRecyclerViewAdapter favoriteRecyclerViewAdapter;
-    TabHost host;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -96,101 +97,34 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        host = (TabHost)findViewById(R.id.tabHost);
-        host.setup();
-
-
-
-        //Tab 1
-        TabHost.TabSpec spec = host.newTabSpec("Feed");
-        spec.setContent(R.id.FEED);
-        spec.setIndicator("Feed");
-        host.addTab(spec);
-
-
-        //Tab 2
-        spec = host.newTabSpec("MyPubs");
-        spec.setContent(R.id.MYPUBS);
-        spec.setIndicator("MyPubs");
-        host.addTab(spec);
-
-        //Tab 3
-        spec = host.newTabSpec("Favorites");
-        spec.setContent(R.id.FAVORITES);
-        spec.setIndicator("Favorites");
-        host.addTab(spec);
-
-        //Tab 4
-        spec = host.newTabSpec("Share");
-        spec.setContent(R.id.SHARE);
-        spec.setIndicator("Share");
-        host.addTab(spec);
-
-        //Tab 5
-        spec = host.newTabSpec("Badges");
-        spec.setContent(R.id.BADGES);
-        spec.setIndicator("Badges");
-        host.addTab(spec);
-
-        host.setOnTabChangedListener(new TabHost.OnTabChangeListener(){
+        TextView myPubs = (TextView) findViewById(R.id.myPubs);
+        myPubs.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onTabChanged(String tabId) {
-                if("MyPubs".equals(tabId)) {
+            public void onClick(View v) {
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.content_my_profile, new MyPubsFragment());
+                    ft.add(R.id.frame, new MyPubsFragment());
                     ft.addToBackStack(null).commit();
-                }
-                if("Feed".equals(tabId)) {
-                    //destroy mars
-                }
-                if("Favorites".equals(tabId)) {
-                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.content_my_profile, new FavoriteFragment());
-                    ft.addToBackStack(null).commit();                }
-                if("Badges".equals(tabId)) {
-                    //destroy mars
-                }
+
             }});
 
-        // cenas para adicionar mais ingredientes no share
-        mLayout = (LinearLayout) findViewById(R.id.layoutIngredientes);
-        mEditText = (EditText) findViewById(R.id.ingredients);
-        mButton = (Button) findViewById(R.id.moreIngredients);
-        mButton.setOnClickListener(onClick());
-        TextView textView = new TextView(this);
-        textView.setText("More ingredients");
-
-        // cenas para adicionar mais steps no share
-        mLayout2 = (LinearLayout) findViewById(R.id.layoutSteps);
-        mEditText2 = (EditText) findViewById(R.id.Step_by_Step);
-        mButton2 = (Button) findViewById(R.id.moreSteps);
-        mButton2.setOnClickListener(onClick());
-        TextView textView2 = new TextView(this);
-        textView2.setText("More Steps");
-
-
-        title_receipt = (AutoCompleteTextView) findViewById(R.id.title_receita_share);
-        ingredients = (AutoCompleteTextView) findViewById(R.id.ingredients);
-        steps = (AutoCompleteTextView) findViewById(R.id.Step_by_Step);
-
-
-        //Save and Pubb receipts
-        saveReceipt = (Button) findViewById(R.id.Save) ;
-        pubReceipt = (Button) findViewById(R.id.Publish) ;
-        saveReceipt.setOnClickListener(new View.OnClickListener (){
+        TextView myFav = (TextView) findViewById(R.id.myFav);
+        myFav.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                saveReceipt(saveReceipt.getId());
-            }
-        });
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.add(R.id.frame, new FavoriteFragment());
+                ft.addToBackStack(null).commit();
 
-        pubReceipt.setOnClickListener(new View.OnClickListener (){
+            }});
+        TextView share = (TextView) findViewById(R.id.share);
+        share.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                saveReceipt(pubReceipt.getId());
-            }
-            });
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.add(R.id.frame, new ShareFragment());
+                ft.addToBackStack(null).commit();
 
+            }});
     }
 
     @Override
@@ -225,8 +159,8 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
             @Override
             public void onClick(View v) {
 
-                    mLayout.addView(createNewTextView(mEditText.getText().toString()));
-                    mLayout2.addView(createNewTextView2(mEditText2.getText().toString()));
+                mLayout.addView(createNewTextView(mEditText.getText().toString()));
+                mLayout2.addView(createNewTextView2(mEditText2.getText().toString()));
                 added_ingredients = true;
                 added_steps = true;
                 mEditText.setText("");
@@ -331,6 +265,43 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
                         android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(gallery, PICK_IMAGE);
     }
+    public void addIngredients(View v){
+
+        View parentView = (View) v.getParent();
+        mLayout = (LinearLayout) parentView.findViewById(R.id.layoutIngredientes);
+        mEditText = (EditText) parentView.findViewById(R.id.ingredients);
+        mButton = (Button) parentView.findViewById(R.id.moreIngredients);
+        mButton.setOnClickListener(onClick());
+    }
+    public void addSteps(View v){
+        View parentView = (View) v.getParent();
+
+        mLayout2 = (LinearLayout) parentView.findViewById(R.id.layoutSteps);
+        mEditText2 = (EditText) parentView.findViewById(R.id.Step_by_Step);
+        mButton2 = (Button) parentView.findViewById(R.id.moreSteps);
+        mButton2.setOnClickListener(onClick());
+
+        title_receipt = (AutoCompleteTextView) parentView.findViewById(R.id.title_receita_share);
+        ingredients = (AutoCompleteTextView) parentView.findViewById(R.id.ingredients);
+        steps = (AutoCompleteTextView) parentView.findViewById(R.id.Step_by_Step);
+
+
+    }
+    public void safeReceipt(View v){
+        View parentView = (View) v.getParent();
+        saveReceipt = (Button) parentView.findViewById(R.id.Save) ;
+        saveReceipt(saveReceipt.getId());
+
+
+
+    }
+    public void pubReceipt(View v){
+        View parentView = (View) v.getParent();
+        pubReceipt = (Button) parentView.findViewById(R.id.Publish) ;
+        saveReceipt(pubReceipt.getId());
+
+
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -351,7 +322,7 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
 
         // Store values at the time of the login attempt.
         String title = title_receipt.getText().toString();
-//        String name_photo = photoName.toString();
+        //String name_photo = photoName.toString();
 
 
         if (title.isEmpty()) {
@@ -408,7 +379,6 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
         favorite = (CheckBox) parentView.findViewById(R.id.star2);
 
         Receipt receipt = null;
-        onListFragmentInteraction(receipt);
 
         if(favorite.isChecked()) {
             favoriteDao.insert(new Favorite(null,getUserID(session.getEmail()),receipt.getId()));
@@ -419,10 +389,10 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
     }
 
 
+    @Override
     public void onListFragmentInteraction(Receipt position) {
-        // The user selected the headline of an article from the HeadlinesFragment
-        // Do something here to display that article
     }
+    @Override
     public void onListFragmentInteractionFav(Receipt position) {
         // The user selected the headline of an article from the HeadlinesFragment
         // Do something here to display that article
