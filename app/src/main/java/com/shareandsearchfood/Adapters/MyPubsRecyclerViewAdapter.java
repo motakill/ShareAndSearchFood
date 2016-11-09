@@ -16,26 +16,35 @@ import com.shareandsearchfood.Fragments.MyPubsFragment;
 import com.shareandsearchfood.login.App;
 import com.shareandsearchfood.login.DaoSession;
 import com.shareandsearchfood.login.Receipt;
+import com.shareandsearchfood.login.Session;
+import com.shareandsearchfood.login.User;
 import com.shareandsearchfood.login.UserDao;
+import com.shareandsearchfood.shareandsearchfood.Favorite;
+import com.shareandsearchfood.shareandsearchfood.FavoriteDao;
 import com.shareandsearchfood.shareandsearchfood.R;
+
+import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.List;
 
 
-public class MyPubsRecyclerViewAdapter extends RecyclerView.Adapter<MyPubsRecyclerViewAdapter.ViewHolder>{
+public class MyPubsRecyclerViewAdapter extends RecyclerView.Adapter<MyPubsRecyclerViewAdapter.ViewHolder> implements View.OnClickListener{
 
     private List<Receipt> receipts;
     private final MyPubsFragment.OnListFragmentInteractionListener mListener;
     private UserDao userDao;
     private Context ctx;
-
-
+    private CheckBox favorite;
+    private DaoSession daoSession;
+    private int position;
+    private Session session;
     public MyPubsRecyclerViewAdapter(List<Receipt> receipts, Context ctx, Application app, MyPubsFragment.OnListFragmentInteractionListener listener) {
-        DaoSession daoSession = ((App) app).getDaoSession();
+        daoSession = ((App) app).getDaoSession();
         userDao = daoSession.getUserDao();
         this.receipts = receipts;
         mListener = listener;
         this.ctx = ctx;
+        session = new Session(ctx);
     }
 
     @Override
@@ -47,6 +56,8 @@ public class MyPubsRecyclerViewAdapter extends RecyclerView.Adapter<MyPubsRecycl
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+        this.position = position;
+        favorite = holder.favorite;
         holder.mItem = receipts.get(position);
         holder.titulo.setText(receipts.get(position).getTitle());
         Uri imageUri = Uri.parse(receipts.get(position).getPhotoReceipt());
@@ -72,8 +83,26 @@ public class MyPubsRecyclerViewAdapter extends RecyclerView.Adapter<MyPubsRecycl
     }
 
     @Override
+    public void onClick(View v) {
+        FavoriteDao favoriteDao = daoSession.getFavoriteDao();
+        if(v.getId() == favorite.getId() && favorite.isChecked()) {
+            favoriteDao.insert(new Favorite(null,getUserID(session.getEmail()),receipts.get(position).getId()));
+        }
+        else if(v.getId() == favorite.getId() && !favorite.isChecked()){
+            favoriteDao.deleteByKeyInTx(getUserID(session.getEmail()),receipts.get(position).getId());
+        }
+    }
+
+    @Override
     public int getItemCount() {
         return receipts.size();
+    }
+    private Long getUserID(String email) {
+        UserDao userDao = daoSession.getUserDao();
+        QueryBuilder qb = userDao.queryBuilder();
+        qb.where(UserDao.Properties.Email.eq(email));
+        List<User> user = qb.list();
+        return user.get(0).getId();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

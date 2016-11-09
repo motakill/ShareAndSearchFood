@@ -47,7 +47,7 @@
             android:layout_alignTop="@+id/imageView4"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:onClick="saveFavorite"/>
+            android:clickable="true"/>
 
         <RatingBar
             android:id="@+id/ratingBar6"

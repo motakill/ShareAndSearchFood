@@ -102,7 +102,7 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
             @Override
             public void onClick(View v) {
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    ft.add(R.id.frame, new MyPubsFragment());
+                    ft.replace(R.id.frame, new MyPubsFragment());
                     ft.addToBackStack(null).commit();
 
             }});
@@ -112,7 +112,7 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
             @Override
             public void onClick(View v) {
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.add(R.id.frame, new FavoriteFragment());
+                ft.replace(R.id.frame, new FavoriteFragment());
                 ft.addToBackStack(null).commit();
 
             }});
@@ -121,7 +121,7 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
             @Override
             public void onClick(View v) {
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.add(R.id.frame, new ShareFragment());
+                ft.replace(R.id.frame, new ShareFragment());
                 ft.addToBackStack(null).commit();
 
             }});
