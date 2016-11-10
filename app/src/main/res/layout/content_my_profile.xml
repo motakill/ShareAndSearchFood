@@ -140,19 +140,13 @@
                 android:layout_column="3"
                 android:clickable="true"/>
 
-            <TextView
-                android:text= "Share"
-                android:id="@+id/share"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="4"
-                android:clickable="true" />
+
             <TextView
                 android:text="Badges"
                 android:id="@+id/badges"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_column="5"
+                android:layout_column="4"
                 android:clickable="true" />
 
         </TableRow>
@@ -169,11 +163,10 @@
     <RadioButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="9dp"
-        android:layout_marginEnd="9dp"
-        android:layout_marginTop="293dp"
+        android:layout_marginTop="580dp"
         android:id="@+id/radioButton"
         android:button="@android:drawable/ic_input_add"
+        android:onClick="share"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />

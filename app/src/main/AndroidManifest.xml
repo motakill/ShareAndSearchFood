@@ -102,6 +102,10 @@
             android:name=".ShareHowToDoItOption"
             android:label="Share How To Do It?"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ShareContent"
+            android:label="Share"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

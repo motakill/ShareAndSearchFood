@@ -29,10 +29,8 @@ import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 
-import com.shareandsearchfood.Adapters.FavoriteRecyclerViewAdapter;
 import com.shareandsearchfood.Fragments.FavoriteFragment;
 import com.shareandsearchfood.Fragments.MyPubsFragment;
-import com.shareandsearchfood.Fragments.ShareFragment;
 import com.shareandsearchfood.login.App;
 import com.shareandsearchfood.login.DaoSession;
 import com.shareandsearchfood.login.Receipt;
@@ -52,23 +50,15 @@ import java.util.List;
  */
 
 public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentInteractionListener,FavoriteFragment.OnListFragmentInteractionListenerFav{
-    private LinearLayout mLayout, mLayout2;
-    private EditText mEditText, mEditText2;
-    private Button mButton, mButton2;
+
     private Session session;
-    private static final int PICK_IMAGE = 100;
     private Uri photoReceipt;
-    private ReceiptDao receiptDao;
     private FavoriteDao favoriteDao;
-    private AutoCompleteTextView title_receipt;
-    private AutoCompleteTextView ingredients;
-    private AutoCompleteTextView steps;
-    private CheckBox favorite;
-    Button saveReceipt;
-    Button pubReceipt;
     private TextView photoName;
-    private boolean added_ingredients = false;
-    private boolean added_steps = false;
+    private CheckBox favorite;
+    private static final int PICK_IMAGE = 100;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,12 +71,13 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
         }
         session = new Session(this);
 
-        TextView textView3 = (TextView)findViewById(R.id.username);
+        TextView textView3 = (TextView) findViewById(R.id.username);
         textView3.setText(getUser(session.getEmail()));
 
-        try{
-        setPhoto();}
-        catch (IOException w){}
+        try {
+            setPhoto();
+        } catch (IOException w) {
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -101,34 +92,29 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
         navigationView.setNavigationItemSelectedListener(this);
 
         TextView myPubs = (TextView) findViewById(R.id.myPubs);
-        myPubs.setOnClickListener(new View.OnClickListener(){
+        myPubs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.frame, new MyPubsFragment());
-                    ft.addToBackStack(null).commit();
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.frame, new MyPubsFragment());
+                ft.addToBackStack(null).commit();
 
-            }});
+            }
+        });
 
         TextView myFav = (TextView) findViewById(R.id.myFav);
-        myFav.setOnClickListener(new View.OnClickListener(){
+        myFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.frame, new FavoriteFragment());
                 ft.addToBackStack(null).commit();
 
-            }});
-        TextView share = (TextView) findViewById(R.id.share);
-        share.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.frame, new ShareFragment());
-                ft.addToBackStack(null).commit();
+            }
+        });
 
-            }});
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -155,62 +141,10 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
         startActivity(intent);
 
     }
+    public void share(View view){
+        Intent intent = new Intent(this, ShareContent.class);
+        startActivity(intent);
 
-    private View.OnClickListener onClick() {
-        return new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                mLayout.addView(createNewTextView(mEditText.getText().toString()));
-                mLayout2.addView(createNewTextView2(mEditText2.getText().toString()));
-                added_ingredients = true;
-                added_steps = true;
-                mEditText.setText("");
-                mEditText2.setText("");
-
-            }
-        };
-    }
-
-    private TextView createNewTextView(String text) {
-        final DrawerLayout.LayoutParams lparams = new DrawerLayout.LayoutParams(DrawerLayout.LayoutParams.WRAP_CONTENT, DrawerLayout.LayoutParams.WRAP_CONTENT);
-        final TextView textView = new TextView(this);
-        textView.setLayoutParams(lparams);
-        if (!text.isEmpty()) {
-
-            textView.setText(text + "; ");
-            return textView;
-        }
-        else {
-
-            textView.setText("");
-            return textView;
-        }
-
-    }
-    private TextView createNewTextView2(String text) {
-        final DrawerLayout.LayoutParams lparams = new DrawerLayout.LayoutParams(DrawerLayout.LayoutParams.WRAP_CONTENT, DrawerLayout.LayoutParams.WRAP_CONTENT);
-        final TextView textView2 = new TextView(this);
-        textView2.setLayoutParams(lparams);
-
-        if (!text.isEmpty()) {
-
-            textView2.setText(text + "; ");
-            return textView2;
-        }
-        else {
-
-            textView2.setText("");
-            return textView2;
-        }
-    }
-
-
-    //Reload page
-    private  void reload(){
-        finish();
-        startActivity(getIntent());
     }
 
     //Data from profile
@@ -252,73 +186,7 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
         } else
             photo.setImageResource(R.drawable.com_facebook_profile_picture_blank_square);
     }
-
-    //Share receipt
-    private Long getUserID(String email){
-        DaoSession daoSession = ((App) getApplication()).getDaoSession();
-        UserDao userDao = daoSession.getUserDao();
-        QueryBuilder qb = userDao.queryBuilder();
-        qb.where(UserDao.Properties.Email.eq(email));
-        List<User> user = qb.list();
-        return user.get(0).getId();
-    }
-    public void openGalleryShare(View v) {
-        Intent gallery =
-                new Intent(Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-        startActivityForResult(gallery, PICK_IMAGE);
-    }
-    public void addIngredients(View v){
-
-        View view;
-        LayoutInflater inflater = (LayoutInflater)   getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.fragment_share, null);
-
-        mLayout = (LinearLayout) view.findViewById(R.id.layoutIngredientes);
-        mEditText = (EditText) view.findViewById(R.id.ingredients);
-        mButton = (Button) view.findViewById(R.id.moreIngredients);
-        mButton.setOnClickListener(onClick());
-    }
-    public void addSteps(View v){
-        View view;
-        LayoutInflater inflater = (LayoutInflater)   getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.fragment_share, null);
-
-
-        mLayout2 = (LinearLayout) view.findViewById(R.id.layoutSteps);
-        mEditText2 = (EditText) view.findViewById(R.id.Step_by_Step);
-        mButton2 = (Button) view.findViewById(R.id.moreSteps);
-        mButton2.setOnClickListener(onClick());
-
-        title_receipt = (AutoCompleteTextView) view.findViewById(R.id.title_receita_share);
-        ingredients = (AutoCompleteTextView) view.findViewById(R.id.ingredients);
-        steps = (AutoCompleteTextView) view.findViewById(R.id.Step_by_Step);
-
-
-
-    }
-    public void safeReceipt(View v){
-        View view;
-        LayoutInflater inflater = (LayoutInflater)   getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.fragment_share, null);
-
-        saveReceipt = (Button) view.findViewById(R.id.Save) ;
-        saveReceipt(saveReceipt.getId());
-
-
-
-    }
-    public void pubReceipt(View v){
-        View view;
-        LayoutInflater inflater = (LayoutInflater)   getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.fragment_share, null);
-
-        pubReceipt = (Button) view.findViewById(R.id.Publish) ;
-        saveReceipt(pubReceipt.getId());
-
-
-    }
-
+    
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -328,82 +196,6 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
             photoName.setText(photoReceipt.getPath());
         }
     }
-    public void saveReceipt(int buttomId) {
-
-        boolean cancel = false;
-        View focusView = null;
-
-        DaoSession daoSession = ((App) getApplication()).getDaoSession();
-        receiptDao = daoSession.getReceiptDao();
-
-        // Store values at the time of the login attempt.
-        String title = title_receipt.getText().toString();
-        //String name_photo = photoName.toString();
-
-
-        if (title.isEmpty()) {
-            Log.d("incha: ", "devia de dar o setError");
-            title_receipt.setError(getString(R.string.how_to_do_it_tittle_empty));
-            focusView = title_receipt;
-            cancel = true;
-        }
-
-        else if (added_ingredients == false){
-            ingredients.setError(getString(R.string.how_to_do_it_tittle_empty));
-            focusView = ingredients;
-            cancel = true;
-        }
-        else if (added_steps == false){
-            steps.setError(getString(R.string.how_to_do_it_tittle_empty));
-            focusView = steps;
-            cancel = true;
-        }
-        // nao sei se funcaaaaaa
-      /**  else if (name_photo.isEmpty()){
-            Log.d("inchaporca: ", "devia de dar o setError");
-            steps.setError(getString(R.string.need_photo));
-            focusView = steps;
-            cancel = true;
-        }
-*/
-        if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
-            focusView.requestFocus();
-        } else {
-
-
-            if (buttomId == saveReceipt.getId())
-                receiptDao.insert(new Receipt(null, title_receipt.getText().toString(), ingredients.toString(),
-                        steps.toString(), photoReceipt.toString(), null, 0, getUserID(session.getEmail()), new Date(), 0, false));
-
-
-            else
-                receiptDao.insert(new Receipt(null, title_receipt.getText().toString(), ingredients.toString(),
-                        steps.toString(), photoReceipt.toString(), null, 1, getUserID(session.getEmail()), new Date(), 0, false));
-
-            reload();
-        }
-    }
-
-    //Favorites
-    public void saveFavorite(View v){
-        DaoSession daoSession = ((App) getApplication()).getDaoSession();
-        favoriteDao = daoSession.getFavoriteDao();
-
-        View parentView = (View) v.getParent();
-        favorite = (CheckBox) parentView.findViewById(R.id.star2);
-
-        Receipt receipt = null;
-
-        if(favorite.isChecked()) {
-            favoriteDao.insert(new Favorite(null,getUserID(session.getEmail()),receipt.getId()));
-        }
-        else if(!favorite.isChecked()){
-            favoriteDao.deleteByKeyInTx(getUserID(session.getEmail()),receipt.getId());
-        }
-    }
-
 
     @Override
     public void onListFragmentInteraction(Receipt position) {
