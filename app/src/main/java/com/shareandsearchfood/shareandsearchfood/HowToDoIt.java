@@ -60,7 +60,7 @@ public class HowToDoIt extends NavBar implements HowToDoItFragment.OnListFragmen
         //cria a view das receitas criadas
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.howToDoItList, new HowToDoItFragment());
-        ft.addToBackStack(null).commit();
+        ft.commit();
 
 }
     public void shareHowToDoIt (View view){
@@ -76,6 +76,7 @@ public class HowToDoIt extends NavBar implements HowToDoItFragment.OnListFragmen
 
     public void clickHowToDoItImage (View view){
         Intent intent = new Intent(this, HowToDoItOption.class);
+        intent.putExtra("htoId",);
         startActivity(intent);
     }
 

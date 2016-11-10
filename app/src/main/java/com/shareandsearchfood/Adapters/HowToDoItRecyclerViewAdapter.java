@@ -80,6 +80,14 @@ public class HowToDoItRecyclerViewAdapter extends RecyclerView.Adapter<HowToDoIt
                 holder.userImage.setImageResource(R.drawable.com_facebook_profile_picture_blank_square);
         }catch (IOException w){}
 
+        //put here the onClick method, para se meter o putExtras() com o ID do HTO
+        holder.photo.setOnClickListener();
+
+
+
+
+
+
         //vai ser how to do its
         holder.timestamp.setText(howToDoItTable.get(position).getDate().toString());
         // holder.favorite.setChecked(existFav(getUserID(session.getEmail()),receipts.get(position).getId()));

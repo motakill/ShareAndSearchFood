@@ -50,27 +50,12 @@ public class MenuActivity extends NavBar implements CookBookFragment.OnListFragm
         //cria a view das receitas criadas
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.content_menu, new CookBookFragment());
-        ft.addToBackStack(null).commit();
+        ft.commit();
     }
 
-    //Favorites
-    public void saveFavoriteCookBook(View v){
-        DaoSession daoSession = ((App) getApplication()).getDaoSession();
-        FavoriteDao favoriteDao = daoSession.getFavoriteDao();
 
-        View parentView = (View) v.getParent();
-        CheckBox favorite = (CheckBox) parentView.findViewById(R.id.star2);
 
-        Receipt receipt = null;
-        onListFragmentInteractionCookBook(receipt);
 
-        if(favorite.isChecked()) {
-            favoriteDao.insert(new Favorite(null,getUserID(session.getEmail()),receipt.getId()));
-        }
-        else if(!favorite.isChecked()){
-            favoriteDao.deleteByKeyInTx(getUserID(session.getEmail()),receipt.getId());
-        }
-    }
     private Long getUserID(String email){
         DaoSession daoSession = ((App) getApplication()).getDaoSession();
         UserDao userDao = daoSession.getUserDao();

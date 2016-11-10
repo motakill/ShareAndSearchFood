@@ -20,6 +20,7 @@ import com.shareandsearchfood.Fragments.MyPubsFragment;
 import com.shareandsearchfood.login.App;
 import com.shareandsearchfood.login.DaoSession;
 import com.shareandsearchfood.login.Receipt;
+import com.shareandsearchfood.login.ReceiptDao;
 import com.shareandsearchfood.login.Session;
 import com.shareandsearchfood.login.User;
 import com.shareandsearchfood.login.UserDao;

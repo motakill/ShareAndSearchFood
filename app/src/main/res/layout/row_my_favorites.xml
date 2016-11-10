@@ -90,11 +90,11 @@
                 android:layout_width="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="300dp"
+                android:clickable="true"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/imageView6"
                 android:layout_alignRight="@+id/imageView6"
-                android:layout_alignEnd="@+id/imageView6"
-                android:onClick="saveFavoriteCookBook"/>
+                android:layout_alignEnd="@+id/imageView6" />
 
             <RatingBar
                 android:id="@+id/ratingBarContentMenu5_my_favorites"
