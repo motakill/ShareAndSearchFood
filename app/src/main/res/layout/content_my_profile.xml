@@ -105,6 +105,7 @@
         android:layout_height="wrap_content"
         android:stretchColumns="*"
         android:layout_marginTop="270dp"
+        android:layout_marginBottom="20dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true">
@@ -164,5 +165,17 @@
                 android:clickable="true" />
 
     </TableLayout>
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="9dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginTop="293dp"
+        android:id="@+id/radioButton"
+        android:button="@android:drawable/ic_input_add"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>
 

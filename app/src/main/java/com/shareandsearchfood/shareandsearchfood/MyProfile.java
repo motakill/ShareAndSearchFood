@@ -1,5 +1,6 @@
 package com.shareandsearchfood.shareandsearchfood;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -23,6 +25,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 
@@ -267,37 +270,50 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
     }
     public void addIngredients(View v){
 
-        View parentView = (View) v.getParent();
-        mLayout = (LinearLayout) parentView.findViewById(R.id.layoutIngredientes);
-        mEditText = (EditText) parentView.findViewById(R.id.ingredients);
-        mButton = (Button) parentView.findViewById(R.id.moreIngredients);
+        View view;
+        LayoutInflater inflater = (LayoutInflater)   getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        view = inflater.inflate(R.layout.fragment_share, null);
+
+        mLayout = (LinearLayout) view.findViewById(R.id.layoutIngredientes);
+        mEditText = (EditText) view.findViewById(R.id.ingredients);
+        mButton = (Button) view.findViewById(R.id.moreIngredients);
         mButton.setOnClickListener(onClick());
     }
     public void addSteps(View v){
-        View parentView = (View) v.getParent();
+        View view;
+        LayoutInflater inflater = (LayoutInflater)   getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        view = inflater.inflate(R.layout.fragment_share, null);
 
-        mLayout2 = (LinearLayout) parentView.findViewById(R.id.layoutSteps);
-        mEditText2 = (EditText) parentView.findViewById(R.id.Step_by_Step);
-        mButton2 = (Button) parentView.findViewById(R.id.moreSteps);
+
+        mLayout2 = (LinearLayout) view.findViewById(R.id.layoutSteps);
+        mEditText2 = (EditText) view.findViewById(R.id.Step_by_Step);
+        mButton2 = (Button) view.findViewById(R.id.moreSteps);
         mButton2.setOnClickListener(onClick());
 
-        title_receipt = (AutoCompleteTextView) parentView.findViewById(R.id.title_receita_share);
-        ingredients = (AutoCompleteTextView) parentView.findViewById(R.id.ingredients);
-        steps = (AutoCompleteTextView) parentView.findViewById(R.id.Step_by_Step);
+        title_receipt = (AutoCompleteTextView) view.findViewById(R.id.title_receita_share);
+        ingredients = (AutoCompleteTextView) view.findViewById(R.id.ingredients);
+        steps = (AutoCompleteTextView) view.findViewById(R.id.Step_by_Step);
+
 
 
     }
     public void safeReceipt(View v){
-        View parentView = (View) v.getParent();
-        saveReceipt = (Button) parentView.findViewById(R.id.Save) ;
+        View view;
+        LayoutInflater inflater = (LayoutInflater)   getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        view = inflater.inflate(R.layout.fragment_share, null);
+
+        saveReceipt = (Button) view.findViewById(R.id.Save) ;
         saveReceipt(saveReceipt.getId());
 
 
 
     }
     public void pubReceipt(View v){
-        View parentView = (View) v.getParent();
-        pubReceipt = (Button) parentView.findViewById(R.id.Publish) ;
+        View view;
+        LayoutInflater inflater = (LayoutInflater)   getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        view = inflater.inflate(R.layout.fragment_share, null);
+
+        pubReceipt = (Button) view.findViewById(R.id.Publish) ;
         saveReceipt(pubReceipt.getId());
 
 
