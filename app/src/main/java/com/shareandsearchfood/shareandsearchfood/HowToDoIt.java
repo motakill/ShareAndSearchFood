@@ -74,10 +74,4 @@ public class HowToDoIt extends NavBar implements HowToDoItFragment.OnListFragmen
         // Do something here to display that article
     }
 
-    public void clickHowToDoItImage (View view){
-        Intent intent = new Intent(this, HowToDoItOption.class);
-        intent.putExtra("htoId",);
-        startActivity(intent);
-    }
-
 }

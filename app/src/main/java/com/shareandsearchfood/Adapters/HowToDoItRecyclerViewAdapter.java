@@ -2,6 +2,7 @@ package com.shareandsearchfood.Adapters;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -20,6 +21,8 @@ import com.shareandsearchfood.login.DaoSession;
 import com.shareandsearchfood.login.Session;
 import com.shareandsearchfood.login.User;
 import com.shareandsearchfood.login.UserDao;
+import com.shareandsearchfood.shareandsearchfood.HowToDoIt;
+import com.shareandsearchfood.shareandsearchfood.HowToDoItOption;
 import com.shareandsearchfood.shareandsearchfood.HowToDoItTable;
 import com.shareandsearchfood.shareandsearchfood.R;
 
@@ -39,6 +42,8 @@ public class HowToDoItRecyclerViewAdapter extends RecyclerView.Adapter<HowToDoIt
     private Context ctx;
     private Session session;
     private DaoSession daoSession;
+    private int flag;
+    private User user;
     public HowToDoItRecyclerViewAdapter(List<HowToDoItTable> howToDoItTable, Context ctx, Application app, HowToDoItFragment.OnListFragmentInteractionListenerHowToDoIT listener) {
         daoSession = ((App) app).getDaoSession();
         userDao = daoSession.getUserDao();
@@ -56,9 +61,9 @@ public class HowToDoItRecyclerViewAdapter extends RecyclerView.Adapter<HowToDoIt
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-        User user = getUserByID(howToDoItTable.get(position).getUserId_how_to_do_it());
+        user = getUserByID(howToDoItTable.get(position).getUserId_how_to_do_it());
         //vai ser how to do its
         holder.mItem = howToDoItTable.get(position);
         holder.nickname.setText(user.getName());
@@ -67,7 +72,7 @@ public class HowToDoItRecyclerViewAdapter extends RecyclerView.Adapter<HowToDoIt
         //vai ser how to do its
         Uri imageUri = Uri.parse(howToDoItTable.get(position).getPhoto());
         holder.photo.setImageURI(imageUri);
-        int flag = user.getFlag();
+        flag = user.getFlag();
 
         try {
             if (user.getPhoto() != null && flag == 1) {
@@ -81,12 +86,20 @@ public class HowToDoItRecyclerViewAdapter extends RecyclerView.Adapter<HowToDoIt
         }catch (IOException w){}
 
         //put here the onClick method, para se meter o putExtras() com o ID do HTO
-        holder.photo.setOnClickListener();
-
-
-
-
-
+        holder.photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ctx, HowToDoItOption.class);
+                intent.putExtra("htoPhoto",howToDoItTable.get(position).getPhoto());
+                intent.putExtra("htoUserName",user.getName());
+                intent.putExtra("htoTitulo",howToDoItTable.get(position).getTitle());
+                intent.putExtra("htoObs",howToDoItTable.get(position).getObs());
+                intent.putExtra("htoDate",howToDoItTable.get(position).getDate().toString());
+                intent.putExtra("htoUserPhoto",user.getPhoto());
+                intent.putExtra("htoFlag",flag);
+                ctx.startActivity(intent);
+            }
+        });
 
         //vai ser how to do its
         holder.timestamp.setText(howToDoItTable.get(position).getDate().toString());

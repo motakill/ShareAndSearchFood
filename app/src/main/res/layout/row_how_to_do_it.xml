@@ -80,9 +80,7 @@
                 android:layout_margin="10dp"
                 android:scaleType="center"
                 android:gravity="center"
-                android:clickable="true"
-                android:onClick="clickHowToDoItImage"
-                />
+                android:clickable="true" />
 
         </RelativeLayout>
 
