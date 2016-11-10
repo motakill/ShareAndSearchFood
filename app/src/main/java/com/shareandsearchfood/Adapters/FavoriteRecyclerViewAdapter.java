@@ -59,7 +59,7 @@ public class FavoriteRecyclerViewAdapter extends RecyclerView.Adapter<FavoriteRe
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         User user = getUserByID(getUserID(session.getEmail()));
 
         holder.mItem = receipts.get(position);
@@ -81,7 +81,16 @@ public class FavoriteRecyclerViewAdapter extends RecyclerView.Adapter<FavoriteRe
         Uri imageUri = Uri.parse(receipts.get(position).getPhotoReceipt());
         holder.photo.setImageURI(imageUri);
         holder.timestamp.setText(receipts.get(position).getDate().toString());
-        holder.favorite.setChecked(existFav(getUserID(session.getEmail()),receipts.get(position).getId()));
+        holder.favorite.setChecked(true);
+        holder.favorite.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                FavoriteDao favoriteDao = daoSession.getFavoriteDao();
+                if(!holder.favorite.isChecked()){
+                    favoriteDao.deleteByKey(findFavorite(getUserID(session.getEmail()),receipts.get(position).getId()));
+                }
+            }
+        });
         holder.rate.setRating(receipts.get(position).getRate());
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,15 +111,12 @@ public class FavoriteRecyclerViewAdapter extends RecyclerView.Adapter<FavoriteRe
     public int getItemCount() {
         return receipts.size();
     }
-    private boolean existFav(Long userId, Long receiptId){
-        boolean status = false;
+    private Long findFavorite(Long userId, Long receiptID){
         FavoriteDao favoriteDao= daoSession.getFavoriteDao();
-        List<Favorite> favorites = favoriteDao.loadAll();
-        for (Favorite favorite:favorites) {
-            if(userId== favorite.getUserId() && receiptId == favorite.getReceiptId())
-                status = true;
-        }
-        return status;
+        QueryBuilder qb = favoriteDao.queryBuilder();
+        qb.and(FavoriteDao.Properties.UserId.eq(userId),FavoriteDao.Properties.ReceiptId.eq(receiptID));
+        List<Favorite> favorites = qb.list();
+        return favorites.get(0).getId();
     }
     private Long getUserID(String email) {
         UserDao userDao = daoSession.getUserDao();

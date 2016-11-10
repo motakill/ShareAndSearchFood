@@ -73,7 +73,7 @@ public class MyPubsRecyclerViewAdapter extends RecyclerView.Adapter<MyPubsRecycl
                     favoriteDao.insert(new Favorite(null,getUserID(session.getEmail()),receipts.get(position).getId()));
                 }
                 else if(!holder.favorite.isChecked()){
-                    favoriteDao.deleteByKeyInTx(getUserID(session.getEmail()),receipts.get(position).getId());
+                    favoriteDao.deleteByKey(findFavorite(getUserID(session.getEmail()),receipts.get(position).getId()));
                 }
             }
         });
@@ -117,7 +117,13 @@ public class MyPubsRecyclerViewAdapter extends RecyclerView.Adapter<MyPubsRecycl
         }
         return status;
     }
-
+    private Long findFavorite(Long userId, Long receiptID){
+        FavoriteDao favoriteDao= daoSession.getFavoriteDao();
+        QueryBuilder qb = favoriteDao.queryBuilder();
+        qb.and(FavoriteDao.Properties.UserId.eq(userId),FavoriteDao.Properties.ReceiptId.eq(receiptID));
+        List<Favorite> favorites = qb.list();
+        return favorites.get(0).getId();
+    }
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView titulo;

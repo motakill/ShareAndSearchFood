@@ -62,7 +62,7 @@ public class CookBookRecyclerViewAdapter extends RecyclerView.Adapter<CookBookRe
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
 
         User user = getUserByID(receipts.get(position).getUserId());
         holder.mItem = receipts.get(position);
@@ -85,6 +85,18 @@ public class CookBookRecyclerViewAdapter extends RecyclerView.Adapter<CookBookRe
 
         holder.timestamp.setText(receipts.get(position).getDate().toString());
         holder.favorite.setChecked(existFav(getUserID(session.getEmail()),receipts.get(position).getId()));
+        holder.favorite.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                FavoriteDao favoriteDao = daoSession.getFavoriteDao();
+                if(holder.favorite.isChecked()) {
+                    favoriteDao.insert(new Favorite(null,getUserID(session.getEmail()),receipts.get(position).getId()));
+                }
+                else if(!holder.favorite.isChecked()){
+                    favoriteDao.deleteByKey(findFavorite(getUserID(session.getEmail()),receipts.get(position).getId()));
+                }
+            }
+        });
         holder.rate.setRating(receipts.get(position).getRate());
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,7 +117,13 @@ public class CookBookRecyclerViewAdapter extends RecyclerView.Adapter<CookBookRe
     public int getItemCount() {
         return receipts.size();
     }
-
+    private Long findFavorite(Long userId, Long receiptID){
+        FavoriteDao favoriteDao= daoSession.getFavoriteDao();
+        QueryBuilder qb = favoriteDao.queryBuilder();
+        qb.and(FavoriteDao.Properties.UserId.eq(userId),FavoriteDao.Properties.ReceiptId.eq(receiptID));
+        List<Favorite> favorites = qb.list();
+        return favorites.get(0).getId();
+    }
     private User getUserByID(Long id) {
         QueryBuilder qb = userDao.queryBuilder();
         qb.where(UserDao.Properties.Id.eq(id));

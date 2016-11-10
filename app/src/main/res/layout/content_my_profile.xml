@@ -167,6 +167,7 @@
         android:id="@+id/radioButton"
         android:button="@android:drawable/ic_input_add"
         android:onClick="share"
+        android:layout_marginRight="20dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
