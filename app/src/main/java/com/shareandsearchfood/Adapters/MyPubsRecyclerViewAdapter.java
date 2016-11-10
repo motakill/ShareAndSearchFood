@@ -29,7 +29,7 @@ import org.greenrobot.greendao.query.QueryBuilder;
 import java.util.List;
 
 
-public class MyPubsRecyclerViewAdapter extends RecyclerView.Adapter<MyPubsRecyclerViewAdapter.ViewHolder> implements View.OnClickListener{
+public class MyPubsRecyclerViewAdapter extends RecyclerView.Adapter<MyPubsRecyclerViewAdapter.ViewHolder>{
 
     private List<Receipt> receipts;
     private final MyPubsFragment.OnListFragmentInteractionListener mListener;
@@ -39,6 +39,7 @@ public class MyPubsRecyclerViewAdapter extends RecyclerView.Adapter<MyPubsRecycl
     private DaoSession daoSession;
     private int position;
     private Session session;
+
     public MyPubsRecyclerViewAdapter(List<Receipt> receipts, Context ctx, Application app, MyPubsFragment.OnListFragmentInteractionListener listener) {
         daoSession = ((App) app).getDaoSession();
         userDao = daoSession.getUserDao();
@@ -56,17 +57,27 @@ public class MyPubsRecyclerViewAdapter extends RecyclerView.Adapter<MyPubsRecycl
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         this.holder = holder;
-        this.position = position;
         holder.mItem = receipts.get(position);
         holder.titulo.setText(receipts.get(position).getTitle());
         Uri imageUri = Uri.parse(receipts.get(position).getPhotoReceipt());
         holder.photo.setImageURI(imageUri);
         holder.timestamp.setText(receipts.get(position).getDate().toString());
-        holder.favorite.setChecked(receipts.get(position).getFavorite());
         holder.rate.setRating(receipts.get(position).getRate());
-
+        holder.favorite.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                FavoriteDao favoriteDao = daoSession.getFavoriteDao();
+                if(holder.favorite.isChecked()) {
+                    favoriteDao.insert(new Favorite(null,getUserID(session.getEmail()),receipts.get(position).getId()));
+                }
+                else if(!holder.favorite.isChecked()){
+                    favoriteDao.deleteByKeyInTx(getUserID(session.getEmail()),receipts.get(position).getId());
+                }
+            }
+        });
+        holder.favorite.setChecked(existFav(getUserID(session.getEmail()),receipts.get(position).getId()));
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,17 +94,7 @@ public class MyPubsRecyclerViewAdapter extends RecyclerView.Adapter<MyPubsRecycl
         this.receipts=receipts;
     }
 
-    @Override
-    public void onClick(View v) {
-        FavoriteDao favoriteDao = daoSession.getFavoriteDao();
-        Log.d("Berto","entrou");
-        if(v.getId() == holder.favorite.getId() && holder.favorite.isChecked()) {
-            favoriteDao.insert(new Favorite(null,getUserID(session.getEmail()),receipts.get(position).getId()));
-        }
-        else if(v.getId() == holder.favorite.getId() && !holder.favorite.isChecked()){
-            favoriteDao.deleteByKeyInTx(getUserID(session.getEmail()),receipts.get(position).getId());
-        }
-    }
+
 
     @Override
     public int getItemCount() {
@@ -105,6 +106,16 @@ public class MyPubsRecyclerViewAdapter extends RecyclerView.Adapter<MyPubsRecycl
         qb.where(UserDao.Properties.Email.eq(email));
         List<User> user = qb.list();
         return user.get(0).getId();
+    }
+    private boolean existFav(Long userId, Long receiptId){
+        boolean status = false;
+        FavoriteDao favoriteDao= daoSession.getFavoriteDao();
+        List<Favorite> favorites = favoriteDao.loadAll();
+        for (Favorite favorite:favorites) {
+            if(userId== favorite.getUserId() && receiptId == favorite.getReceiptId())
+                status = true;
+        }
+        return status;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

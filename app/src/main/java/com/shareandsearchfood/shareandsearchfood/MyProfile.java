@@ -186,7 +186,7 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
         } else
             photo.setImageResource(R.drawable.com_facebook_profile_picture_blank_square);
     }
-    
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
