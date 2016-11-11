@@ -2,6 +2,7 @@ package com.shareandsearchfood.Adapters;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -27,6 +28,7 @@ import com.shareandsearchfood.login.UserDao;
 import com.shareandsearchfood.shareandsearchfood.Favorite;
 import com.shareandsearchfood.shareandsearchfood.FavoriteDao;
 import com.shareandsearchfood.shareandsearchfood.R;
+import com.shareandsearchfood.shareandsearchfood.Visit_person;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
@@ -46,6 +48,8 @@ public class CookBookRecyclerViewAdapter extends RecyclerView.Adapter<CookBookRe
     private Context ctx;
     private Session session;
     private DaoSession daoSession;
+    private User user;
+    private int flag;
     public CookBookRecyclerViewAdapter(List<Receipt> receipts, Context ctx, Application app, CookBookFragment.OnListFragmentInteractionListenerCookBook listener) {
         daoSession = ((App) app).getDaoSession();
         userDao = daoSession.getUserDao();
@@ -65,13 +69,23 @@ public class CookBookRecyclerViewAdapter extends RecyclerView.Adapter<CookBookRe
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-        User user = getUserByID(receipts.get(position).getUserId());
+        user = getUserByID(receipts.get(position).getUserId());
         holder.mItem = receipts.get(position);
         holder.nickname.setText(user.getName());
         holder.titulo.setText(receipts.get(position).getTitle());
         Uri imageUri = Uri.parse(receipts.get(position).getPhotoReceipt());
         holder.photo.setImageURI(imageUri);
-        int flag = user.getFlag();
+        flag = user.getFlag();
+
+        holder.userImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ctx, Visit_person.class);
+                intent.putExtra("userPhoto",user.getPhoto());
+                intent.putExtra("flag",flag);
+                ctx.startActivity(intent);
+            }
+        });
 
         try {
             if (user.getPhoto() != null && flag == 1) {

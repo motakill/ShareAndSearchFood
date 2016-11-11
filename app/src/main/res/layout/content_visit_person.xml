@@ -11,7 +11,7 @@
 
 <RelativeLayout
 android:layout_width="match_parent"
-android:layout_height="match_parent"
+android:layout_height="120dp"
 android:layout_marginTop="100dp">
 <ImageView
     android:layout_width="86dp"
@@ -22,27 +22,10 @@ android:layout_marginTop="100dp">
     android:layout_alignParentLeft="true"
     android:layout_alignParentStart="true" />
 
-<LinearLayout
-    android:id="@+id/btnLL"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true">
 
+    --martelada para aparecer os numeros das receitas, followers...
 
-    <Button
-        android:id="@+id/email_sign_in_button"
-        style="?android:textAppearanceSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.49"
-        android:text="@string/follow"
-        android:textStyle="bold" />
-
-</LinearLayout>
-
-
---martelada para aparecer os numeros das receitas, followers...
-<RelativeLayout
+    <RelativeLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
@@ -134,120 +117,34 @@ android:layout_marginTop="100dp">
 </LinearLayout>
 
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_above="@+id/btnLL">
-<RelativeLayout
-    android:id="@+id/Person_Pubs"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+</RelativeLayout>
+<LinearLayout
+    android:layout_marginTop="220dp"
+    android:layout_width="wrap_content"
     android:orientation="vertical"
-    android:background="@drawable/customborder1"
-    android:layout_marginTop="110dp"
-    android:weightSum="1">
+    android:id="@+id/visitPerson"
+    android:layout_height="420dp">
 
 
-    --ME tiago
+</LinearLayout>
+
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:id="@+id/btnLL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
 
 
-        <TextView
-            android:layout_width="135dp"
+        <Button
+            android:id="@+id/email_sign_in_button"
+            style="?android:textAppearanceSmall"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:id="@+id/titulo1"
-            android:hint="Titulo"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="25dp"
-            android:textSize="18sp" />
-
+            android:layout_weight="0.49"
+            android:text="@string/follow"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
-        android:layout_below="@+id/linearLayout2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
 
-<ImageView
-    android:layout_width="wrap_content"
-    android:layout_height="195dp"
-    android:src="@drawable/bolos"
-    android:id="@+id/imageView4"
-    android:layout_marginLeft="25dp"
-    android:layout_marginRight="25dp"
-    android:layout_marginTop="2dp"
-    android:layout_weight="0.47"
-    android:clickable="true"
-    android:onClick="clickRecipe"
-    />
-
-        <RatingBar
-            android:id="@+id/ratingBar4"
-            style="?android:attr/ratingBarStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:isIndicator="false"
-            android:numStars="5"
-            android:stepSize="1.0"
-            android:layout_alignParentBottom="true"
-            android:layout_alignRight="@+id/imageView4"
-            android:layout_alignEnd="@+id/imageView4"
-            android:layout_marginRight="10dp"
-            android:layout_marginEnd="10dp" />
-
-        <CheckBox android:id="@+id/star"
-            style="?android:attr/starStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:layout_alignTop="@+id/imageView4"
-            android:layout_alignRight="@+id/ratingBar4"
-            android:layout_alignEnd="@+id/ratingBar4" />
-    </RelativeLayout>
-
-
-</RelativeLayout>
-</ScrollView>
-
-    <TableLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:stretchColumns="2"
-        android:layout_marginBottom="88dp"
-        android:layout_marginRight="7dp"
-        android:layout_marginEnd="7dp"
-        android:layout_above="@+id/btnLL"
-        android:layout_alignRight="@+id/imageView2"
-        android:layout_alignEnd="@+id/imageView2">
-
-        <TableRow
-            android:id="@+id/tableRow2"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_weight="1">
-
-            <TextView
-                android:text="timestamp"
-                android:layout_width="wrap_content"
-                android:id="@+id/data"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_alignTop="@+id/tableLayout"
-                android:layout_alignLeft="@+id/tableLayout"
-                android:layout_alignStart="@+id/tableLayout"
-                android:layout_marginTop="19dp" />
-        </TableRow>
-    </TableLayout>
-
-</RelativeLayout>
 </RelativeLayout>

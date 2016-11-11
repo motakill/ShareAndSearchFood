@@ -25,6 +25,7 @@ import com.shareandsearchfood.shareandsearchfood.HowToDoIt;
 import com.shareandsearchfood.shareandsearchfood.HowToDoItOption;
 import com.shareandsearchfood.shareandsearchfood.HowToDoItTable;
 import com.shareandsearchfood.shareandsearchfood.R;
+import com.shareandsearchfood.shareandsearchfood.Visit_person;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
@@ -86,6 +87,16 @@ public class HowToDoItRecyclerViewAdapter extends RecyclerView.Adapter<HowToDoIt
         }catch (IOException w){}
 
         //put here the onClick method, para se meter o putExtras() com o ID do HTO
+        holder.userImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ctx, Visit_person.class);
+                intent.putExtra("userPhoto",user.getPhoto());
+                intent.putExtra("flag",flag);
+                ctx.startActivity(intent);
+            }
+        });
+
         holder.photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
