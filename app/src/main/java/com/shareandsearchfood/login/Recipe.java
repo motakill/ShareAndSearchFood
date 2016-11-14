@@ -13,7 +13,7 @@ import org.greenrobot.greendao.DaoException;
 import com.shareandsearchfood.shareandsearchfood.FavoriteDao;
 
 @Entity
-public class Receipt extends User {
+public class Recipe extends User {
 
     @Id(autoincrement = true)
     private Long id;
@@ -41,19 +41,17 @@ public class Receipt extends User {
     private List<Video> videos;
     @ToMany(referencedJoinProperty= "receiptId")
     private List<Favorite> favorites;
-
-
-
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
     /** Used for active entity operations. */
-    @Generated(hash = 1424773800)
-    private transient ReceiptDao myDao;
+    @Generated(hash = 1947830398)
+    private transient RecipeDao myDao;
 
 
-    @Generated(hash = 1850018231)
-    public Receipt(Long id, @NotNull String title, @NotNull String ingredients,
+
+    @Generated(hash = 113593951)
+    public Recipe(Long id, @NotNull String title, @NotNull String ingredients,
             @NotNull String steps, @NotNull String photoReceipt, String calories,
             int status, long userId, java.util.Date date, float rate,
             boolean favorite) {
@@ -70,9 +68,10 @@ public class Receipt extends User {
         this.favorite = favorite;
     }
 
-    @Generated(hash = 723313403)
-    public Receipt() {
+    @Generated(hash = 829032493)
+    public Recipe() {
     }
+
 
 
     public String getTitle() {
@@ -165,7 +164,7 @@ public class Receipt extends User {
      * To-many relationship, resolved on first access (and after reset).
      * Changes to to-many relations are not persisted, make changes to the target entity.
      */
-    @Generated(hash = 494696234)
+    @Generated(hash = 1305236246)
     public List<Photo> getPhotos() {
         if (photos == null) {
             final DaoSession daoSession = this.daoSession;
@@ -173,7 +172,7 @@ public class Receipt extends User {
                 throw new DaoException("Entity is detached from DAO context");
             }
             PhotoDao targetDao = daoSession.getPhotoDao();
-            List<Photo> photosNew = targetDao._queryReceipt_Photos(id);
+            List<Photo> photosNew = targetDao._queryRecipe_Photos(id);
             synchronized (this) {
                 if (photos == null) {
                     photos = photosNew;
@@ -193,7 +192,7 @@ public class Receipt extends User {
      * To-many relationship, resolved on first access (and after reset).
      * Changes to to-many relations are not persisted, make changes to the target entity.
      */
-    @Generated(hash = 1659939450)
+    @Generated(hash = 843982122)
     public List<Video> getVideos() {
         if (videos == null) {
             final DaoSession daoSession = this.daoSession;
@@ -201,7 +200,7 @@ public class Receipt extends User {
                 throw new DaoException("Entity is detached from DAO context");
             }
             VideoDao targetDao = daoSession.getVideoDao();
-            List<Video> videosNew = targetDao._queryReceipt_Videos(id);
+            List<Video> videosNew = targetDao._queryRecipe_Videos(id);
             synchronized (this) {
                 if (videos == null) {
                     videos = videosNew;
@@ -221,7 +220,7 @@ public class Receipt extends User {
      * To-many relationship, resolved on first access (and after reset).
      * Changes to to-many relations are not persisted, make changes to the target entity.
      */
-    @Generated(hash = 878704513)
+    @Generated(hash = 452858623)
     public List<Favorite> getFavorites() {
         if (favorites == null) {
             final DaoSession daoSession = this.daoSession;
@@ -229,7 +228,7 @@ public class Receipt extends User {
                 throw new DaoException("Entity is detached from DAO context");
             }
             FavoriteDao targetDao = daoSession.getFavoriteDao();
-            List<Favorite> favoritesNew = targetDao._queryReceipt_Favorites(id);
+            List<Favorite> favoritesNew = targetDao._queryRecipe_Favorites(id);
             synchronized (this) {
                 if (favorites == null) {
                     favorites = favoritesNew;
@@ -282,10 +281,11 @@ public class Receipt extends User {
     }
 
     /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 858617663)
+    @Generated(hash = 1484851246)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
-        myDao = daoSession != null ? daoSession.getReceiptDao() : null;
+        myDao = daoSession != null ? daoSession.getRecipeDao() : null;
     }
+
 
 }

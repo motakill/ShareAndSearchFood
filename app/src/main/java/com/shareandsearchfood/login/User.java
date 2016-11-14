@@ -32,7 +32,7 @@ public class User {
 
     @ToMany(referencedJoinProperty= "userId")
     @OrderBy("date ASC")
-    private List<Receipt> receipts;
+    private List<Recipe> receipts;
     @ToMany(referencedJoinProperty= "userId")
     @OrderBy("date ASC")
     private List<Notebook> notes;
@@ -136,15 +136,15 @@ public class User {
      * To-many relationship, resolved on first access (and after reset).
      * Changes to to-many relations are not persisted, make changes to the target entity.
      */
-    @Generated(hash = 655281302)
-    public List<Receipt> getReceipts() {
+    @Generated(hash = 950804180)
+    public List<Recipe> getReceipts() {
         if (receipts == null) {
             final DaoSession daoSession = this.daoSession;
             if (daoSession == null) {
                 throw new DaoException("Entity is detached from DAO context");
             }
-            ReceiptDao targetDao = daoSession.getReceiptDao();
-            List<Receipt> receiptsNew = targetDao._queryUser_Receipts(id);
+            RecipeDao targetDao = daoSession.getRecipeDao();
+            List<Recipe> receiptsNew = targetDao._queryUser_Receipts(id);
             synchronized (this) {
                 if (receipts == null) {
                     receipts = receiptsNew;
@@ -287,6 +287,5 @@ public class User {
         myDao = daoSession != null ? daoSession.getUserDao() : null;
     }
 
-   
 
 }

@@ -17,17 +17,16 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.shareandsearchfood.Fragments.CookBookFragment;
-import com.shareandsearchfood.Fragments.MyPubsFragment;
 import com.shareandsearchfood.login.App;
 import com.shareandsearchfood.login.DaoSession;
-import com.shareandsearchfood.login.Receipt;
-import com.shareandsearchfood.login.ReceiptDao;
+import com.shareandsearchfood.login.Recipe;
 import com.shareandsearchfood.login.Session;
 import com.shareandsearchfood.login.User;
 import com.shareandsearchfood.login.UserDao;
 import com.shareandsearchfood.shareandsearchfood.Favorite;
 import com.shareandsearchfood.shareandsearchfood.FavoriteDao;
 import com.shareandsearchfood.shareandsearchfood.R;
+import com.shareandsearchfood.shareandsearchfood.RecipeContent;
 import com.shareandsearchfood.shareandsearchfood.Visit_person;
 
 import org.greenrobot.greendao.query.QueryBuilder;
@@ -42,7 +41,7 @@ import java.util.List;
 
 public class CookBookRecyclerViewAdapter extends RecyclerView.Adapter<CookBookRecyclerViewAdapter.ViewHolder> {
 
-    private List<Receipt> receipts;
+    private List<Recipe> receipts;
     private final CookBookFragment.OnListFragmentInteractionListenerCookBook mListener;
     private UserDao userDao;
     private Context ctx;
@@ -50,7 +49,8 @@ public class CookBookRecyclerViewAdapter extends RecyclerView.Adapter<CookBookRe
     private DaoSession daoSession;
     private User user;
     private int flag;
-    public CookBookRecyclerViewAdapter(List<Receipt> receipts, Context ctx, Application app, CookBookFragment.OnListFragmentInteractionListenerCookBook listener) {
+
+    public CookBookRecyclerViewAdapter(List<Recipe> receipts, Context ctx, Application app, CookBookFragment.OnListFragmentInteractionListenerCookBook listener) {
         daoSession = ((App) app).getDaoSession();
         userDao = daoSession.getUserDao();
         this.receipts = receipts;
@@ -77,12 +77,33 @@ public class CookBookRecyclerViewAdapter extends RecyclerView.Adapter<CookBookRe
         holder.photo.setImageURI(imageUri);
         flag = user.getFlag();
 
+        holder.photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ctx, RecipeContent.class);
+                intent.putExtra("userPhoto",user.getPhoto());
+                intent.putExtra("recipePhoto",receipts.get(position).getPhotoReceipt());
+                intent.putExtra("flag",flag);
+                intent.putExtra("nickname",user.getName());
+                intent.putExtra("recipeTitle",receipts.get(position).getTitle());
+                intent.putExtra("favorite",existFav(getUserID(session.getEmail()),receipts.get(position).getId()) );
+                intent.putExtra("ingredients",receipts.get(position).getIngredients());
+                intent.putExtra("steps",receipts.get(position).getSteps());
+                intent.putExtra("rating",receipts.get(position).getRate());
+                intent.putExtra("userID",user.getId());
+                intent.putExtra("recipeID",receipts.get(position).getId());
+                ctx.startActivity(intent);
+            }
+        });
+
+
         holder.userImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ctx, Visit_person.class);
                 intent.putExtra("userPhoto",user.getPhoto());
                 intent.putExtra("flag",flag);
+                intent.putExtra("nickname",user.getName());
                 ctx.startActivity(intent);
             }
         });
@@ -124,7 +145,7 @@ public class CookBookRecyclerViewAdapter extends RecyclerView.Adapter<CookBookRe
         });
     }
 
-    public void setNewData(List<Receipt> receipts) {
+    public void setNewData(List<Recipe> receipts) {
         this.receipts = receipts;
     }
 
@@ -173,7 +194,7 @@ public class CookBookRecyclerViewAdapter extends RecyclerView.Adapter<CookBookRe
         public final RatingBar rate;
         public final TextView nickname;
 
-        public Receipt mItem;
+        public Recipe mItem;
 
         public ViewHolder(View v) {
             super(v);

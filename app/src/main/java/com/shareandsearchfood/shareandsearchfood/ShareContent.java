@@ -19,8 +19,8 @@ import android.widget.TextView;
 
 import com.shareandsearchfood.login.App;
 import com.shareandsearchfood.login.DaoSession;
-import com.shareandsearchfood.login.Receipt;
-import com.shareandsearchfood.login.ReceiptDao;
+import com.shareandsearchfood.login.Recipe;
+import com.shareandsearchfood.login.RecipeDao;
 import com.shareandsearchfood.login.Session;
 import com.shareandsearchfood.login.User;
 import com.shareandsearchfood.login.UserDao;
@@ -45,7 +45,7 @@ public class ShareContent extends NavBar{
     private  Button pubReceipt;
     private boolean added_ingredients = false;
     private boolean added_steps = false;
-    private ReceiptDao receiptDao;
+    private RecipeDao recipeDao;
     private Uri photoReceipt;
     private Session session;
     private static final int PICK_IMAGE = 100;
@@ -195,7 +195,7 @@ public class ShareContent extends NavBar{
         View focusView = null;
 
         DaoSession daoSession = ((App) getApplication()).getDaoSession();
-        receiptDao = daoSession.getReceiptDao();
+        recipeDao = daoSession.getRecipeDao();
 
         // Store values at the time of the login attempt.
         String title = title_receipt.getText().toString();
@@ -235,12 +235,12 @@ public class ShareContent extends NavBar{
 
 
             if (buttomId == saveReceipt.getId())
-                receiptDao.insert(new Receipt(null, title_receipt.getText().toString(), ingredients.toString(),
+                recipeDao.insert(new Recipe(null, title_receipt.getText().toString(), ingredients.toString(),
                         steps.toString(), photoReceipt.toString(), null, 0, getUserID(session.getEmail()), new Date(), 0, false));
 
 
             else
-                receiptDao.insert(new Receipt(null, title_receipt.getText().toString(), ingredients.toString(),
+                recipeDao.insert(new Recipe(null, title_receipt.getText().toString(), ingredients.toString(),
                         steps.toString(), photoReceipt.toString(), null, 1, getUserID(session.getEmail()), new Date(), 0, false));
 
             Intent intent = new Intent(this, MyProfile.class);

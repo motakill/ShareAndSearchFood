@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,13 +15,17 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.shareandsearchfood.Fragments.MyPubsFragment;
+import com.shareandsearchfood.Fragments.VisitPersonFragment;
+import com.shareandsearchfood.login.Recipe;
+
 import java.io.IOException;
 import java.net.URL;
 
-public class Visit_person extends NavBar {
+public class Visit_person extends NavBar implements VisitPersonFragment.OnListFragmentInteractionListenerVisitPerson{
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_visit_person);
 
@@ -39,7 +44,9 @@ public class Visit_person extends NavBar {
         Intent intent = getIntent();
         int flag = intent.getIntExtra("flag",-1);
         String userPhotoIntent = intent.getStringExtra("userPhoto");
+        String userNicknameIntent = intent.getStringExtra("nickname");
         ImageView userImage = (ImageView) findViewById(R.id.imageView2);
+        setTitle(userNicknameIntent);
 
         try {
             if (flag == 1) {
@@ -51,10 +58,19 @@ public class Visit_person extends NavBar {
             } else
                 userImage.setImageResource(R.drawable.com_facebook_profile_picture_blank_square);
         }catch (IOException w){}
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.visitPerson, new VisitPersonFragment());
+        ft.addToBackStack(null).commit();
     }
     public void clickRecipe(View view){
         Intent intent = new Intent(this, RecipeContent.class);
         startActivity(intent);
 
+    }
+    @Override
+    public void OnListFragmentInteractionListenerVisitPerson(Recipe position) {
+        // The user selected the headline of an article from the HeadlinesFragment
+        // Do something here to display that article
     }
 }

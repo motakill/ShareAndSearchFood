@@ -14,7 +14,7 @@ import android.widget.RatingBar;
 import com.shareandsearchfood.Fragments.CookBookFragment;
 import com.shareandsearchfood.login.App;
 import com.shareandsearchfood.login.DaoSession;
-import com.shareandsearchfood.login.Receipt;
+import com.shareandsearchfood.login.Recipe;
 import com.shareandsearchfood.login.Session;
 import com.shareandsearchfood.login.User;
 import com.shareandsearchfood.login.UserDao;
@@ -77,7 +77,7 @@ public class MenuActivity extends NavBar implements CookBookFragment.OnListFragm
     }
 
     @Override
-    public void onListFragmentInteractionCookBook(Receipt position) {
+    public void onListFragmentInteractionCookBook(Recipe position) {
         // The user selected the headline of an article from the HeadlinesFragment
         // Do something here to display that article
     }

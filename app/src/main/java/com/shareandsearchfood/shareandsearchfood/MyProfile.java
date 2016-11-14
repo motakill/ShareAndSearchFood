@@ -1,6 +1,5 @@
 package com.shareandsearchfood.shareandsearchfood;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,33 +7,21 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTabHost;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RatingBar;
-import android.widget.RelativeLayout;
-import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.shareandsearchfood.Fragments.FavoriteFragment;
 import com.shareandsearchfood.Fragments.MyPubsFragment;
 import com.shareandsearchfood.login.App;
 import com.shareandsearchfood.login.DaoSession;
-import com.shareandsearchfood.login.Receipt;
-import com.shareandsearchfood.login.ReceiptDao;
+import com.shareandsearchfood.login.Recipe;
 import com.shareandsearchfood.login.Session;
 import com.shareandsearchfood.login.User;
 import com.shareandsearchfood.login.UserDao;
@@ -42,7 +29,6 @@ import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -198,10 +184,10 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
     }
 
     @Override
-    public void onListFragmentInteraction(Receipt position) {
+    public void onListFragmentInteraction(Recipe position) {
     }
     @Override
-    public void onListFragmentInteractionFav(Receipt position) {
+    public void onListFragmentInteractionFav(Recipe position) {
         // The user selected the headline of an article from the HeadlinesFragment
         // Do something here to display that article
     }

@@ -69,7 +69,6 @@ android:layout_marginTop="100dp">
         android:layout_height="wrap_content">
 <ImageView
     android:layout_width="wrap_content"
-    android:background="@drawable/bolos"
     android:id="@+id/imageView6"
     android:layout_marginLeft="25dp"
     android:layout_marginRight="25dp"
@@ -83,7 +82,7 @@ android:layout_marginTop="100dp">
             style="?android:attr/starStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
+            android:onClick="setFavorite"
             android:layout_alignTop="@+id/imageView6"
             android:layout_alignRight="@+id/imageView6"
             android:layout_alignEnd="@+id/imageView6" />
@@ -204,10 +203,7 @@ android:layout_marginTop="100dp">
                     android:layout_weight="1">
                     <TextView android:text="test1" android:layout_weight="1"
                         android:textAlignment="center"></TextView>
-                    <TextView android:text="test2" android:layout_weight="1"
-                        android:textAlignment="center"></TextView>
-                    <TextView android:text="test3" android:layout_weight="1"
-                        android:textAlignment="center"></TextView>
+
                 </TableRow>
             </TableLayout>
         </LinearLayout>

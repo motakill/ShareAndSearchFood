@@ -22,18 +22,14 @@ import com.shareandsearchfood.login.App;
 import com.shareandsearchfood.login.DaoSession;
 import com.shareandsearchfood.login.Notebook;
 import com.shareandsearchfood.login.NotebookDao;
-import com.shareandsearchfood.login.Receipt;
 import com.shareandsearchfood.login.Session;
 import com.shareandsearchfood.login.User;
 import com.shareandsearchfood.login.UserDao;
-import com.shareandsearchfood.shareandsearchfood.Favorite;
-import com.shareandsearchfood.shareandsearchfood.FavoriteDao;
+
 import com.shareandsearchfood.shareandsearchfood.R;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 
 public class NoteBookRecyclerViewAdapter extends RecyclerView.Adapter<NoteBookRecyclerViewAdapter.ViewHolder> {

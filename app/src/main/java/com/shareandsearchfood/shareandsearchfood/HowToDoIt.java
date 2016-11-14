@@ -16,7 +16,6 @@ import com.shareandsearchfood.Adapters.ImageAdapterRestaurantPhotos;
 import com.shareandsearchfood.Fragments.CookBookFragment;
 import com.shareandsearchfood.Fragments.HowToDoItFragment;
 import com.shareandsearchfood.Fragments.MyPubsFragment;
-import com.shareandsearchfood.login.Receipt;
 
 
 /**

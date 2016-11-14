@@ -16,7 +16,6 @@ import com.shareandsearchfood.Adapters.NoteBookRecyclerViewAdapter;
 import com.shareandsearchfood.login.App;
 import com.shareandsearchfood.login.DaoSession;
 import com.shareandsearchfood.login.Notebook;
-import com.shareandsearchfood.login.Receipt;
 import com.shareandsearchfood.login.NotebookDao;
 import com.shareandsearchfood.login.Session;
 import com.shareandsearchfood.shareandsearchfood.R;

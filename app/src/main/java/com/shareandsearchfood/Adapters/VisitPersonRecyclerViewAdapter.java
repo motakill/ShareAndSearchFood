@@ -3,8 +3,7 @@ package com.shareandsearchfood.Adapters;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,42 +16,39 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 
-import com.shareandsearchfood.Fragments.HowToDoItFragment;
-import com.shareandsearchfood.Fragments.MyPubsFragment;
+
 import com.shareandsearchfood.Fragments.VisitPersonFragment;
 import com.shareandsearchfood.login.App;
 import com.shareandsearchfood.login.DaoSession;
-import com.shareandsearchfood.login.Receipt;
+import com.shareandsearchfood.login.Recipe;
 import com.shareandsearchfood.login.Session;
 import com.shareandsearchfood.login.User;
 import com.shareandsearchfood.login.UserDao;
 import com.shareandsearchfood.shareandsearchfood.Favorite;
 import com.shareandsearchfood.shareandsearchfood.FavoriteDao;
-import com.shareandsearchfood.shareandsearchfood.HowToDoIt;
-import com.shareandsearchfood.shareandsearchfood.HowToDoItOption;
-import com.shareandsearchfood.shareandsearchfood.HowToDoItTable;
+
 import com.shareandsearchfood.shareandsearchfood.R;
+import com.shareandsearchfood.shareandsearchfood.RecipeContent;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
-import java.io.IOException;
-import java.net.URL;
+
 import java.util.List;
 
 
 
 public class VisitPersonRecyclerViewAdapter extends RecyclerView.Adapter<VisitPersonRecyclerViewAdapter.ViewHolder> {
 
-    private List<Receipt> receipts;
+    private List<Recipe> receipts;
     private final VisitPersonFragment.OnListFragmentInteractionListenerVisitPerson mListener;
     private UserDao userDao;
     private Context ctx;
     private VisitPersonRecyclerViewAdapter.ViewHolder holder;
     private DaoSession daoSession;
-    private int position;
+    private User user;
     private Session session;
 
-    public VisitPersonRecyclerViewAdapter(List<Receipt> receipts, Context ctx, Application app, VisitPersonFragment.OnListFragmentInteractionListenerVisitPerson listener) {
+    public VisitPersonRecyclerViewAdapter(List<Recipe> receipts, Context ctx, Application app, VisitPersonFragment.OnListFragmentInteractionListenerVisitPerson listener) {
         daoSession = ((App) app).getDaoSession();
         userDao = daoSession.getUserDao();
         this.receipts = receipts;
@@ -71,10 +67,30 @@ public class VisitPersonRecyclerViewAdapter extends RecyclerView.Adapter<VisitPe
     @Override
     public void onBindViewHolder(final VisitPersonRecyclerViewAdapter.ViewHolder holder, final int position) {
         this.holder = holder;
+        user = getUserByID(receipts.get(position).getUserId());
         holder.mItem = receipts.get(position);
         holder.titulo.setText(receipts.get(position).getTitle());
         Uri imageUri = Uri.parse(receipts.get(position).getPhotoReceipt());
         holder.photo.setImageURI(imageUri);
+        holder.photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ctx, RecipeContent.class);
+                intent.putExtra("userPhoto",user.getPhoto());
+                intent.putExtra("recipePhoto",receipts.get(position).getPhotoReceipt());
+                intent.putExtra("flag",user.getFlag());
+                intent.putExtra("nickname",user.getName());
+                intent.putExtra("recipeTitle",receipts.get(position).getTitle());
+                intent.putExtra("favorite",existFav(getUserID(session.getEmail()),receipts.get(position).getId()) );
+                intent.putExtra("ingredients",receipts.get(position).getIngredients());
+                intent.putExtra("steps",receipts.get(position).getSteps());
+                intent.putExtra("rating",receipts.get(position).getRate());
+                intent.putExtra("userID",user.getId());
+                intent.putExtra("recipeID",receipts.get(position).getId());
+                ctx.startActivity(intent);
+            }
+        });
+
         holder.timestamp.setText(receipts.get(position).getDate().toString());
         holder.rate.setRating(receipts.get(position).getRate());
         holder.favorite.setOnClickListener(new View.OnClickListener(){
@@ -102,7 +118,7 @@ public class VisitPersonRecyclerViewAdapter extends RecyclerView.Adapter<VisitPe
         });
     }
 
-    public void setNewData(List<Receipt> receipts){
+    public void setNewData(List<Recipe> receipts){
         this.receipts=receipts;
     }
 
@@ -119,6 +135,14 @@ public class VisitPersonRecyclerViewAdapter extends RecyclerView.Adapter<VisitPe
         List<User> user = qb.list();
         return user.get(0).getId();
     }
+    private User getUserByID(Long id) {
+        QueryBuilder qb = userDao.queryBuilder();
+        qb.where(UserDao.Properties.Id.eq(id));
+        List<User> user = qb.list();
+        Log.d("user name:",user.get(0).getName() );
+        return user.get(0);
+    }
+
     private boolean existFav(Long userId, Long receiptId){
         boolean status = false;
         FavoriteDao favoriteDao= daoSession.getFavoriteDao();
@@ -143,7 +167,7 @@ public class VisitPersonRecyclerViewAdapter extends RecyclerView.Adapter<VisitPe
         public final TextView timestamp ;
         public final CheckBox favorite ;
         public final RatingBar rate ;
-        public Receipt mItem;
+        public Recipe mItem;
 
         public ViewHolder(View v) {
             super(v);

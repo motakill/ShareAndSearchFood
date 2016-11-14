@@ -12,12 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-import com.shareandsearchfood.Adapters.MyPubsRecyclerViewAdapter;
 import com.shareandsearchfood.Adapters.VisitPersonRecyclerViewAdapter;
 import com.shareandsearchfood.login.App;
 import com.shareandsearchfood.login.DaoSession;
-import com.shareandsearchfood.login.Receipt;
-import com.shareandsearchfood.login.ReceiptDao;
+import com.shareandsearchfood.login.Recipe;
+import com.shareandsearchfood.login.RecipeDao;
 import com.shareandsearchfood.login.Session;
 import com.shareandsearchfood.login.User;
 import com.shareandsearchfood.login.UserDao;
@@ -44,7 +43,7 @@ public class VisitPersonFragment extends Fragment implements SwipeRefreshLayout.
     private static final int SPAN_COUNT = 2;
     private Session session;
     private DaoSession daoSession;
-    private ReceiptDao receiptDao;
+    private RecipeDao recipeDao;
     private enum LayoutManagerType {
         GRID_LAYOUT_MANAGER,
         LINEAR_LAYOUT_MANAGER
@@ -74,7 +73,7 @@ public class VisitPersonFragment extends Fragment implements SwipeRefreshLayout.
         mLayoutManager = new LinearLayoutManager(getActivity());
         mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
         daoSession = ((App) getActivity().getApplication()).getDaoSession();
-        receiptDao = daoSession.getReceiptDao();
+        recipeDao = daoSession.getRecipeDao();
 
         if (savedInstanceState != null) {
             // Restore saved layout manager type.
@@ -136,7 +135,7 @@ public class VisitPersonFragment extends Fragment implements SwipeRefreshLayout.
     @Override
     public void onResume() {
         super.onResume();
-        if (receiptDao != null) {
+        if (recipeDao != null) {
             mAdapter.setNewData(getUserReceipts());
             mAdapter.notifyDataSetChanged();
         }
@@ -156,12 +155,12 @@ public class VisitPersonFragment extends Fragment implements SwipeRefreshLayout.
         swipeLayout.setRefreshing(false);
 
     }
-    private List<Receipt> getUserReceipts() {
+    private List<Recipe> getUserReceipts() {
         long userId = getUserID(session.getEmail());
 
-        QueryBuilder qb = receiptDao.queryBuilder();
-        qb.where(ReceiptDao.Properties.UserId.eq(userId));
-        List<Receipt> receipts = qb.list();
+        QueryBuilder qb = recipeDao.queryBuilder();
+        qb.where(RecipeDao.Properties.UserId.eq(userId));
+        List<Recipe> receipts = qb.list();
         return receipts;
     }
     private Long getUserID(String email){
@@ -175,6 +174,6 @@ public class VisitPersonFragment extends Fragment implements SwipeRefreshLayout.
 
 
     public interface OnListFragmentInteractionListenerVisitPerson {
-        void OnListFragmentInteractionListenerVisitPerson(Receipt item);
+        void OnListFragmentInteractionListenerVisitPerson(Recipe item);
     }
 }
