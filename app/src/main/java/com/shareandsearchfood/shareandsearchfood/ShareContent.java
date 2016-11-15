@@ -203,7 +203,6 @@ public class ShareContent extends NavBar{
 
 
         if (title.isEmpty()) {
-            Log.d("incha: ", "devia de dar o setError");
             title_receipt.setError(getString(R.string.how_to_do_it_tittle_empty));
             focusView = title_receipt;
             cancel = true;
@@ -235,13 +234,13 @@ public class ShareContent extends NavBar{
 
 
             if (buttomId == saveReceipt.getId())
-                recipeDao.insert(new Recipe(null, title_receipt.getText().toString(), ingredients.toString(),
-                        steps.toString(), photoReceipt.toString(), null, 0, getUserID(session.getEmail()), new Date(), 0, false));
+                recipeDao.insert(new Recipe(null, title_receipt.getText().toString(), ingredients.getText().toString(),
+                        steps.getText().toString(), photoReceipt.toString(), null, 0, getUserID(session.getEmail()), new Date(), 0, false));
 
 
             else
-                recipeDao.insert(new Recipe(null, title_receipt.getText().toString(), ingredients.toString(),
-                        steps.toString(), photoReceipt.toString(), null, 1, getUserID(session.getEmail()), new Date(), 0, false));
+                recipeDao.insert(new Recipe(null, title_receipt.getText().toString(), ingredients.getText().toString(),
+                        steps.getText().toString(), photoReceipt.toString(), null, 1, getUserID(session.getEmail()), new Date(), 0, false));
 
             Intent intent = new Intent(this, MyProfile.class);
             startActivity(intent);

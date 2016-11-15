@@ -201,8 +201,14 @@ android:layout_marginTop="100dp">
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_weight="1">
-                    <TextView android:text="test1" android:layout_weight="1"
+                    <TextView android:text="test1"
+                        android:id="@+id/ingredientsRow"
+                        android:layout_weight="1"
                         android:textAlignment="center"></TextView>
+                <TextView android:text="test2" android:layout_weight="1"
+                    android:textAlignment="center"></TextView>
+                <TextView android:text="test3" android:layout_weight="1"
+                    android:textAlignment="center"></TextView>
 
                 </TableRow>
             </TableLayout>

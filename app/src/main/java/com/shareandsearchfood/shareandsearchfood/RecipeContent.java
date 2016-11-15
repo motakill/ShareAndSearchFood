@@ -37,6 +37,7 @@ public class RecipeContent extends NavBar {
     public TextView timestamp;
     public ImageView userImage ;
     public TextView nickname;
+    private TextView ingredients;
     private RatingBar rate;
     private CheckBox favorite;
     private DaoSession daoSession;
@@ -44,6 +45,7 @@ public class RecipeContent extends NavBar {
     private Long recipeID;
     private String userPhotoIntent;
     private int flag;
+    private String ingredientsIntent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +71,7 @@ public class RecipeContent extends NavBar {
         String userNicknameIntent = intent.getStringExtra("nickname");
         String tituloIntent = intent.getStringExtra("recipeTitle");
         Boolean favoriteIntent = intent.getBooleanExtra("favorite",false);
-        String ingredientsIntent = intent.getStringExtra("ingredients");
+        ingredientsIntent = intent.getStringExtra("ingredients");
         String stepsIntent = intent.getStringExtra("steps");
         flag = intent.getIntExtra("flag",-1);
         int rateIntent = intent.getIntExtra("rating",0);
@@ -84,6 +86,7 @@ public class RecipeContent extends NavBar {
         nickname = (TextView) findViewById(R.id.nickname);
         rate = (RatingBar) findViewById(R.id.ratingBar2) ;
         favorite = (CheckBox) findViewById(R.id.star);
+        ingredients = (TextView) findViewById(R.id.ingredientsRow);
 
         titulo.setText(tituloIntent);
         photo.setImageURI(Uri.parse(recipePhotoIntent));
@@ -103,8 +106,7 @@ public class RecipeContent extends NavBar {
         }catch (IOException w){}
 
 
-
-
+        populateTableIngredients();
 
         TabHost host = (TabHost)findViewById(R.id.tabHost);
         host.setup();
@@ -165,5 +167,14 @@ public class RecipeContent extends NavBar {
         qb.and(FavoriteDao.Properties.UserId.eq(userId),FavoriteDao.Properties.ReceiptId.eq(receiptID));
         List<Favorite> favorites = qb.list();
         return favorites.get(0).getId();
+    }
+
+    private void populateTableIngredients(){
+        int i = 1;
+        String [] split = ingredientsIntent.split(";");
+
+        for (String s:split) {
+            ingredients.setText(i + ": " + s );
+        }
     }
 }
