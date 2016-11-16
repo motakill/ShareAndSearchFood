@@ -27,6 +27,7 @@ import com.shareandsearchfood.login.UserDao;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -234,13 +235,13 @@ public class ShareContent extends NavBar{
 
 
             if (buttomId == saveReceipt.getId())
-                recipeDao.insert(new Recipe(null, title_receipt.getText().toString(), ingredients.getText().toString(),
-                        steps.getText().toString(), photoReceipt.toString(), null, 0, getUserID(session.getEmail()), new Date(), 0, false));
+                recipeDao.insert(new Recipe(null, title_receipt.getText().toString(), getIngredients(),
+                        getSteps(), photoReceipt.toString(), null, 0, getUserID(session.getEmail()), new Date(), 0, false));
 
 
             else
-                recipeDao.insert(new Recipe(null, title_receipt.getText().toString(), ingredients.getText().toString(),
-                        steps.getText().toString(), photoReceipt.toString(), null, 1, getUserID(session.getEmail()), new Date(), 0, false));
+                recipeDao.insert(new Recipe(null, title_receipt.getText().toString(), getIngredients(),
+                        getSteps(), photoReceipt.toString(), null, 1, getUserID(session.getEmail()), new Date(), 0, false));
 
             Intent intent = new Intent(this, MyProfile.class);
             startActivity(intent);
@@ -261,5 +262,29 @@ public class ShareContent extends NavBar{
         return user.get(0).getId();
     }
 
+    private String getIngredients(){
+        List<TextView> myEditTextList = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+        for( int i = 0; i < mLayout.getChildCount(); i++ )
+            if (mLayout.getChildAt(i) instanceof TextView) {
+                myEditTextList.add((TextView) mLayout.getChildAt(i));
+            }
+        for (TextView text:myEditTextList)
+            sb.append(text.getText().toString());
 
+        return sb.toString();
+    }
+
+    private String getSteps(){
+        List<TextView> myEditTextList = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+        for( int i = 0; i < mLayout2.getChildCount(); i++ )
+            if( mLayout2.getChildAt( i ) instanceof TextView )
+                myEditTextList.add( (TextView) mLayout2.getChildAt( i ) );
+
+        for (TextView text:myEditTextList)
+            sb.append(text.getText().toString());
+
+        return sb.toString();
+    }
 }

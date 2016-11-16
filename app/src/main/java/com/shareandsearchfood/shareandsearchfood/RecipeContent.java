@@ -38,6 +38,7 @@ public class RecipeContent extends NavBar {
     public ImageView userImage ;
     public TextView nickname;
     private TextView ingredients;
+    private TextView steps;
     private RatingBar rate;
     private CheckBox favorite;
     private DaoSession daoSession;
@@ -46,6 +47,8 @@ public class RecipeContent extends NavBar {
     private String userPhotoIntent;
     private int flag;
     private String ingredientsIntent;
+    private String stepsIntent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +75,7 @@ public class RecipeContent extends NavBar {
         String tituloIntent = intent.getStringExtra("recipeTitle");
         Boolean favoriteIntent = intent.getBooleanExtra("favorite",false);
         ingredientsIntent = intent.getStringExtra("ingredients");
-        String stepsIntent = intent.getStringExtra("steps");
+        stepsIntent = intent.getStringExtra("steps");
         flag = intent.getIntExtra("flag",-1);
         int rateIntent = intent.getIntExtra("rating",0);
         userID = intent.getLongExtra("userID",-1);
@@ -87,6 +90,7 @@ public class RecipeContent extends NavBar {
         rate = (RatingBar) findViewById(R.id.ratingBar2) ;
         favorite = (CheckBox) findViewById(R.id.star);
         ingredients = (TextView) findViewById(R.id.ingredientsRow);
+        steps = (TextView) findViewById(R.id.stepsRow);
 
         titulo.setText(tituloIntent);
         photo.setImageURI(Uri.parse(recipePhotoIntent));
@@ -106,7 +110,7 @@ public class RecipeContent extends NavBar {
         }catch (IOException w){}
 
 
-        populateTableIngredients();
+        populateTable();
 
         TabHost host = (TabHost)findViewById(R.id.tabHost);
         host.setup();
@@ -169,12 +173,24 @@ public class RecipeContent extends NavBar {
         return favorites.get(0).getId();
     }
 
-    private void populateTableIngredients(){
+    private void populateTable(){
         int i = 1;
         String [] split = ingredientsIntent.split(";");
-
+        String [] split2 = stepsIntent.split(";");
+        StringBuilder sb = new StringBuilder();
+        StringBuilder sb2 = new StringBuilder();
         for (String s:split) {
-            ingredients.setText(i + ": " + s );
+            if(i!=split.length)
+                sb.append(i + ": " + s +'\n');
+            i++;
         }
+        i = 1;
+        for (String s:split2) {
+            if(i!=split.length)
+                sb2.append(i + ": " + s +'\n');
+            i++;
+        }
+        ingredients.setText(sb.toString());
+        steps.setText(sb2.toString());
     }
 }
