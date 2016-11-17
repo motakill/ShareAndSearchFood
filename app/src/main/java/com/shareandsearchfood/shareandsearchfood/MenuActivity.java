@@ -4,9 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.RatingBar;
@@ -53,9 +57,16 @@ public class MenuActivity extends NavBar implements CookBookFragment.OnListFragm
         ft.commit();
     }
 
-
-
-
+//experiencia search bar
+ /**   @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_settings, menu);
+        MenuItem searchItem = menu.findItem(R.id.search_names);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        // Configure the search info and add any event listeners
+        return super.onCreateOptionsMenu(menu);
+    }
+*/
     private Long getUserID(String email){
         DaoSession daoSession = ((App) getApplication()).getDaoSession();
         UserDao userDao = daoSession.getUserDao();
@@ -81,4 +92,7 @@ public class MenuActivity extends NavBar implements CookBookFragment.OnListFragm
         // The user selected the headline of an article from the HeadlinesFragment
         // Do something here to display that article
     }
+
+
+
 }
