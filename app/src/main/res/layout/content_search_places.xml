@@ -1,84 +1,41 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/content_search_places"
-    android:layout_marginTop="-70dp"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/app_bar_search_places">
-
-
-<RelativeLayout
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:paddingBottom="@dimen/activity_vertical_margin"
-android:paddingLeft="@dimen/activity_horizontal_margin"
-android:paddingRight="@dimen/activity_horizontal_margin"
-android:paddingTop="@dimen/activity_vertical_margin"
-android:layout_marginTop="70dp">
-
-<LinearLayout
-    android:id="@+id/btnLL"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentTop="true"
-    android:layout_alignParentRight="true"
-    android:layout_alignParentEnd="true"
-    android:layout_marginRight="11dp"
-    android:layout_marginEnd="11dp">
-
-    <AutoCompleteTextView
-        android:id="@+id/pesquisa_restaurantes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/radius"
-        android:layout_marginTop="16dp"
-        android:hint="Food Name"
-        android:inputType="textAutoComplete"
-        android:maxLines="1" />
-    <Button
-        android:id="@+id/botao_pesquisa_restaurantes"
-        style="?android:textAppearanceSmall"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.66"
-        android:text="@string/search"
-        android:textStyle="bold"
-        android:textSize="14sp"
-        android:layout_marginLeft="120dp"
-        android:layout_marginTop="13dp"/>
-
-</LinearLayout>
-<!--
-<GridView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/gridview100"
+<FrameLayout
+    android:layout_marginTop="50dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:columnWidth="150dp"
-    android:numColumns="2"
-    android:verticalSpacing="50dp"
-    android:horizontalSpacing="50dp"
-    android:stretchMode="columnWidth"
-    android:gravity="center"
-    android:layout_marginTop="100dp"
-    android:clickable="true"
-    />
--->
-    <fragment
-        android:layout_marginTop="100dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <fragment android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/map"
-        android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.shareandsearchfood.shareandsearchfood.Search_places" />
+        tools:context="com.shareandsearchfood.shareandsearchfood.Search_places"/>
 
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-</RelativeLayout>
-</RelativeLayout>
+        <Button
+            android:layout_marginTop="20dp"
+            android:id="@+id/btnRestaurant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nearby Restaurants" />
+
+        <Button
+            android:id="@+id/btnCafe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nearby Cofees" />
+
+        <Button
+            android:id="@+id/btnBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nearby Bars" />
+    </LinearLayout>
+</FrameLayout>
