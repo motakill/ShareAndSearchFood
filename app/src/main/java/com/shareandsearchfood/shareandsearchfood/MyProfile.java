@@ -11,16 +11,21 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.shareandsearchfood.Fragments.FavoriteFragment;
 import com.shareandsearchfood.Fragments.MyPubsFragment;
 import com.shareandsearchfood.login.App;
 import com.shareandsearchfood.login.DaoSession;
+import com.shareandsearchfood.login.LoginActivity;
 import com.shareandsearchfood.login.Recipe;
 import com.shareandsearchfood.login.Session;
 import com.shareandsearchfood.login.User;
@@ -43,18 +48,20 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
     private TextView photoName;
     private CheckBox favorite;
     private static final int PICK_IMAGE = 100;
-
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_profile);
 
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
+
+        setContentView(R.layout.activity_my_profile);
         session = new Session(this);
 
         TextView textView3 = (TextView) findViewById(R.id.username);
@@ -63,6 +70,16 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
         try {
             setPhoto();
         } catch (IOException w) {
+        }
+
+        // Initialize Firebase Auth
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        if (mFirebaseUser == null) {
+            // Not signed in, launch the Sign In activity
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -107,14 +124,14 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_sign_out:
+                mFirebaseAuth.signOut();
+                startActivity(new Intent(this, LoginActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     public void clickRecipe(View view){

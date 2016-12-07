@@ -11,10 +11,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.shareandsearchfood.login.LoginActivity;
-import com.shareandsearchfood.login.Session;
 import com.shareandsearchfood.settings.AboutSSFood;
 import com.shareandsearchfood.settings.FeedBackSSFood;
 import com.shareandsearchfood.settings.SettingsSSFood;
@@ -26,7 +26,7 @@ import com.shareandsearchfood.settings.SettingsSSFood;
 
 public class NavBar extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-private GoogleApiClient mGoogleApiClient;
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -53,33 +53,19 @@ private GoogleApiClient mGoogleApiClient;
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.action_sign_out) {
-            SharedPreferences sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
-            SharedPreferences.Editor editor = sharedpreferences.edit();
-            editor.clear();
-            editor.apply();
-
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-
-            return true;
-        }
         if (id == R.id.action_settings){
             Intent intent = new Intent(this, SettingsSSFood.class);
             startActivity(intent);
-
             return true;
         }
         else if(id == R.id.action_feedBack){
             Intent intent = new Intent(this, FeedBackSSFood.class);
             startActivity(intent);
-
             return true;
         }
         else if(id == R.id.action_about){
             Intent intent = new Intent(this, AboutSSFood.class);
             startActivity(intent);
-
             return true;
         }
 
