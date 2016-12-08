@@ -32,8 +32,7 @@ import java.util.List;
 public class CookBookRecyclerViewAdapter extends RecyclerView.Adapter<CookBookRecyclerViewAdapter.ViewHolder> {
     private final Context ctx;
     private List<RecipeFirebase> mDataSet;
-    private FirebaseAuth mFirebaseAuth;
-    private FirebaseUser mFirebaseUser;
+
 
     /**
      * Inner Class for a recycler view
@@ -63,9 +62,6 @@ public class CookBookRecyclerViewAdapter extends RecyclerView.Adapter<CookBookRe
     public CookBookRecyclerViewAdapter(List<RecipeFirebase> dataSet, Context ctx) {
         mDataSet = dataSet;
         this.ctx = ctx;
-        // Initialize Firebase Auth
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseUser = mFirebaseAuth.getCurrentUser();
 
     }
 
@@ -81,7 +77,7 @@ public class CookBookRecyclerViewAdapter extends RecyclerView.Adapter<CookBookRe
     public void onBindViewHolder(ViewHolder holder, int position) {
         final RecipeFirebase recipe = mDataSet.get(position);
         holder.titulo.setText(recipe.getTitle());
-        FirebaseOperations.setUserContent(mFirebaseUser.getEmail(),holder.nickname,holder.userImage,ctx);
+        FirebaseOperations.setUserContent(recipe.getUserId(),holder.nickname,holder.userImage,ctx);
         Image.download(ctx,holder.photo,recipe.getPhotoRecipe());
 
         holder.photo.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +99,9 @@ public class CookBookRecyclerViewAdapter extends RecyclerView.Adapter<CookBookRe
         holder.userImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ctx.startActivity(new Intent(ctx, Visit_person.class));
+                Intent intent = new Intent(ctx, Visit_person.class);
+                intent.putExtra("userID",recipe.getUserId());
+                ctx.startActivity(intent);
             }
         });
 

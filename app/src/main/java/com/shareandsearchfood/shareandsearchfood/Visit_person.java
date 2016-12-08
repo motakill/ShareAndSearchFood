@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,11 +24,14 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.shareandsearchfood.Adapters.CookBookRecyclerViewAdapter;
 import com.shareandsearchfood.Adapters.VisitPersonRecyclerViewAdapter;
 import com.shareandsearchfood.ParcelerObjects.RecipeFirebase;
+import com.shareandsearchfood.ParcelerObjects.UserFirebase;
 import com.shareandsearchfood.Utils.Constants;
 import com.shareandsearchfood.Utils.FirebaseOperations;
+import com.shareandsearchfood.Utils.Image;
 import com.shareandsearchfood.login.LoginActivity;
 
 import java.io.IOException;
@@ -65,8 +69,12 @@ public class Visit_person extends NavBar {
 
         ImageView userImage = (ImageView) findViewById(R.id.imageView2);
 
-        setTitle(mFirebaseUser.getDisplayName());
-        FirebaseOperations.setUserContent(mFirebaseUser.getEmail(),null,userImage,Visit_person.this);
+
+        Intent intent = getIntent();
+        String userID = intent.getStringExtra("userID");
+
+        FirebaseOperations.setUserContent(userID,null,userImage,Visit_person.this);
+        setUserName(userID);
 
         //cria a view das receitas criadas
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
@@ -78,8 +86,7 @@ public class Visit_person extends NavBar {
         DatabaseReference userRef = FirebaseDatabase
                 .getInstance()
                 .getReference(Constants.FIREBASE_CHILD_USERS);
-
-        userRef.child(FirebaseOperations.encodeKey(mFirebaseUser.getEmail()))
+        userRef.child(FirebaseOperations.encodeKey(userID))
                 .child(Constants.FIREBASE_CHILD_RECIPES)
                 .getRef().addChildEventListener(new ChildEventListener() {
             @Override
@@ -134,5 +141,22 @@ public class Visit_person extends NavBar {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void setUserName(String email){
+        DatabaseReference userRef = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.FIREBASE_CHILD_USERS);
+        userRef.child(FirebaseOperations.encodeKey(email))
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        UserFirebase user = dataSnapshot.getValue(UserFirebase.class);
+                        setTitle(user.getUsername());
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
     }
 }

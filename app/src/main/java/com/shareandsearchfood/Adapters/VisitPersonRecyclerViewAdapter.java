@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 
 import com.shareandsearchfood.ParcelerObjects.RecipeFirebase;
+import com.shareandsearchfood.Utils.FirebaseOperations;
 import com.shareandsearchfood.Utils.Image;
 import com.shareandsearchfood.shareandsearchfood.R;
 import com.shareandsearchfood.shareandsearchfood.RecipeContent;
@@ -48,8 +49,7 @@ public class VisitPersonRecyclerViewAdapter extends RecyclerView.Adapter<VisitPe
 
     public VisitPersonRecyclerViewAdapter(List<RecipeFirebase> dataSet, Context ctx) {
         mDataSet = dataSet;
-        this.ctx = ctx;;
-
+        this.ctx = ctx;
     }
 
     @Override
@@ -66,9 +66,6 @@ public class VisitPersonRecyclerViewAdapter extends RecyclerView.Adapter<VisitPe
 
         holder.titulo.setText(recipe.getTitle());
         Image.download(ctx,holder.photo,recipe.getPhotoRecipe());
-
-
-
         holder.photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

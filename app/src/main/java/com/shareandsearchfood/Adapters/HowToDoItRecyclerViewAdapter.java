@@ -38,9 +38,6 @@ import java.util.List;
 public class HowToDoItRecyclerViewAdapter extends RecyclerView.Adapter<HowToDoItRecyclerViewAdapter.ViewHolder> {
     private final Context ctx;
     private List<HowToFirebase> mDataSet;
-    private FirebaseAuth mFirebaseAuth;
-    private FirebaseUser mFirebaseUser;
-
     /**
      * Inner Class for a recycler view
      */
@@ -64,9 +61,7 @@ public class HowToDoItRecyclerViewAdapter extends RecyclerView.Adapter<HowToDoIt
     public HowToDoItRecyclerViewAdapter(List<HowToFirebase> dataSet, Context ctx) {
         mDataSet = dataSet;
         this.ctx = ctx;
-        // Initialize Firebase Auth
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+
     }
 
     @Override
@@ -81,7 +76,7 @@ public class HowToDoItRecyclerViewAdapter extends RecyclerView.Adapter<HowToDoIt
     public void onBindViewHolder(ViewHolder holder, int position) {
         final HowToFirebase howTo = mDataSet.get(position);
         holder.titulo.setText(howTo.getTitle());
-        FirebaseOperations.setUserContent(mFirebaseUser.getEmail(),holder.nickname,holder.userImage,ctx);
+        FirebaseOperations.setUserContent(howTo.getUserId(),holder.nickname,holder.userImage,ctx);
         Image.download(ctx,holder.photo,howTo.getPhoto());
 
 
