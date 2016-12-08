@@ -1,43 +1,27 @@
-package com.shareandsearchfood.shareandsearchfood;
+package com.shareandsearchfood.ParcelerObjects;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.NotNull;
-import org.greenrobot.greendao.annotation.Generated;
+import org.parceler.Parcel;
 
 import java.util.Date;
 
 /**
- * Created by tiagomota on 08/11/16.
+ * Created by david_000 on 07/12/2016.
  */
-@Entity
-public class HowToDoItTable {
+@Parcel
+public class HowToFirebase {
 
-    @Id(autoincrement = true)
-    private Long id;
-
-    private long userId;
-
-    @NotNull
+    private String userId;
     private String title;
-
-    @NotNull
     private String obs;
-
-    @NotNull
     private String photo;
-
     private String comments;
-
     private String videos;
+    private String date;
 
-    private java.util.Date date;
+    public HowToFirebase(String userId,String title,
+                          String obs, String photo, String comments,
+                          String videos, String date) {
 
-    @Generated(hash = 1700257450)
-    public HowToDoItTable(Long id, long userId, @NotNull String title,
-            @NotNull String obs, @NotNull String photo, String comments,
-            String videos, java.util.Date date) {
-        this.id = id;
         this.userId = userId;
         this.title = title;
         this.obs = obs;
@@ -47,31 +31,22 @@ public class HowToDoItTable {
         this.date = date;
     }
 
-    @Generated(hash = 1683627809)
-    public HowToDoItTable() {
+    public HowToFirebase() {
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
-    public Long getId() {
-        return id;
+    public String getUserId() {
+        return this.userId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public long getUserId_how_to_do_it() {
-        return userId;
-    }
-
-    public void setUserId(long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -115,7 +90,4 @@ public class HowToDoItTable {
         this.videos = videos;
     }
 
-    public long getUserId() {
-        return this.userId;
-    }
 }

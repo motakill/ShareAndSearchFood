@@ -1,6 +1,5 @@
 package com.shareandsearchfood.Adapters;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,182 +10,99 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
-
-import com.shareandsearchfood.Fragments.HowToDoItFragment;
-import com.shareandsearchfood.login.App;
-import com.shareandsearchfood.login.DaoSession;
-import com.shareandsearchfood.login.Session;
-import com.shareandsearchfood.login.User;
-import com.shareandsearchfood.login.UserDao;
-import com.shareandsearchfood.shareandsearchfood.HowToDoIt;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.shareandsearchfood.ParcelerObjects.HowToFirebase;
+import com.shareandsearchfood.ParcelerObjects.NotebookFirebase;
+import com.shareandsearchfood.ParcelerObjects.RecipeFirebase;
+import com.shareandsearchfood.Utils.FirebaseOperations;
+import com.shareandsearchfood.Utils.Image;
+import com.shareandsearchfood.login.LoginActivity;
 import com.shareandsearchfood.shareandsearchfood.HowToDoItOption;
-import com.shareandsearchfood.shareandsearchfood.HowToDoItTable;
 import com.shareandsearchfood.shareandsearchfood.R;
+import com.shareandsearchfood.shareandsearchfood.RecipeContent;
 import com.shareandsearchfood.shareandsearchfood.Visit_person;
+import com.squareup.picasso.Picasso;
 
-import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 import java.util.List;
 
-
-
 public class HowToDoItRecyclerViewAdapter extends RecyclerView.Adapter<HowToDoItRecyclerViewAdapter.ViewHolder> {
+    private final Context ctx;
+    private List<HowToFirebase> mDataSet;
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
 
-    private List<HowToDoItTable> howToDoItTable;
-    private final HowToDoItFragment.OnListFragmentInteractionListenerHowToDoIT mListener;
-    private UserDao userDao;
-    private Context ctx;
-    private Session session;
-    private DaoSession daoSession;
-    private int flag;
-    private User user;
-    public HowToDoItRecyclerViewAdapter(List<HowToDoItTable> howToDoItTable, Context ctx, Application app, HowToDoItFragment.OnListFragmentInteractionListenerHowToDoIT listener) {
-        daoSession = ((App) app).getDaoSession();
-        userDao = daoSession.getUserDao();
-        this.howToDoItTable = howToDoItTable;
-        mListener = listener;
-        this.ctx = ctx;
-        session = new Session(ctx);
-    }
-
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.row_how_to_do_it, parent, false);
-        return new ViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
-
-        user = getUserByID(howToDoItTable.get(position).getUserId_how_to_do_it());
-        //vai ser how to do its
-        holder.mItem = howToDoItTable.get(position);
-        holder.nickname.setText(user.getName());
-        //vai ser how to do its
-        holder.titulo.setText(howToDoItTable.get(position).getTitle());
-        //vai ser how to do its
-        Uri imageUri = Uri.parse(howToDoItTable.get(position).getPhoto());
-        holder.photo.setImageURI(imageUri);
-        flag = user.getFlag();
-
-        try {
-            if (user.getPhoto() != null && flag == 1) {
-                URL url = new URL(user.getPhoto());
-                Bitmap myBitmap = BitmapFactory.decodeStream(url.openStream());
-                holder.userImage.setImageBitmap(myBitmap);
-            } else if (user.getPhoto() != null && flag == 0) {
-                holder.userImage.setImageURI(Uri.parse(user.getPhoto()));
-            } else
-                holder.userImage.setImageResource(R.drawable.com_facebook_profile_picture_blank_square);
-        }catch (IOException w){}
-
-        //put here the onClick method, para se meter o putExtras() com o ID do HTO
-        holder.userImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ctx, Visit_person.class);
-                intent.putExtra("userPhoto",user.getPhoto());
-                intent.putExtra("flag",flag);
-                ctx.startActivity(intent);
-            }
-        });
-
-        holder.photo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ctx, HowToDoItOption.class);
-                intent.putExtra("htoPhoto",howToDoItTable.get(position).getPhoto());
-                intent.putExtra("htoUserName",user.getName());
-                intent.putExtra("htoTitulo",howToDoItTable.get(position).getTitle());
-                intent.putExtra("htoObs",howToDoItTable.get(position).getObs());
-                intent.putExtra("htoDate",howToDoItTable.get(position).getDate().toString());
-                intent.putExtra("htoUserPhoto",user.getPhoto());
-                intent.putExtra("htoFlag",flag);
-                ctx.startActivity(intent);
-            }
-        });
-
-        //vai ser how to do its
-        holder.timestamp.setText(howToDoItTable.get(position).getDate().toString());
-        // holder.favorite.setChecked(existFav(getUserID(session.getEmail()),receipts.get(position).getId()));
-        // holder.rate.setRating(receipts.get(position).getRate());
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface
-                    mListener.OnListFragmentInteractionListenerHowToDoIT(holder.mItem);
-                }
-            }
-        });
-    }
-
-    public void setNewData(List<HowToDoItTable> howToDoItTable) {
-        this.howToDoItTable = howToDoItTable;
-    }
-
-    @Override
-    public int getItemCount() {
-        return howToDoItTable.size();
-    }
-
-    private User getUserByID(Long id) {
-        QueryBuilder qb = userDao.queryBuilder();
-        qb.where(UserDao.Properties.Id.eq(id));
-        List<User> user = qb.list();
-        Log.d("user name:",user.get(0).getName() );
-        return user.get(0);
-    }
     /**
-    private boolean existFav(Long userId, Long receiptId){
-        boolean status = false;
-        FavoriteDao favoriteDao = daoSession.getFavoriteDao();
-        List<Favorite> favorites = favoriteDao.loadAll();
-        for (Favorite favorite:favorites) {
-            if(userId== favorite.getUserId() && receiptId == favorite.getReceiptId())
-                status = true;
-        }
-        return status;
-    }
+     * Inner Class for a recycler view
      */
-    /**
-    private Long getUserID(String email) {
-        QueryBuilder qb = userDao.queryBuilder();
-        qb.where(UserDao.Properties.Email.eq(email));
-        List<User> user = qb.list();
-        return user.get(0).getId();
-    }
-*/
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
         public final TextView titulo;
         public final ImageView photo;
         public final TextView timestamp;
         public final ImageView userImage ;
         public final TextView nickname;
 
-        public HowToDoItTable mItem;
-
         public ViewHolder(View v) {
             super(v);
-            mView = v;
             nickname = (TextView) v.findViewById(R.id.nicknameHowToDoIt);
             titulo = (TextView) v.findViewById(R.id.tituloHowToDoIt);
             photo = (ImageView) v.findViewById(R.id.how_to_do_it_foto);
             timestamp = (TextView) v.findViewById(R.id.data5_how_to_do_it);
             userImage = (ImageView) v.findViewById(R.id.user_imageHowToDoIt);
-
         }
+    }
 
-        @Override
-        public String toString() {
-            return super.toString() + " '" + titulo.getText() + "'";
-        }
+    public HowToDoItRecyclerViewAdapter(List<HowToFirebase> dataSet, Context ctx) {
+        mDataSet = dataSet;
+        this.ctx = ctx;
+        // Initialize Firebase Auth
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+    }
+
+    @Override
+    public HowToDoItRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.row_how_to_do_it, parent, false);
+
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        final HowToFirebase howTo = mDataSet.get(position);
+        holder.titulo.setText(howTo.getTitle());
+        FirebaseOperations.setUserContent(mFirebaseUser.getEmail(),holder.nickname,holder.userImage,ctx);
+        Image.download(ctx,holder.photo,howTo.getPhoto());
+
+
+        holder.photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ctx, HowToDoItOption.class);
+                intent.putExtra("htoPhoto",howTo.getPhoto());
+                intent.putExtra("htoTitulo",howTo.getTitle());
+                intent.putExtra("htoObs",howTo.getObs());
+                intent.putExtra("htoDate",howTo.getDate());
+                ctx.startActivity(intent);
+            }
+        });
+
+        //vai ser how to do its
+        holder.timestamp.setText(howTo.getDate());
+    }
+
+    @Override
+    public int getItemCount() {
+        return mDataSet.size();
     }
 }

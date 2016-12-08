@@ -13,13 +13,9 @@ import android.view.ViewGroup;
 
 
 import com.shareandsearchfood.Adapters.FavoriteRecyclerViewAdapter;
-import com.shareandsearchfood.login.App;
-import com.shareandsearchfood.login.DaoSession;
-import com.shareandsearchfood.login.Recipe;
-import com.shareandsearchfood.login.RecipeDao;
+
 import com.shareandsearchfood.login.Session;
-import com.shareandsearchfood.login.User;
-import com.shareandsearchfood.login.UserDao;
+
 import com.shareandsearchfood.shareandsearchfood.Favorite;
 import com.shareandsearchfood.shareandsearchfood.FavoriteDao;
 import com.shareandsearchfood.shareandsearchfood.R;
@@ -32,12 +28,10 @@ import java.util.List;
 /**
  * A fragment representing a list of Items.
  * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListenerFav}
  * interface.
  */
 public class FavoriteFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    private OnListFragmentInteractionListenerFav mListener;
     SwipeRefreshLayout swipeLayout;
     protected RecyclerView mRecyclerView;
     protected FavoriteRecyclerViewAdapter mAdapter;
@@ -45,8 +39,7 @@ public class FavoriteFragment extends Fragment implements SwipeRefreshLayout.OnR
     private static final String KEY_LAYOUT_MANAGER = "layoutManager";
     private static final int SPAN_COUNT = 2;
     private Session session;
-    private DaoSession daoSession;
-    private RecipeDao recipeDao;
+
 
     private enum LayoutManagerType {
         GRID_LAYOUT_MANAGER,
@@ -76,8 +69,6 @@ public class FavoriteFragment extends Fragment implements SwipeRefreshLayout.OnR
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
-        daoSession = ((App) getActivity().getApplication()).getDaoSession();
-        recipeDao = daoSession.getRecipeDao();
 
         if (savedInstanceState != null) {
             // Restore saved layout manager type.
@@ -85,7 +76,6 @@ public class FavoriteFragment extends Fragment implements SwipeRefreshLayout.OnR
                     .getSerializable(KEY_LAYOUT_MANAGER);
         }
         setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
-        mAdapter = new FavoriteRecyclerViewAdapter(getUserFavReceipts(), getContext(), getActivity().getApplication(), mListener);
         // Set CustomAdapter as the adapter for RecyclerView.
         mRecyclerView.setAdapter(mAdapter);
         swipeLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_container_fav);
@@ -128,73 +118,28 @@ public class FavoriteFragment extends Fragment implements SwipeRefreshLayout.OnR
     public void onAttach(Context context) {
         super.onAttach(context);
         session = new Session(context);
-        if (context instanceof OnListFragmentInteractionListenerFav) {
-            mListener = (OnListFragmentInteractionListenerFav) context;
 
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
-        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (recipeDao != null) {
-            mAdapter.setNewData(getUserFavReceipts());
-            mAdapter.notifyDataSetChanged();
-        }
+
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
 
     }
 
     @Override
     public void onRefresh() {
-        mAdapter.setNewData(getUserFavReceipts());
         mAdapter.notifyDataSetChanged();
         swipeLayout.setRefreshing(false);
 
     }
 
-    private List<Recipe> getUserFavReceipts(){
-        long userId = getUserID(session.getEmail());
-        FavoriteDao favoriteDao = daoSession.getFavoriteDao();
-        QueryBuilder qb = favoriteDao.queryBuilder();
-        qb.where(FavoriteDao.Properties.UserId.eq(userId));
-        List<Favorite> favorites = qb.list();
-
-        return getReceiptsById(favorites);
-
-    }
-    private List<Recipe> getReceiptsById(List<Favorite> favorites){
-        RecipeDao recipeDao = daoSession.getRecipeDao();
-        List<Recipe> receipts = recipeDao.loadAll();
-        List<Recipe> receiptsByID = new ArrayList<>();
-        for (Recipe receipt: receipts) {
-            for (Favorite favorite: favorites)  {
-                if(receipt.getId() == favorite.getReceiptId())
-                    receiptsByID.add(receipt);
-            }
-        }
-        return  receiptsByID;
-    }
-
-    private Long getUserID(String email) {
-        DaoSession daoSession = ((App) getActivity().getApplication()).getDaoSession();
-        UserDao userDao = daoSession.getUserDao();
-        QueryBuilder qb = userDao.queryBuilder();
-        qb.where(UserDao.Properties.Email.eq(email));
-        List<User> user = qb.list();
-        return user.get(0).getId();
-    }
 
 
-    public interface OnListFragmentInteractionListenerFav {
-        void onListFragmentInteractionFav(Recipe item);
-    }
 }

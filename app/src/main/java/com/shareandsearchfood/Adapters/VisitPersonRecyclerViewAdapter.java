@@ -2,9 +2,6 @@ package com.shareandsearchfood.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,19 +11,14 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.shareandsearchfood.ParcelerObjects.NotebookFirebase;
+
 import com.shareandsearchfood.ParcelerObjects.RecipeFirebase;
-import com.shareandsearchfood.Utils.FirebaseOperations;
-import com.shareandsearchfood.login.LoginActivity;
+import com.shareandsearchfood.Utils.Image;
 import com.shareandsearchfood.shareandsearchfood.R;
 import com.shareandsearchfood.shareandsearchfood.RecipeContent;
-import com.shareandsearchfood.shareandsearchfood.Visit_person;
+import com.squareup.picasso.Picasso;
 
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 
 public class VisitPersonRecyclerViewAdapter extends RecyclerView.Adapter<VisitPersonRecyclerViewAdapter.ViewHolder> {
@@ -73,11 +65,9 @@ public class VisitPersonRecyclerViewAdapter extends RecyclerView.Adapter<VisitPe
         final RecipeFirebase recipe = mDataSet.get(position);
 
         holder.titulo.setText(recipe.getTitle());
-        try {
-            URL newurl = new URL(recipe.getPhotoRecipe());
-            Bitmap bitmap =  BitmapFactory.decodeStream(newurl.openConnection() .getInputStream());
-            holder.photo.setImageBitmap(bitmap);
-        }catch (Exception e){}
+        Image.download(ctx,holder.photo,recipe.getPhotoRecipe());
+
+
 
         holder.photo.setOnClickListener(new View.OnClickListener() {
             @Override

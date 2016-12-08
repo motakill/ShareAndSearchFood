@@ -17,8 +17,10 @@ import android.widget.TextView;
 import com.shareandsearchfood.ParcelerObjects.NotebookFirebase;
 import com.shareandsearchfood.ParcelerObjects.RecipeFirebase;
 import com.shareandsearchfood.Utils.FirebaseOperations;
+import com.shareandsearchfood.Utils.Image;
 import com.shareandsearchfood.shareandsearchfood.R;
 import com.shareandsearchfood.shareandsearchfood.RecipeContent;
+import com.squareup.picasso.Picasso;
 
 
 import java.net.URL;
@@ -66,12 +68,9 @@ public class MyPubsRecyclerViewAdapter extends RecyclerView.Adapter<MyPubsRecycl
     public void onBindViewHolder(ViewHolder holder, int position) {
         final RecipeFirebase recipe = mDataSet.get(position);
         holder.titulo.setText(recipe.getTitle());
+        Image.download(ctx,holder.photo,recipe.getPhotoRecipe());
 
-        try {
-            URL newurl = new URL(recipe.getPhotoRecipe());
-            Bitmap bitmap =  BitmapFactory.decodeStream(newurl.openConnection() .getInputStream());
-            holder.photo.setImageBitmap(bitmap);
-        }catch (Exception e){}
+
         holder.photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

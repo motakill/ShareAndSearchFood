@@ -22,11 +22,10 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.shareandsearchfood.Utils.FirebaseOperations;
-import com.shareandsearchfood.login.App;
-import com.shareandsearchfood.login.DaoSession;
+import com.shareandsearchfood.Utils.Image;
 import com.shareandsearchfood.login.LoginActivity;
+import com.squareup.picasso.Picasso;
 
-import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.io.IOException;
 import java.net.URL;
@@ -87,14 +86,11 @@ public class RecipeContent extends NavBar {
         ingredients = (TextView) findViewById(R.id.ingredientsRow);
         steps = (TextView) findViewById(R.id.stepsRow);
 
-        FirebaseOperations.setUserContent(mFirebaseUser.getEmail(),nickname,userImage);
+        FirebaseOperations.setUserContent(mFirebaseUser.getEmail(),nickname,userImage,RecipeContent.this);
         setTitle(tituloIntent);
         titulo.setText(tituloIntent);
-        try {
-            URL newurl = new URL(recipePhotoIntent);
-            Bitmap bitmap =  BitmapFactory.decodeStream(newurl.openConnection() .getInputStream());
-            photo.setImageBitmap(bitmap);
-        }catch (Exception e){}
+        Image.download(this,photo,recipePhotoIntent);
+
         rate.setRating(rateIntent);
         favorite.setChecked(favoriteIntent);
 

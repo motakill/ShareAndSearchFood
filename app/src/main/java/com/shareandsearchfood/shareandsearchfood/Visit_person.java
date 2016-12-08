@@ -29,7 +29,6 @@ import com.shareandsearchfood.ParcelerObjects.RecipeFirebase;
 import com.shareandsearchfood.Utils.Constants;
 import com.shareandsearchfood.Utils.FirebaseOperations;
 import com.shareandsearchfood.login.LoginActivity;
-import com.shareandsearchfood.login.Recipe;
 
 import java.io.IOException;
 import java.net.URL;
@@ -67,7 +66,7 @@ public class Visit_person extends NavBar {
         ImageView userImage = (ImageView) findViewById(R.id.imageView2);
 
         setTitle(mFirebaseUser.getDisplayName());
-        FirebaseOperations.setUserContent(mFirebaseUser.getEmail(),null,userImage);
+        FirebaseOperations.setUserContent(mFirebaseUser.getEmail(),null,userImage,Visit_person.this);
 
         //cria a view das receitas criadas
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);

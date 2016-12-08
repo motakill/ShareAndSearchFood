@@ -76,8 +76,7 @@ public class MyProfile extends NavBar {
         TextView textView3 = (TextView) findViewById(R.id.username);
         ImageView photo = (ImageView) findViewById(R.id.profileImage);
 
-        FirebaseOperations.setUserContent(mFirebaseUser.getEmail(),textView3,photo);
-
+        FirebaseOperations.setUserContent(mFirebaseUser.getEmail(),textView3,photo,MyProfile.this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -114,7 +113,6 @@ public class MyProfile extends NavBar {
                                     try{
                                         RecipeFirebase model = dataSnapshot.getValue(RecipeFirebase.class);
                                         mRecipe.add(model);
-                                        mRecyclerView.scrollToPosition(mRecipe.size() - 1);
                                         mAdapter.notifyItemInserted(mRecipe.size() - 1);
                                     } catch (Exception ex) {
                                     }

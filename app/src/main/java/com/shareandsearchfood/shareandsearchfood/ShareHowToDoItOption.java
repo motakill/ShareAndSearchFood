@@ -3,6 +3,8 @@ package com.shareandsearchfood.shareandsearchfood;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.ImageFormat;
+import android.graphics.YuvImage;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -10,22 +12,19 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.shareandsearchfood.login.App;
-import com.shareandsearchfood.login.DaoSession;
-import com.shareandsearchfood.login.Session;
-import com.shareandsearchfood.login.User;
-import com.shareandsearchfood.login.UserDao;
-
-import org.greenrobot.greendao.query.QueryBuilder;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.shareandsearchfood.Utils.FirebaseOperations;
+import com.shareandsearchfood.login.LoginActivity;
 
 import java.io.ByteArrayOutputStream;
-import java.util.Date;
-import java.util.List;
 
 
 public class ShareHowToDoItOption extends NavBar {
@@ -35,7 +34,9 @@ public class ShareHowToDoItOption extends NavBar {
     private Uri imageUri;
     private ImageView imageView;
     private AutoCompleteTextView mTitle, mObservations;
-    Session session;
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
+    private TextView photoName;
 
 
     @Override
@@ -43,7 +44,10 @@ public class ShareHowToDoItOption extends NavBar {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share_how_to_do_it_option);
 
-        session = new Session(this);
+        // Initialize Firebase Auth
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -55,7 +59,6 @@ public class ShareHowToDoItOption extends NavBar {
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
 
         mTitle = (AutoCompleteTextView) findViewById(R.id.title_how_to_do_it);
         mObservations = (AutoCompleteTextView) findViewById(R.id.obs_how_to_do_it);
@@ -81,9 +84,22 @@ public class ShareHowToDoItOption extends NavBar {
 
 
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+            case R.id.action_sign_out:
+                mFirebaseAuth.signOut();
+                startActivity(new Intent(this, LoginActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     private void attemptPublishHowToDoIt() {
-
 
         // Reset errors.
         mTitle.setError(null);
@@ -119,32 +135,11 @@ public class ShareHowToDoItOption extends NavBar {
             // form field with an error.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-
-            DaoSession daoSession = ((App) getApplication()).getDaoSession();
-            HowToDoItTableDao howDao = daoSession.getHowToDoItTableDao();
-           // session.setEmail(email);
-
-                howDao.insert(new HowToDoItTable(null, getUserID(session.getEmail()), title, obs,imageUri.toString(),null,null,new Date()));
-                Intent intent = new Intent(this, HowToDoIt.class);
-                startActivity(intent);
-
-                //  showProgress(true);
-                //  mAuthTask = new RegistActivity.UserLoginTask(email, password, user, imageView);
-                //  mAuthTask.execute((Void) null);
-
+                FirebaseOperations.insertHowTo(mFirebaseUser.getEmail(), title, obs,imageUri.toString(),null,null);
+                startActivity(new Intent(this, HowToDoIt.class));
             }
     }
 
-    private long getUserID(String email){
-        DaoSession daoSession = ((App) getApplication()).getDaoSession();
-        UserDao userDao = daoSession.getUserDao();
-        QueryBuilder qb = userDao.queryBuilder();
-        qb.where(UserDao.Properties.Email.eq(email));
-        List<User> user = qb.list();
-        return user.get(0).getId();
-    }
     private void openGallery() {
         Intent gallery =
                 new Intent(Intent.ACTION_PICK,
@@ -157,8 +152,16 @@ public class ShareHowToDoItOption extends NavBar {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
-            imageUri = data.getData();
-            imageView.setImageURI(imageUri);
+            try{
+                Context context = getApplicationContext();
+                imageUri = data.getData();
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), imageUri);
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 0, bytes);
+                String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, "Title", null);
+                imageUri = Uri.parse(path);
+                imageView.setImageURI(imageUri);
+            }catch (Exception e){}
         }
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
@@ -167,7 +170,7 @@ public class ShareHowToDoItOption extends NavBar {
 
             Context context = getApplicationContext();
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 0, bytes);
             String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), imageBitmap, "Title", null);
             imageUri = Uri.parse(path);
         }

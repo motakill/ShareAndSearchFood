@@ -1,9 +1,12 @@
 package com.shareandsearchfood.shareandsearchfood;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -20,19 +23,10 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.shareandsearchfood.Utils.FirebaseOperations;
-import com.shareandsearchfood.login.App;
-import com.shareandsearchfood.login.DaoSession;
 import com.shareandsearchfood.login.LoginActivity;
-import com.shareandsearchfood.login.Recipe;
-import com.shareandsearchfood.login.RecipeDao;
-import com.shareandsearchfood.login.Session;
-import com.shareandsearchfood.login.User;
-import com.shareandsearchfood.login.UserDao;
 
-import org.greenrobot.greendao.query.QueryBuilder;
-
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -50,7 +44,6 @@ public class ShareContent extends NavBar{
     private  Button pubReceipt;
     private boolean added_ingredients = false;
     private boolean added_steps = false;
-    private RecipeDao recipeDao;
     private Uri photoReceipt;
     private static final int PICK_IMAGE = 100;
     private TextView photoName;
@@ -152,10 +145,21 @@ public class ShareContent extends NavBar{
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
+            try{
+            Context context = getApplicationContext();
             photoReceipt = data.getData();
             photoName = (TextView) findViewById(R.id.photoName);
             photoName.setText(photoReceipt.getPath());
+
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), photoReceipt);
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 0, bytes);
+            String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, "Title", null);
+            photoReceipt = Uri.parse(path);
+            }catch (Exception e){}
+
         }
+
     }
 
     private View.OnClickListener onClick() {
@@ -211,9 +215,6 @@ public class ShareContent extends NavBar{
 
         boolean cancel = false;
         View focusView = null;
-
-        DaoSession daoSession = ((App) getApplication()).getDaoSession();
-        recipeDao = daoSession.getRecipeDao();
 
         // Store values at the time of the login attempt.
         String title = title_receipt.getText().toString();

@@ -19,14 +19,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.shareandsearchfood.ParcelerObjects.NotebookFirebase;
 import com.shareandsearchfood.ParcelerObjects.RecipeFirebase;
 import com.shareandsearchfood.Utils.FirebaseOperations;
+import com.shareandsearchfood.Utils.Image;
 import com.shareandsearchfood.login.LoginActivity;
 import com.shareandsearchfood.shareandsearchfood.R;
 import com.shareandsearchfood.shareandsearchfood.RecipeContent;
 import com.shareandsearchfood.shareandsearchfood.Visit_person;
+import com.squareup.picasso.Picasso;
 
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 
 public class CookBookRecyclerViewAdapter extends RecyclerView.Adapter<CookBookRecyclerViewAdapter.ViewHolder> {
@@ -80,14 +80,9 @@ public class CookBookRecyclerViewAdapter extends RecyclerView.Adapter<CookBookRe
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final RecipeFirebase recipe = mDataSet.get(position);
-
-        FirebaseOperations.setUserContent(mFirebaseUser.getEmail(),holder.nickname,holder.userImage);
         holder.titulo.setText(recipe.getTitle());
-        try {
-            URL newurl = new URL(recipe.getPhotoRecipe());
-            Bitmap bitmap =  BitmapFactory.decodeStream(newurl.openConnection() .getInputStream());
-            holder.photo.setImageBitmap(bitmap);
-        }catch (Exception e){}
+        FirebaseOperations.setUserContent(mFirebaseUser.getEmail(),holder.nickname,holder.userImage,ctx);
+        Image.download(ctx,holder.photo,recipe.getPhotoRecipe());
 
         holder.photo.setOnClickListener(new View.OnClickListener() {
             @Override

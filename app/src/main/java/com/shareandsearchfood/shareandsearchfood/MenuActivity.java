@@ -79,7 +79,6 @@ public class MenuActivity extends NavBar{
                             try{
                                 RecipeFirebase model = dataSnapshot.getValue(RecipeFirebase.class);
                                 mRecipe.add(model);
-                                mRecyclerView.scrollToPosition(mRecipe.size() - 1);
                                 mAdapter.notifyItemInserted(mRecipe.size() - 1);
                             } catch (Exception ex) {
                             }

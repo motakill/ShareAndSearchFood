@@ -27,7 +27,6 @@ import com.shareandsearchfood.ParcelerObjects.NotebookFirebase;
 import com.shareandsearchfood.Utils.Constants;
 import com.shareandsearchfood.Utils.FirebaseOperations;
 import com.shareandsearchfood.login.LoginActivity;
-import com.shareandsearchfood.login.Notebook;
 
 import java.util.ArrayList;
 import java.util.List;

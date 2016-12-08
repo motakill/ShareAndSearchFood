@@ -16,6 +16,13 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.shareandsearchfood.Utils.FirebaseOperations;
+import com.shareandsearchfood.Utils.Image;
+import com.shareandsearchfood.login.LoginActivity;
+import com.squareup.picasso.Picasso;
+
 import java.io.IOException;
 import java.net.URL;
 
@@ -24,16 +31,23 @@ import java.net.URL;
  */
 
 public class HowToDoItOption extends NavBar {
-    public TextView titulo;
-    public TextView obs;
-    public ImageView photo;
-    public TextView timestamp;
-    public ImageView userImage ;
-    public TextView nickname;
+    private TextView titulo;
+    private TextView obs;
+    private ImageView photo;
+    private TextView timestamp;
+    private ImageView userImage ;
+    private TextView nickname;
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_how_to_do_it_option);
+
+        // Initialize Firebase Auth
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
 
         Toolbar toolbar2 = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar2);
@@ -49,13 +63,10 @@ public class HowToDoItOption extends NavBar {
 
 
         Intent intent = getIntent();
-        String userIdIntent = intent.getStringExtra("htoUserName");
         String tituloIntent = intent.getStringExtra("htoTitulo");
         String obsIntent = intent.getStringExtra("htoObs");
         String dateIntent = intent.getStringExtra("htoDate");
         String photoIntent = intent.getStringExtra("htoPhoto");
-        int flag = intent.getIntExtra("htoFlag",-1);
-        String userPhotoIntent = intent.getStringExtra("htoUserPhoto");
 
         titulo = (TextView) findViewById(R.id.titulo);
         obs = (TextView) findViewById(R.id.textView6);
@@ -64,22 +75,13 @@ public class HowToDoItOption extends NavBar {
         userImage = (ImageView) findViewById(R.id.imageView4);
         nickname = (TextView) findViewById(R.id.nickname);
 
+        FirebaseOperations.setUserContent(FirebaseOperations.encodeKey(mFirebaseUser.getEmail()),
+                nickname,userImage,HowToDoItOption.this);
         titulo.setText(tituloIntent);
         obs.setText(obsIntent);
-        photo.setImageURI(Uri.parse(photoIntent));
         timestamp.setText(dateIntent);
-        nickname.setText(userIdIntent);
 
-        try {
-            if (userIdIntent != null && flag == 1) {
-                URL url = new URL(userPhotoIntent);
-                Bitmap myBitmap = BitmapFactory.decodeStream(url.openStream());
-                userImage.setImageBitmap(myBitmap);
-            } else if (userIdIntent != null && flag == 0) {
-                userImage.setImageURI(Uri.parse(userPhotoIntent));
-            } else
-                userImage.setImageResource(R.drawable.com_facebook_profile_picture_blank_square);
-        }catch (IOException w){}
+        Image.download(HowToDoItOption.this,photo,photoIntent);
 
 
         TabHost host = (TabHost)findViewById(R.id.tabHost);
@@ -100,19 +102,18 @@ public class HowToDoItOption extends NavBar {
 
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_sign_out:
+                mFirebaseAuth.signOut();
+                startActivity(new Intent(this, LoginActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 }
