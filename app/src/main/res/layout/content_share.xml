@@ -81,6 +81,7 @@
                     android:id="@+id/moreIngredients"
                     android:layout_weight="1"
                     android:button="@android:drawable/ic_input_add"
+                    android:buttonTint="@color/black"
                     android:imeOptions="actionUnspecified"
                     android:checked="false" />
 
@@ -118,6 +119,7 @@
                     android:id="@+id/moreSteps"
                     android:layout_weight="1"
                     android:button="@android:drawable/ic_input_add"
+                    android:buttonTint="@color/black"
                     android:imeOptions="actionUnspecified"
                     android:checked="false" />
 

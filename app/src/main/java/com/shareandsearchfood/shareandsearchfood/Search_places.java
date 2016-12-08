@@ -45,7 +45,7 @@ public class Search_places extends NavBar implements OnMapReadyCallback,
     private GoogleMap mMap;
     double latitude;
     double longitude;
-    private int PROXIMITY_RADIUS = 10000;
+    private int PROXIMITY_RADIUS = 1000;
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
     Marker mCurrLocationMarker;
@@ -132,7 +132,7 @@ public class Search_places extends NavBar implements OnMapReadyCallback,
 
         Button btnRestaurant = (Button) findViewById(R.id.btnRestaurant);
         btnRestaurant.setOnClickListener(new View.OnClickListener() {
-            String Restaurant = "snack-bar";
+            String Restaurant = "restaurant";
             @Override
             public void onClick(View v) {
                 Log.d("onClick", "Button is Clicked");

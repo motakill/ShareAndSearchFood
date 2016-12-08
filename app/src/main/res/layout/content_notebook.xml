@@ -85,6 +85,7 @@
             android:layout_marginEnd="15dp"
             android:textAlignment="center"
             android:button="@android:drawable/ic_input_add"
+            android:buttonTint="@color/black"
             android:layout_width="30dp" />
 
         <android.support.v7.widget.RecyclerView

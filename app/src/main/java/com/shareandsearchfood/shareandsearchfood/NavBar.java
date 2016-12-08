@@ -17,7 +17,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.shareandsearchfood.login.LoginActivity;
 import com.shareandsearchfood.settings.AboutSSFood;
 import com.shareandsearchfood.settings.FeedBackSSFood;
-import com.shareandsearchfood.settings.SettingsSSFood;
 
 
 /**
@@ -53,12 +52,8 @@ public class NavBar extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.action_settings){
-            Intent intent = new Intent(this, SettingsSSFood.class);
-            startActivity(intent);
-            return true;
-        }
-        else if(id == R.id.action_feedBack){
+
+        if(id == R.id.action_feedBack){
             Intent intent = new Intent(this, FeedBackSSFood.class);
             startActivity(intent);
             return true;

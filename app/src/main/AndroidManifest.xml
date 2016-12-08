@@ -102,10 +102,6 @@
             android:label="Send us FeedBack"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.shareandsearchfood.settings.SettingsSSFood"
-            android:label="Settings"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ShareHowToDoItOption"
             android:label="Share How To Do It?"
             android:screenOrientation="portrait" />

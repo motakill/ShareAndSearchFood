@@ -1,41 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_about_ss_food"
-    android:layout_marginTop="-70dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/app_bar_feed_back_ss_food">
 
+    <TextView
+    android:id="@+id/text1"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="20dp"
+    android:gravity="center"
+    android:text="Complete the fields to send us an email"
+    android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginTop="20dp"/>
 
     <EditText
-        android:hint="FeedBack us"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="30dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="120dp"
-        android:id="@+id/editText3" />
+        android:layout_marginTop="20dp"
+    android:id="@+id/recipient"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:ems="10"
+    android:inputType="textEmailAddress"
+    android:hint="Recipient" />
+
+    <EditText
+    android:id="@+id/subject"
+    android:layout_width="380dp"
+    android:layout_height="wrap_content"
+    android:ems="10"
+    android:hint="Subject" />
+
+    <EditText
+    android:id="@+id/body"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:ems="10"
+    android:hint="Message body" />
 
     <Button
-        android:id="@+id/sendEmail"
-        style="?android:textAppearanceSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="520dp"
-        android:layout_marginLeft="240dp"
-        android:layout_weight="1"
-        android:text="Feed us"
-        android:textStyle="bold"        />
-      --  android:onClick="sendEmail"
+    android:id="@+id/sendEmail"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="100dp"
+    android:text="Compose an email" />
 
 
 
-</RelativeLayout>
+
+</LinearLayout>
