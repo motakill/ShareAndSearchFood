@@ -3,39 +3,49 @@ package com.shareandsearchfood.shareandsearchfood;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.SearchView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.RatingBar;
 
-import com.shareandsearchfood.Fragments.CookBookFragment;
-import com.shareandsearchfood.login.App;
-import com.shareandsearchfood.login.DaoSession;
-import com.shareandsearchfood.login.Recipe;
-import com.shareandsearchfood.login.Session;
-import com.shareandsearchfood.login.User;
-import com.shareandsearchfood.login.UserDao;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.shareandsearchfood.Adapters.CookBookRecyclerViewAdapter;
+import com.shareandsearchfood.ParcelerObjects.RecipeFirebase;
+import com.shareandsearchfood.Utils.Constants;
 
-import org.greenrobot.greendao.query.QueryBuilder;
+import com.shareandsearchfood.login.LoginActivity;
 
+
+
+import java.util.ArrayList;
 import java.util.List;
 
 
-public class MenuActivity extends NavBar implements CookBookFragment.OnListFragmentInteractionListenerCookBook{
-    private Session session;
-
+public class MenuActivity extends NavBar{
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
+    private List<RecipeFirebase> mRecipe;
+    private RecyclerView mRecyclerView;
+    private CookBookRecyclerViewAdapter mAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cook_book);
-        session = new Session(this);
+
+        // Initialize Firebase Auth
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -52,30 +62,65 @@ public class MenuActivity extends NavBar implements CookBookFragment.OnListFragm
         // int numberOfStars = simpleRatingBar.getNumStars(); // get total number of stars of rating bar
 
         //cria a view das receitas criadas
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.content_menu, new CookBookFragment());
-        ft.commit();
-    }
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewCookBook);
+        mRecipe = new ArrayList<>();
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(MenuActivity.this));
+        mAdapter = new CookBookRecyclerViewAdapter(mRecipe,MenuActivity.this);
+        mRecyclerView.setAdapter(mAdapter);
 
-//experiencia search bar
- /**   @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_settings, menu);
-        MenuItem searchItem = menu.findItem(R.id.search_names);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        // Configure the search info and add any event listeners
-        return super.onCreateOptionsMenu(menu);
-    }
-*/
-    private Long getUserID(String email){
-        DaoSession daoSession = ((App) getApplication()).getDaoSession();
-        UserDao userDao = daoSession.getUserDao();
-        QueryBuilder qb = userDao.queryBuilder();
-        qb.where(UserDao.Properties.Email.eq(email));
-        List<User> user = qb.list();
-        return user.get(0).getId();
-    }
+        DatabaseReference userRef = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.FIREBASE_CHILD_RECIPES);
 
+        userRef.getRef().addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        if (dataSnapshot != null && dataSnapshot.getValue() != null) {
+                            try{
+                                RecipeFirebase model = dataSnapshot.getValue(RecipeFirebase.class);
+                                mRecipe.add(model);
+                                mRecyclerView.scrollToPosition(mRecipe.size() - 1);
+                                mAdapter.notifyItemInserted(mRecipe.size() - 1);
+                            } catch (Exception ex) {
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError firebaseError) {
+
+                    }
+                });
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+            case R.id.action_sign_out:
+                mFirebaseAuth.signOut();
+                startActivity(new Intent(this, LoginActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
     public void clickProfile(View view){
         Intent intent = new Intent(this, Visit_person.class);
         startActivity(intent);
@@ -86,13 +131,6 @@ public class MenuActivity extends NavBar implements CookBookFragment.OnListFragm
         startActivity(intent);
 
     }
-
-    @Override
-    public void onListFragmentInteractionCookBook(Recipe position) {
-        // The user selected the headline of an article from the HeadlinesFragment
-        // Do something here to display that article
-    }
-
 
 
 }

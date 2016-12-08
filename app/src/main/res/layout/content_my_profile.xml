@@ -151,12 +151,12 @@
 
         </TableRow>
 
-            <FrameLayout
-                android:id="@+id/frame"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:clickable="true" />
+        <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_height="match_parent"
+            />
 
     </TableLayout>
 

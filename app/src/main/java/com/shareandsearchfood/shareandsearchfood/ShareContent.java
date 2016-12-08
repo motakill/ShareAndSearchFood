@@ -17,8 +17,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.shareandsearchfood.Utils.FirebaseOperations;
 import com.shareandsearchfood.login.App;
 import com.shareandsearchfood.login.DaoSession;
+import com.shareandsearchfood.login.LoginActivity;
 import com.shareandsearchfood.login.Recipe;
 import com.shareandsearchfood.login.RecipeDao;
 import com.shareandsearchfood.login.Session;
@@ -48,20 +52,32 @@ public class ShareContent extends NavBar{
     private boolean added_steps = false;
     private RecipeDao recipeDao;
     private Uri photoReceipt;
-    private Session session;
     private static final int PICK_IMAGE = 100;
     private TextView photoName;
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
 
 
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share);
-        session = new Session(this);
+
 
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
+        }
+
+        // Initialize Firebase Auth
+
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        if (mFirebaseUser == null) {
+            // Not signed in, launch the Sign In activity
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -121,15 +137,16 @@ public class ShareContent extends NavBar{
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_sign_out:
+                mFirebaseAuth.signOut();
+                startActivity(new Intent(this, LoginActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -233,18 +250,16 @@ public class ShareContent extends NavBar{
             focusView.requestFocus();
         } else {
 
-
             if (buttomId == saveReceipt.getId())
-                recipeDao.insert(new Recipe(null, title_receipt.getText().toString(), getIngredients(),
-                        getSteps(), photoReceipt.toString(), null, 0, getUserID(session.getEmail()), new Date(), 0, false));
-
+                FirebaseOperations.insertRecipe(title_receipt.getText().toString(), getIngredients(),
+                        getSteps(), photoReceipt.toString(), null, 0, mFirebaseUser.getEmail(), 0, false);
 
             else
-                recipeDao.insert(new Recipe(null, title_receipt.getText().toString(), getIngredients(),
-                        getSteps(), photoReceipt.toString(), null, 1, getUserID(session.getEmail()), new Date(), 0, false));
+                FirebaseOperations.insertRecipe(title_receipt.getText().toString(), getIngredients(),
+                        getSteps(), photoReceipt.toString(), null, 1, mFirebaseUser.getEmail(), 0, false);
 
-            Intent intent = new Intent(this, MyProfile.class);
-            startActivity(intent);
+            FirebaseOperations.storeRecipePhotoToFirebase(photoReceipt,mFirebaseUser.getEmail());
+            startActivity(new Intent(this, MyProfile.class));
         }
     }
     public void openGalleryShare(View v) {
@@ -253,15 +268,6 @@ public class ShareContent extends NavBar{
                         android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(gallery, PICK_IMAGE);
     }
-    private Long getUserID(String email){
-        DaoSession daoSession = ((App) getApplication()).getDaoSession();
-        UserDao userDao = daoSession.getUserDao();
-        QueryBuilder qb = userDao.queryBuilder();
-        qb.where(UserDao.Properties.Email.eq(email));
-        List<User> user = qb.list();
-        return user.get(0).getId();
-    }
-
     private String getIngredients(){
         List<TextView> myEditTextList = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
@@ -274,7 +280,6 @@ public class ShareContent extends NavBar{
 
         return sb.toString();
     }
-
     private String getSteps(){
         List<TextView> myEditTextList = new ArrayList<>();
         StringBuilder sb = new StringBuilder();

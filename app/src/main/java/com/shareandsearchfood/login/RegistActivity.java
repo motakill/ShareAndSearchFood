@@ -7,9 +7,11 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -18,7 +20,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.shareandsearchfood.Utils.Constants;
+import com.shareandsearchfood.Utils.FirebaseOperations;
 import com.shareandsearchfood.shareandsearchfood.MenuActivity;
 import com.shareandsearchfood.shareandsearchfood.MyProfile;
 import com.shareandsearchfood.shareandsearchfood.R;
@@ -26,18 +41,13 @@ import com.shareandsearchfood.shareandsearchfood.R;
 import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class RegistActivity extends AppCompatActivity {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    private static final int REQUEST_READ_CONTACTS = 0;
-    private UserLoginTask mAuthTask = null;
-
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-
 
     //funciona
     private static final int PICK_IMAGE = 100;
@@ -45,7 +55,6 @@ public class RegistActivity extends AppCompatActivity {
     private AutoCompleteTextView mEmailView;
     private AutoCompleteTextView mUserNameView;
     private EditText mPasswordView;
-    private Session session;
     private Uri imageUri;
 
 
@@ -54,8 +63,6 @@ public class RegistActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regist);
         imageView = (ImageView) findViewById(R.id.display_personal_photo);
-        session = new Session(this);
-        Button click = (Button)findViewById(R.id.camera);
 
         Button pickImageButton = (Button) findViewById(R.id.mypersonal_photo_button);
         pickImageButton.setOnClickListener(new View.OnClickListener() {
@@ -89,18 +96,15 @@ public class RegistActivity extends AppCompatActivity {
     }
 
     private void attemptRegister() {
-        if (mAuthTask != null) {
-            return;
-        }
 
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
-        String user = mUserNameView.getText().toString();
+        final String email = mEmailView.getText().toString();
+        final String password = mPasswordView.getText().toString();
+        final String userName = mUserNameView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -121,7 +125,7 @@ public class RegistActivity extends AppCompatActivity {
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
-        } else if (user.isEmpty()){
+        } else if (userName.isEmpty()){
             mUserNameView.setError(getString(R.string.error_invalid_username));
             focusView = mUserNameView;
             cancel = true;
@@ -132,90 +136,39 @@ public class RegistActivity extends AppCompatActivity {
             // form field with an error.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
+            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+            final DatabaseReference userRef = FirebaseDatabase
+                    .getInstance()
+                    .getReference(Constants.FIREBASE_CHILD_USERS );
+            mAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                userRef.child(FirebaseOperations.encodeKey(email))
+                                        .addListenerForSingleValueEvent(new ValueEventListener() {
 
-            //MOTA Sign In SSFood
-            DaoSession daoSession = ((App) getApplication()).getDaoSession();
-            UserDao userDao = daoSession.getUserDao();
-            session.setEmail(email);
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                if (dataSnapshot.exists())
+                                                    mEmailView.setError(getString(R.string.already_register));
 
-            QueryBuilder qb = userDao.queryBuilder();
-            qb.where(UserDao.Properties.Email.eq(email));
-            long userCount = qb.list().size();
-
-            if (userCount == 0) {
-                if (password != null) {
-                    userDao.insert(new User(null, user, email, password,imageUri.toString(), 0));
-                    Intent intent = new Intent(this, MyProfile.class);
-                    startActivity(intent);
-
-                    //  showProgress(true);
-                    mAuthTask = new RegistActivity.UserLoginTask(email, password, user, imageView);
-                    mAuthTask.execute((Void) null);
-                }
-            }
-            else
-                mEmailView.setError(getString(R.string.already_register));
-
-        }
-    }
-
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mEmail;
-        private final String mUsername;
-        private final String mPassword;
-        private ImageView mImageView;
-
-
-        UserLoginTask(String email, String password, String username, ImageView ImageView) {
-            mEmail = email;
-            mPassword = password;
-            mUsername = username;
-            mImageView = ImageView;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            // showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            //    showProgress(false);
+                                                else{
+                                                    FirebaseOperations.insertUser(userName,email, password,null);
+                                                    FirebaseOperations.storeImageToFirebase(imageUri,email);
+                                                    startActivity(new Intent(RegistActivity.this, MyProfile.class));
+                                                }
+                                            }
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+                                            }
+                                        });
+                                Toast.makeText(RegistActivity.this, "Registration Successful. " +
+                                                "You will be redirected in seconds to your profile",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
         }
     }
 

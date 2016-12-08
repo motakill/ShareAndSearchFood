@@ -17,17 +17,13 @@ package com.shareandsearchfood.login;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -46,7 +42,16 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.shareandsearchfood.ParcelerObjects.UserFirebase;
+import com.shareandsearchfood.Utils.Constants;
+import com.shareandsearchfood.Utils.FirebaseOperations;
 import com.shareandsearchfood.shareandsearchfood.MyProfile;
 import com.shareandsearchfood.shareandsearchfood.R;
 
@@ -68,7 +73,6 @@ public class LoginActivity extends AppCompatActivity implements
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private TextView info;
-    private Session session;
     /**
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
@@ -81,7 +85,6 @@ public class LoginActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        session = new Session(this);
         info = (TextView)findViewById(R.id.info);
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -137,30 +140,6 @@ public class LoginActivity extends AppCompatActivity implements
             if (result.isSuccess()) {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = result.getSignInAccount();
-
-                String personName = account.getDisplayName();
-                String personGivenName = account.getGivenName();
-                String personFamilyName = account.getFamilyName();
-                String personEmail = account.getEmail();
-                String personId = account.getId();
-                Uri personPhoto = account.getPhotoUrl();
-
-
-                DaoSession daoSession = ((App) getApplication()).getDaoSession();
-                UserDao userDao = daoSession.getUserDao();
-                session.setEmail(personEmail);
-
-                QueryBuilder qb = userDao.queryBuilder();
-                qb.where(UserDao.Properties.Email.eq(personEmail));
-                long userCount = qb.list().size();
-
-                if (userCount == 0) {
-                    if(personPhoto != null)
-                        userDao.insert(new User(null, personName, personEmail,null,personPhoto.toString(), 1));
-                    else
-                        userDao.insert(new User(null, personName, personEmail,null, null, 1));
-
-                }
                 firebaseAuthWithGoogle(account);
             } else {
                 AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
@@ -179,7 +158,7 @@ public class LoginActivity extends AppCompatActivity implements
             }
         }
     }
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+    private void firebaseAuthWithGoogle(final GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGooogle:" + acct.getId());
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mFirebaseAuth.signInWithCredential(credential)
@@ -196,8 +175,27 @@ public class LoginActivity extends AppCompatActivity implements
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            startActivity(new Intent(LoginActivity.this, MyProfile.class));
-                            finish();
+                            DatabaseReference userRef = FirebaseDatabase
+                                    .getInstance()
+                                    .getReference(Constants.FIREBASE_CHILD_USERS);
+
+                            userRef.child(FirebaseOperations.encodeKey(acct.getEmail()))
+                                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            if (!dataSnapshot.exists()) {
+                                                FirebaseOperations.insertGoogleUser(acct);
+                                                startActivity(new Intent(LoginActivity.this, MyProfile.class));
+                                                finish();
+                                            }else {
+                                                startActivity(new Intent(LoginActivity.this, MyProfile.class));
+                                                finish();
+                                            }
+                                        }
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+                                        }
+                                    });
                         }
                     }
                 });
@@ -217,72 +215,66 @@ public class LoginActivity extends AppCompatActivity implements
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
-
+        final String email = mEmailView.getText().toString();
+        final String password = mPasswordView.getText().toString();
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            cancel = true;
-        }
-
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
-            cancel = true;
-        } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
-            cancel = true;
-        }
-
+            // Check for a valid email address.
+            if (TextUtils.isEmpty(email)) {
+                mEmailView.setError(getString(R.string.error_field_required));
+                focusView = mEmailView;
+                cancel = true;
+            } else if (!isEmailValid(email)) {
+                mEmailView.setError(getString(R.string.error_invalid_email));
+                focusView = mEmailView;
+                cancel = true;
+            } else if (TextUtils.isEmpty(password)) {
+                mPasswordView.setError(getString(R.string.error_field_required));
+                focusView = mPasswordView;
+                cancel = true;
+            }
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
             focusView.requestFocus();
         } else {
-            DaoSession daoSession = ((App) getApplication()).getDaoSession();
-            UserDao userDao = daoSession.getUserDao();
-            QueryBuilder qb = userDao.queryBuilder();
-            QueryBuilder qbpass = userDao.queryBuilder();
-            qb.where(UserDao.Properties.Email.eq(email));
-            qbpass.where(UserDao.Properties.Password.eq(password));
-            long userPass = qbpass.list().size();
-            long userCount = qb.list().size();
+            final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+            DatabaseReference userRef = FirebaseDatabase
+                    .getInstance()
+                    .getReference(Constants.FIREBASE_CHILD_USERS);
 
-            if (userCount == 0) {
-                if(email!= null)
-                    mEmailView.setError(getString(R.string.not_yet_registed));
-                else
-                    mEmailView.setError(getString(R.string.error_field_required));
-                if(password != null)
-                    mPasswordView.setError(getString(R.string.not_yet_registed));
-                else
-                    mPasswordView.setError(getString(R.string.error_field_required));
-            }
-            else{
-                // valida se as passwords coincidem
-                if(userPass != 0) {
-                    session.setEmail(email);
-                    startActivity(new Intent(LoginActivity.this, MyProfile.class));
-                    finish();
+            userRef.child(FirebaseOperations.encodeKey(email))
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (!dataSnapshot.exists())
+                        mEmailView.setError(getString(R.string.not_yet_registed));
+                    else {
+                        UserFirebase user = dataSnapshot.getValue(UserFirebase.class);
+                        if (user.getPassword().equals(password)) {
+                            mAuth.signInWithEmailAndPassword(email, password)
+                                    .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<AuthResult> task) {
+                                            if (!task.isSuccessful()) {
+                                                Toast.makeText(LoginActivity.this,"Sign In Failed",
+                                                        Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+                            startActivity(new Intent(LoginActivity.this, MyProfile.class));
+                        } else
+                            mPasswordView.setError(getString(R.string.wrong_pass));
+                    }
                 }
-                else
-                    mPasswordView.setError(getString(R.string.wrong_pass));
-
-            }
-
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
         }
     }
     private boolean isEmailValid(String email) {
         return email.contains("@");
-    }
-    private boolean isPasswordValid(String password) {
-        return password.length() > 4;
     }
 }

@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -18,8 +19,12 @@ import android.widget.RatingBar;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.shareandsearchfood.Utils.FirebaseOperations;
 import com.shareandsearchfood.login.App;
 import com.shareandsearchfood.login.DaoSession;
+import com.shareandsearchfood.login.LoginActivity;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
@@ -41,20 +46,58 @@ public class RecipeContent extends NavBar {
     private TextView steps;
     private RatingBar rate;
     private CheckBox favorite;
-    private DaoSession daoSession;
-    private Long userID;
-    private Long recipeID;
+    private String userID;
     private String userPhotoIntent;
-    private int flag;
     private String ingredientsIntent;
     private String stepsIntent;
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        daoSession = ((App) getApplication()).getDaoSession();
-
         setContentView(R.layout.activity_recipe_content);
+
+        // Initialize Firebase Auth
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        if (mFirebaseUser == null) {
+            // Not signed in, launch the Sign In activity
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
+        }
+
+        Intent intent = getIntent();
+        userPhotoIntent = intent.getStringExtra("userPhoto");
+        String recipePhotoIntent = intent.getStringExtra("recipePhoto");
+        String tituloIntent = intent.getStringExtra("recipeTitle");
+        Boolean favoriteIntent = intent.getBooleanExtra("favorite",false);
+        ingredientsIntent = intent.getStringExtra("ingredients");
+        stepsIntent = intent.getStringExtra("steps");
+        int rateIntent = intent.getIntExtra("rating",0);
+        userID = intent.getStringExtra("userID");
+
+        titulo = (TextView) findViewById(R.id.titulo);
+        photo = (ImageView) findViewById(R.id.imageView6);
+        userImage = (ImageView) findViewById(R.id.imageView4);
+        nickname = (TextView) findViewById(R.id.nickname);
+        rate = (RatingBar) findViewById(R.id.ratingBar2) ;
+        favorite = (CheckBox) findViewById(R.id.star);
+        ingredients = (TextView) findViewById(R.id.ingredientsRow);
+        steps = (TextView) findViewById(R.id.stepsRow);
+
+        FirebaseOperations.setUserContent(mFirebaseUser.getEmail(),nickname,userImage);
+        setTitle(tituloIntent);
+        titulo.setText(tituloIntent);
+        try {
+            URL newurl = new URL(recipePhotoIntent);
+            Bitmap bitmap =  BitmapFactory.decodeStream(newurl.openConnection() .getInputStream());
+            photo.setImageBitmap(bitmap);
+        }catch (Exception e){}
+        rate.setRating(rateIntent);
+        favorite.setChecked(favoriteIntent);
+
         // create the TabHost that will contain the Tabs
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -67,48 +110,6 @@ public class RecipeContent extends NavBar {
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        Intent intent = getIntent();
-        userPhotoIntent = intent.getStringExtra("userPhoto");
-        String recipePhotoIntent = intent.getStringExtra("recipePhoto");
-        String userNicknameIntent = intent.getStringExtra("nickname");
-        String tituloIntent = intent.getStringExtra("recipeTitle");
-        Boolean favoriteIntent = intent.getBooleanExtra("favorite",false);
-        ingredientsIntent = intent.getStringExtra("ingredients");
-        stepsIntent = intent.getStringExtra("steps");
-        flag = intent.getIntExtra("flag",-1);
-        int rateIntent = intent.getIntExtra("rating",0);
-        userID = intent.getLongExtra("userID",-1);
-        recipeID = intent.getLongExtra("recipeID",-1);
-
-        setTitle(tituloIntent);
-
-        titulo = (TextView) findViewById(R.id.titulo);
-        photo = (ImageView) findViewById(R.id.imageView6);
-        userImage = (ImageView) findViewById(R.id.imageView4);
-        nickname = (TextView) findViewById(R.id.nickname);
-        rate = (RatingBar) findViewById(R.id.ratingBar2) ;
-        favorite = (CheckBox) findViewById(R.id.star);
-        ingredients = (TextView) findViewById(R.id.ingredientsRow);
-        steps = (TextView) findViewById(R.id.stepsRow);
-
-        titulo.setText(tituloIntent);
-        photo.setImageURI(Uri.parse(recipePhotoIntent));
-        nickname.setText(userNicknameIntent);
-        rate.setRating(rateIntent);
-        favorite.setChecked(favoriteIntent);
-
-        try {
-            if (flag == 1) {
-                URL url = new URL(userPhotoIntent);
-                Bitmap myBitmap = BitmapFactory.decodeStream(url.openStream());
-                userImage.setImageBitmap(myBitmap);
-            } else if (flag == 0) {
-                userImage.setImageURI(Uri.parse(userPhotoIntent));
-            } else
-                userImage.setImageResource(R.drawable.com_facebook_profile_picture_blank_square);
-        }catch (IOException w){}
-
 
         populateTable();
 
@@ -147,15 +148,29 @@ public class RecipeContent extends NavBar {
 
 
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+            case R.id.action_sign_out:
+                mFirebaseAuth.signOut();
+                startActivity(new Intent(this, LoginActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
     public void clickProfile(View view){
         Intent intent = new Intent(this, Visit_person.class);
         intent.putExtra("userPhoto",userPhotoIntent);
-        intent.putExtra("flag",flag);
         startActivity(intent);
 
     }
-
+/*
     public void setFavorite (View view){
+
         FavoriteDao favoriteDao = daoSession.getFavoriteDao();
         CheckBox favorite = (CheckBox) view.findViewById(R.id.star);
         if(favorite.isChecked()) {
@@ -165,13 +180,15 @@ public class RecipeContent extends NavBar {
             favoriteDao.deleteByKey(findFavorite(userID,recipeID));
         }
     }
+
     private Long findFavorite(Long userId, Long receiptID){
+
         FavoriteDao favoriteDao= daoSession.getFavoriteDao();
         QueryBuilder qb = favoriteDao.queryBuilder();
         qb.and(FavoriteDao.Properties.UserId.eq(userId),FavoriteDao.Properties.ReceiptId.eq(receiptID));
         List<Favorite> favorites = qb.list();
         return favorites.get(0).getId();
-    }
+    }*/
 
     private void populateTable(){
         int i = 1;

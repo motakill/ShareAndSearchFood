@@ -1,8 +1,6 @@
 package com.shareandsearchfood.shareandsearchfood;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -10,47 +8,49 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.auth.api.Auth;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.shareandsearchfood.Adapters.FavoriteRecyclerViewAdapter;
+import com.shareandsearchfood.Adapters.MyPubsRecyclerViewAdapter;
 import com.shareandsearchfood.Fragments.FavoriteFragment;
-import com.shareandsearchfood.Fragments.MyPubsFragment;
-import com.shareandsearchfood.login.App;
-import com.shareandsearchfood.login.DaoSession;
+import com.shareandsearchfood.ParcelerObjects.RecipeFirebase;
+import com.shareandsearchfood.Utils.Constants;
+import com.shareandsearchfood.Utils.FirebaseOperations;
 import com.shareandsearchfood.login.LoginActivity;
-import com.shareandsearchfood.login.Recipe;
-import com.shareandsearchfood.login.Session;
-import com.shareandsearchfood.login.User;
-import com.shareandsearchfood.login.UserDao;
-import org.greenrobot.greendao.query.QueryBuilder;
 
-import java.io.IOException;
-import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by david_000 on 13/10/2016.
  */
 
-public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentInteractionListener,FavoriteFragment.OnListFragmentInteractionListenerFav{
+public class MyProfile extends NavBar {
 
-    private Session session;
     private Uri photoReceipt;
-    private FavoriteDao favoriteDao;
     private TextView photoName;
     private CheckBox favorite;
     private static final int PICK_IMAGE = 100;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
-
+    private List<RecipeFirebase> mRecipe;
+    private RecyclerView mRecyclerView;
+    private MyPubsRecyclerViewAdapter mAdapter;
+    private FavoriteRecyclerViewAdapter mFAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,15 +62,6 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
         }
 
         setContentView(R.layout.activity_my_profile);
-        session = new Session(this);
-
-        TextView textView3 = (TextView) findViewById(R.id.username);
-        textView3.setText(getUser(session.getEmail()));
-
-        try {
-            setPhoto();
-        } catch (IOException w) {
-        }
 
         // Initialize Firebase Auth
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -81,6 +72,12 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
             finish();
             return;
         }
+
+        TextView textView3 = (TextView) findViewById(R.id.username);
+        ImageView photo = (ImageView) findViewById(R.id.profileImage);
+
+        FirebaseOperations.setUserContent(mFirebaseUser.getEmail(),textView3,photo);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -98,9 +95,52 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
         myPubs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.frame, new MyPubsFragment());
-                ft.addToBackStack(null).commit();
+                mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+                mRecipe = new ArrayList<>();
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(MyProfile.this));
+                mAdapter = new MyPubsRecyclerViewAdapter(mRecipe,MyProfile.this);
+                mRecyclerView.setAdapter(mAdapter);
+
+                DatabaseReference userRef = FirebaseDatabase
+                        .getInstance()
+                        .getReference(Constants.FIREBASE_CHILD_USERS);
+
+                userRef.child(FirebaseOperations.encodeKey(mFirebaseUser.getEmail()))
+                        .child(Constants.FIREBASE_CHILD_RECIPES).getRef()
+                        .addChildEventListener(new ChildEventListener() {
+                            @Override
+                            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                                if (dataSnapshot != null && dataSnapshot.getValue() != null) {
+                                    try{
+                                        RecipeFirebase model = dataSnapshot.getValue(RecipeFirebase.class);
+                                        mRecipe.add(model);
+                                        mRecyclerView.scrollToPosition(mRecipe.size() - 1);
+                                        mAdapter.notifyItemInserted(mRecipe.size() - 1);
+                                    } catch (Exception ex) {
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                            }
+
+                            @Override
+                            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                            }
+
+                            @Override
+                            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError firebaseError) {
+
+                            }
+                        });
 
             }
         });
@@ -109,15 +149,12 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
         myFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.frame, new FavoriteFragment());
-                ft.addToBackStack(null).commit();
+
 
             }
         });
 
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -126,7 +163,7 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.action_sign_out:
-                mFirebaseAuth.signOut();
+                    mFirebaseAuth.signOut();
                 startActivity(new Intent(this, LoginActivity.class));
                 return true;
             default:
@@ -135,59 +172,16 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
     }
 
     public void clickRecipe(View view){
-        Intent intent = new Intent(this, RecipeContent.class);
-        startActivity(intent);
+        startActivity(new Intent(this, RecipeContent.class));
 
     }
     public void clickProfile(View view){
-        Intent intent = new Intent(this, Visit_person.class);
-        startActivity(intent);
+        startActivity(new Intent(this, Visit_person.class));
 
     }
     public void share(View view){
-        Intent intent = new Intent(this, ShareContent.class);
-        startActivity(intent);
+        startActivity(new Intent(this, ShareContent.class));
 
-    }
-
-    //Data from profile
-    private String getUser(String email){
-        DaoSession daoSession = ((App) getApplication()).getDaoSession();
-        UserDao userDao = daoSession.getUserDao();
-        QueryBuilder qb = userDao.queryBuilder();
-        qb.where(UserDao.Properties.Email.eq(email));
-        List<User> user = qb.list();
-        return user.get(0).getUsername();
-    }
-    private String getPhotoUri(String email){
-        DaoSession daoSession = ((App) getApplication()).getDaoSession();
-        UserDao userDao = daoSession.getUserDao();
-        QueryBuilder qb = userDao.queryBuilder();
-        qb.where(UserDao.Properties.Email.eq(email));
-        List<User> user = qb.list();
-        return user.get(0).getPhoto();
-    }
-    private int getuserFlag(String email){
-        DaoSession daoSession = ((App) getApplication()).getDaoSession();
-        UserDao userDao = daoSession.getUserDao();
-        QueryBuilder qb = userDao.queryBuilder();
-        qb.where(UserDao.Properties.Email.eq(email));
-        List<User> user = qb.list();
-        return user.get(0).getFlag();
-    }
-    private void setPhoto()throws IOException {
-        String photoUri = getPhotoUri(session.getEmail());
-        ImageView photo = (ImageView) findViewById(R.id.profileImage);
-        int flag = getuserFlag(session.getEmail());
-
-        if (photoUri != null && flag == 1 ) {
-            URL url = new URL(photoUri);
-            Bitmap myBitmap = BitmapFactory.decodeStream(url.openStream());
-            photo.setImageBitmap(myBitmap);
-        }else if (photoUri != null && flag == 0 ) {
-            photo.setImageURI(Uri.parse(photoUri));
-        } else
-            photo.setImageResource(R.drawable.com_facebook_profile_picture_blank_square);
     }
 
     @Override
@@ -200,12 +194,4 @@ public class MyProfile extends NavBar implements MyPubsFragment.OnListFragmentIn
         }
     }
 
-    @Override
-    public void onListFragmentInteraction(Recipe position) {
-    }
-    @Override
-    public void onListFragmentInteractionFav(Recipe position) {
-        // The user selected the headline of an article from the HeadlinesFragment
-        // Do something here to display that article
-    }
 }
