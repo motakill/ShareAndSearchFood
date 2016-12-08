@@ -55,7 +55,6 @@ import com.shareandsearchfood.Utils.FirebaseOperations;
 import com.shareandsearchfood.shareandsearchfood.MyProfile;
 import com.shareandsearchfood.shareandsearchfood.R;
 
-import org.greenrobot.greendao.query.QueryBuilder;
 
 public class LoginActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {

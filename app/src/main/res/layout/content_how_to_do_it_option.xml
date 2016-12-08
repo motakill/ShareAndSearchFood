@@ -59,16 +59,23 @@ android:weightSum="1">
     </RelativeLayout>
 
 </LinearLayout>
-<ImageView
-    android:layout_width="wrap_content"
-    android:layout_height="208dp"
-    android:src="@drawable/bolos"
-    android:id="@+id/imageView6"
-    android:layout_marginLeft="25dp"
-    android:layout_marginRight="25dp"
-    android:layout_marginTop="5dp"
-    android:layout_weight="0.10"
-    android:layout_margin="10dp"/>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="250dp"
+        android:minHeight="250dp"
+        android:maxHeight="250dp"
+        android:minWidth="400dp"
+        android:maxWidth="400dp"
+        android:id="@+id/imageView6"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="5dp"
+        android:layout_margin="10dp"
+        android:scaleType="center"
+        android:gravity="center"
+        android:clickable="true"
+        android:onClick="clickRecipe"
+        />
 
 <TextView
     android:text="Observações: Vi isto no restaurante do samouco, alguma ideia de como fazer?"

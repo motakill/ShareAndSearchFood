@@ -38,7 +38,6 @@ import com.shareandsearchfood.shareandsearchfood.MenuActivity;
 import com.shareandsearchfood.shareandsearchfood.MyProfile;
 import com.shareandsearchfood.shareandsearchfood.R;
 
-import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;

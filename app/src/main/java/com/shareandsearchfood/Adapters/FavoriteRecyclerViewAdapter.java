@@ -20,7 +20,6 @@ import com.shareandsearchfood.shareandsearchfood.R;
 import com.shareandsearchfood.shareandsearchfood.RecipeContent;
 import com.shareandsearchfood.shareandsearchfood.Visit_person;
 
-import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.io.IOException;
 import java.net.URL;

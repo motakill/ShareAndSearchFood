@@ -16,14 +16,9 @@ import com.shareandsearchfood.Adapters.FavoriteRecyclerViewAdapter;
 
 import com.shareandsearchfood.login.Session;
 
-import com.shareandsearchfood.shareandsearchfood.Favorite;
-import com.shareandsearchfood.shareandsearchfood.FavoriteDao;
+
 import com.shareandsearchfood.shareandsearchfood.R;
 
-import org.greenrobot.greendao.query.QueryBuilder;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A fragment representing a list of Items.

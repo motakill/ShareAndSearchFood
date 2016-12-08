@@ -8,6 +8,7 @@ android {
         applicationId "com.shareandsearchfood.shareandsearchfood"
         minSdkVersion 15
         targetSdkVersion 24
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -26,30 +27,21 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.squareup.picasso:picasso:2.3.3'
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:design:24.2.1'
     compile 'com.google.android.gms:play-services:9.0.0'
     compile 'com.facebook.android:facebook-android-sdk:[4,5]'
     compile 'org.parceler:parceler-api:1.1.1'
     testCompile 'junit:junit:4.12'
-    compile files('libs/greendao-3.2.0.jar')
 }
 
 buildscript {
     repositories {
         mavenCentral()
     }
-    dependencies {
-        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.0'
-    }
+
 }
 
-apply plugin: 'org.greenrobot.greendao'
-
-dependencies {
-    compile 'org.greenrobot:greendao:3.2.0'
-}
 
 
 
