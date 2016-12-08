@@ -25,7 +25,7 @@ import com.shareandsearchfood.ParcelerObjects.Recipe;
 import com.shareandsearchfood.ParcelerObjects.User;
 import com.shareandsearchfood.Utils.Constants;
 import com.shareandsearchfood.Utils.FirebaseOperations;
-import com.shareandsearchfood.login.LoginActivity;
+import com.shareandsearchfood.Login.LoginActivity;
 
 import java.util.ArrayList;
 import java.util.List;

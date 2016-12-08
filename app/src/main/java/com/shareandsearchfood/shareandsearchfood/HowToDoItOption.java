@@ -1,15 +1,10 @@
 package com.shareandsearchfood.shareandsearchfood;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -20,11 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.shareandsearchfood.Utils.FirebaseOperations;
 import com.shareandsearchfood.Utils.Image;
-import com.shareandsearchfood.login.LoginActivity;
-import com.squareup.picasso.Picasso;
-
-import java.io.IOException;
-import java.net.URL;
+import com.shareandsearchfood.Login.LoginActivity;
 
 /**
  * Created by david_000 on 16/10/2016.

@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 
 import com.shareandsearchfood.Adapters.FavoriteRecyclerViewAdapter;
 
-import com.shareandsearchfood.login.Session;
 
 
 import com.shareandsearchfood.shareandsearchfood.R;
@@ -33,7 +32,6 @@ public class FavoriteFragment extends Fragment implements SwipeRefreshLayout.OnR
     protected RecyclerView.LayoutManager mLayoutManager;
     private static final String KEY_LAYOUT_MANAGER = "layoutManager";
     private static final int SPAN_COUNT = 2;
-    private Session session;
 
 
     private enum LayoutManagerType {
@@ -112,8 +110,6 @@ public class FavoriteFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        session = new Session(context);
-
     }
 
     @Override

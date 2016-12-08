@@ -3,8 +3,6 @@ package com.shareandsearchfood.shareandsearchfood;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.ImageFormat;
-import android.graphics.YuvImage;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -22,7 +20,7 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.shareandsearchfood.Utils.FirebaseOperations;
-import com.shareandsearchfood.login.LoginActivity;
+import com.shareandsearchfood.Login.LoginActivity;
 
 import java.io.ByteArrayOutputStream;
 

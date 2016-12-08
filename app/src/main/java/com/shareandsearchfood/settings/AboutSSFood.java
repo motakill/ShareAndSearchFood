@@ -1,4 +1,4 @@
-package com.shareandsearchfood.settings;
+package com.shareandsearchfood.Settings;
 
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;

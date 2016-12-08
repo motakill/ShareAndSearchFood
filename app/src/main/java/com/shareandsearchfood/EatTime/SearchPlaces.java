@@ -34,7 +34,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.shareandsearchfood.shareandsearchfood.NavBar;
 import com.shareandsearchfood.shareandsearchfood.R;
 
-public class Search_places extends NavBar implements OnMapReadyCallback,
+public class SearchPlaces extends NavBar implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
@@ -42,7 +42,7 @@ public class Search_places extends NavBar implements OnMapReadyCallback,
     private GoogleMap mMap;
     double latitude;
     double longitude;
-    private int PROXIMITY_RADIUS = 1000;
+    private int PROXIMITY_RADIUS = 2000;
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
     Marker mCurrLocationMarker;
@@ -141,7 +141,7 @@ public class Search_places extends NavBar implements OnMapReadyCallback,
                 Log.d("onClick", url);
                 GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
                 getNearbyPlacesData.execute(DataTransfer);
-                Toast.makeText(Search_places.this,"Nearby Restaurants", Toast.LENGTH_LONG).show();
+                Toast.makeText(SearchPlaces.this,"Nearby Restaurants", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -159,7 +159,7 @@ public class Search_places extends NavBar implements OnMapReadyCallback,
                 Log.d("onClick", url);
                 GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
                 getNearbyPlacesData.execute(DataTransfer);
-                Toast.makeText(Search_places.this,"Nearby Cofees", Toast.LENGTH_LONG).show();
+                Toast.makeText(SearchPlaces.this,"Nearby Cofees", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -180,7 +180,7 @@ public class Search_places extends NavBar implements OnMapReadyCallback,
                 Log.d("onClick", url);
                 GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
                 getNearbyPlacesData.execute(DataTransfer);
-                Toast.makeText(Search_places.this,"Nearby Bars", Toast.LENGTH_LONG).show();
+                Toast.makeText(SearchPlaces.this,"Nearby Bars", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -247,7 +247,7 @@ public class Search_places extends NavBar implements OnMapReadyCallback,
         //move map camera
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
-        Toast.makeText(Search_places.this,"Your Current Location", Toast.LENGTH_LONG).show();
+        Toast.makeText(SearchPlaces.this,"Your Current Location", Toast.LENGTH_LONG).show();
 
         Log.d("onLocationChanged", String.format("latitude:%.3f longitude:%.3f",latitude,longitude));
 

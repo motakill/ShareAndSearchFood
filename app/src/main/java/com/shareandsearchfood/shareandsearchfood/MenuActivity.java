@@ -23,7 +23,7 @@ import com.shareandsearchfood.Adapters.CookBookRecyclerViewAdapter;
 import com.shareandsearchfood.ParcelerObjects.Recipe;
 import com.shareandsearchfood.Utils.Constants;
 
-import com.shareandsearchfood.login.LoginActivity;
+import com.shareandsearchfood.Login.LoginActivity;
 
 
 

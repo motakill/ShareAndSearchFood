@@ -8,9 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.shareandsearchfood.EatTime.Search_places;
-import com.shareandsearchfood.settings.AboutSSFood;
-import com.shareandsearchfood.settings.FeedBackSSFood;
+import com.shareandsearchfood.EatTime.SearchPlaces;
+import com.shareandsearchfood.Settings.AboutSSFood;
+import com.shareandsearchfood.Settings.FeedBackSSFood;
 
 
 /**
@@ -78,7 +78,7 @@ public class NavBar extends AppCompatActivity
             startActivity(new Intent(getApplicationContext(), HowToDoIt.class));
             return true;
         } else if (id == R.id.nav_eatTime) {
-            startActivity(new Intent(getApplicationContext(), Search_places.class));
+            startActivity(new Intent(getApplicationContext(), SearchPlaces.class));
             return true;
         }
 

@@ -22,7 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.shareandsearchfood.Adapters.HowToDoItRecyclerViewAdapter;
 import com.shareandsearchfood.ParcelerObjects.HowTo;
 import com.shareandsearchfood.Utils.Constants;
-import com.shareandsearchfood.login.LoginActivity;
+import com.shareandsearchfood.Login.LoginActivity;
 
 import java.util.ArrayList;
 import java.util.List;

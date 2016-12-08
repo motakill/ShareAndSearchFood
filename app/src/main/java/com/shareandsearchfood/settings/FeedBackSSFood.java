@@ -1,4 +1,4 @@
-package com.shareandsearchfood.settings;
+package com.shareandsearchfood.Settings;
 
 import android.content.Intent;
 import android.net.Uri;

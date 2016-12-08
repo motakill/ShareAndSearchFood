@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.shareandsearchfood.login;
+package com.shareandsearchfood.Login;
 
 import android.content.DialogInterface;
 import android.content.Intent;
