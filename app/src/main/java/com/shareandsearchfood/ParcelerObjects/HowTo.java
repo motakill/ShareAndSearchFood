@@ -8,7 +8,7 @@ import java.util.Date;
  * Created by david_000 on 07/12/2016.
  */
 @Parcel
-public class HowToFirebase {
+public class HowTo {
 
     private String userId;
     private String title;
@@ -18,9 +18,9 @@ public class HowToFirebase {
     private String videos;
     private String date;
 
-    public HowToFirebase(String userId,String title,
-                          String obs, String photo, String comments,
-                          String videos, String date) {
+    public HowTo(String userId, String title,
+                 String obs, String photo, String comments,
+                 String videos, String date) {
 
         this.userId = userId;
         this.title = title;
@@ -31,7 +31,7 @@ public class HowToFirebase {
         this.date = date;
     }
 
-    public HowToFirebase() {
+    public HowTo() {
     }
 
     public String getDate() {

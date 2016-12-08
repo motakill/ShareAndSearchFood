@@ -1,4 +1,4 @@
-package com.shareandsearchfood.shareandsearchfood;
+package com.shareandsearchfood.Utils;
 
 
 import android.util.Log;

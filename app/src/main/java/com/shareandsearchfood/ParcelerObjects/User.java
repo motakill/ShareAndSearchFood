@@ -9,7 +9,7 @@ import org.parceler.Parcel;
  */
 
 @Parcel
-public class UserFirebase {
+public class User {
 
     private String username;
     private String email;
@@ -22,14 +22,14 @@ public class UserFirebase {
     //private List<Favorite> favorites;
    // private List<HowToDoItTable> howToDoIt;
 
-    public UserFirebase(String username, String email, String password, String photo) {
+    public User(String username, String email, String password, String photo) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.photo = photo;
     }
 
-    public UserFirebase() {
+    public User() {
     }
 
     //falta ligar amigos a conta actual...

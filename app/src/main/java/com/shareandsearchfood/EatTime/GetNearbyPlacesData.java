@@ -1,4 +1,4 @@
-package com.shareandsearchfood.shareandsearchfood;
+package com.shareandsearchfood.EatTime;
 
 
 import android.os.AsyncTask;
@@ -9,8 +9,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import org.json.JSONObject;
+import com.shareandsearchfood.Utils.DownloadUrl;
 
 import java.util.HashMap;
 import java.util.List;

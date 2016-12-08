@@ -1,8 +1,6 @@
 package com.shareandsearchfood.shareandsearchfood;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -10,11 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.shareandsearchfood.login.LoginActivity;
+import com.shareandsearchfood.EatTime.Search_places;
 import com.shareandsearchfood.settings.AboutSSFood;
 import com.shareandsearchfood.settings.FeedBackSSFood;
 

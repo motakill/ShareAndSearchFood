@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.shareandsearchfood.ParcelerObjects.NotebookFirebase;
+import com.shareandsearchfood.ParcelerObjects.Notebook;
 import com.shareandsearchfood.Utils.FirebaseOperations;
 import com.shareandsearchfood.shareandsearchfood.R;
 
@@ -16,7 +16,7 @@ import java.util.List;
 
 public class NoteBookRecyclerViewAdapter extends RecyclerView.Adapter<NoteBookRecyclerViewAdapter.ViewHolder> {
 
-    private List<NotebookFirebase> mDataSet;
+    private List<Notebook> mDataSet;
 
     /**
      * Inner Class for a recycler view
@@ -33,7 +33,7 @@ public class NoteBookRecyclerViewAdapter extends RecyclerView.Adapter<NoteBookRe
         }
     }
 
-    public NoteBookRecyclerViewAdapter(List<NotebookFirebase> dataSet) {
+    public NoteBookRecyclerViewAdapter(List<Notebook> dataSet) {
         mDataSet = dataSet;
     }
 
@@ -47,7 +47,7 @@ public class NoteBookRecyclerViewAdapter extends RecyclerView.Adapter<NoteBookRe
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        NotebookFirebase note = mDataSet.get(position);
+        Notebook note = mDataSet.get(position);
         holder.mTextView.setText(note.getNote());
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override

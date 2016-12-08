@@ -6,17 +6,17 @@ import org.parceler.Parcel;
  * Created by david_000 on 07/12/2016.
  */
 @Parcel
-public class NotebookFirebase {
+public class Notebook {
     private String note;
     private String date;
 
-    public NotebookFirebase(String note,
+    public Notebook(String note,
                     String date) {
         this.note = note;
         this.date = date;
     }
 
-    public NotebookFirebase() {
+    public Notebook() {
     }
 
     public String getNote() {

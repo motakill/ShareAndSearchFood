@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,8 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.shareandsearchfood.Adapters.FavoriteRecyclerViewAdapter;
 import com.shareandsearchfood.Adapters.MyPubsRecyclerViewAdapter;
-import com.shareandsearchfood.Fragments.FavoriteFragment;
-import com.shareandsearchfood.ParcelerObjects.RecipeFirebase;
+import com.shareandsearchfood.ParcelerObjects.Recipe;
 import com.shareandsearchfood.Utils.Constants;
 import com.shareandsearchfood.Utils.FirebaseOperations;
 import com.shareandsearchfood.login.LoginActivity;
@@ -47,7 +45,7 @@ public class MyProfile extends NavBar {
     private static final int PICK_IMAGE = 100;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
-    private List<RecipeFirebase> mRecipe;
+    private List<Recipe> mRecipe;
     private RecyclerView mRecyclerView;
     private MyPubsRecyclerViewAdapter mAdapter;
     private FavoriteRecyclerViewAdapter mFAdapter;
@@ -111,7 +109,7 @@ public class MyProfile extends NavBar {
                             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                                 if (dataSnapshot != null && dataSnapshot.getValue() != null) {
                                     try{
-                                        RecipeFirebase model = dataSnapshot.getValue(RecipeFirebase.class);
+                                        Recipe model = dataSnapshot.getValue(Recipe.class);
                                         mRecipe.add(model);
                                         mAdapter.notifyItemInserted(mRecipe.size() - 1);
                                     } catch (Exception ex) {

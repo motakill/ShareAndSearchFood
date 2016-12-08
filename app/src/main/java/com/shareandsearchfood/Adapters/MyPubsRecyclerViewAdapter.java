@@ -2,9 +2,6 @@ package com.shareandsearchfood.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,21 +11,17 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.shareandsearchfood.ParcelerObjects.NotebookFirebase;
-import com.shareandsearchfood.ParcelerObjects.RecipeFirebase;
-import com.shareandsearchfood.Utils.FirebaseOperations;
+import com.shareandsearchfood.ParcelerObjects.Recipe;
 import com.shareandsearchfood.Utils.Image;
 import com.shareandsearchfood.shareandsearchfood.R;
 import com.shareandsearchfood.shareandsearchfood.RecipeContent;
-import com.squareup.picasso.Picasso;
 
 
-import java.net.URL;
 import java.util.List;
 
 public class MyPubsRecyclerViewAdapter extends RecyclerView.Adapter<MyPubsRecyclerViewAdapter.ViewHolder> {
     private final Context ctx;
-    private List<RecipeFirebase> mDataSet;
+    private List<Recipe> mDataSet;
 
     /**
      * Inner Class for a recycler view
@@ -51,7 +44,7 @@ public class MyPubsRecyclerViewAdapter extends RecyclerView.Adapter<MyPubsRecycl
         }
     }
 
-    public MyPubsRecyclerViewAdapter(List<RecipeFirebase> dataSet, Context ctx) {
+    public MyPubsRecyclerViewAdapter(List<Recipe> dataSet, Context ctx) {
         mDataSet = dataSet;
         this.ctx = ctx;
     }
@@ -66,7 +59,7 @@ public class MyPubsRecyclerViewAdapter extends RecyclerView.Adapter<MyPubsRecycl
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final RecipeFirebase recipe = mDataSet.get(position);
+        final Recipe recipe = mDataSet.get(position);
         holder.titulo.setText(recipe.getTitle());
         Image.download(ctx,holder.photo,recipe.getPhotoRecipe());
 

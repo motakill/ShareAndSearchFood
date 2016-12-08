@@ -11,7 +11,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.shareandsearchfood.shareandsearchfood.Search_places"/>
+        tools:context="com.shareandsearchfood.shareandsearchfood.com.shareandsearchfood.Maps.Search_places"/>
 
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

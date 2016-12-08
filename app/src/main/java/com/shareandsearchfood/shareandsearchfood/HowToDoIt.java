@@ -20,7 +20,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.shareandsearchfood.Adapters.HowToDoItRecyclerViewAdapter;
-import com.shareandsearchfood.ParcelerObjects.HowToFirebase;
+import com.shareandsearchfood.ParcelerObjects.HowTo;
 import com.shareandsearchfood.Utils.Constants;
 import com.shareandsearchfood.login.LoginActivity;
 
@@ -35,7 +35,7 @@ import java.util.List;
 public class HowToDoIt extends NavBar {
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
-    private List<HowToFirebase> mRecipe;
+    private List<HowTo> mRecipe;
     private RecyclerView mRecyclerView;
     private HowToDoItRecyclerViewAdapter mAdapter;
 
@@ -80,7 +80,7 @@ public class HowToDoIt extends NavBar {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if (dataSnapshot != null && dataSnapshot.getValue() != null) {
                     try{
-                        HowToFirebase model = dataSnapshot.getValue(HowToFirebase.class);
+                        HowTo model = dataSnapshot.getValue(HowTo.class);
                         mRecipe.add(model);
                         mAdapter.notifyItemInserted(mRecipe.size() - 1);
                     } catch (Exception ex) {

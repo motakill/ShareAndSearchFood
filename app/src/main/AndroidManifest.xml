@@ -70,16 +70,12 @@
             android:label="Person Name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Search_places"
+            android:name="com.shareandsearchfood.EatTime.Search_places"
             android:label="Eat Time"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Search_people"
             android:label="Find People"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Restaurant"
-            android:label="Restaurant Name"
             android:screenOrientation="portrait" />
         <activity
             android:name=".HowToDoIt"

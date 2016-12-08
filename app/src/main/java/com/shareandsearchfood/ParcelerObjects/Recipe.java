@@ -5,7 +5,7 @@ package com.shareandsearchfood.ParcelerObjects;
  * Created by david_000 on 07/12/2016.
  */
 
-public class RecipeFirebase {
+public class Recipe {
     private String title;
     private String ingredients;
     private String steps;
@@ -21,7 +21,7 @@ public class RecipeFirebase {
     //private List<Video> videos;
     //private List<Favorite> favorites;
 
-    public RecipeFirebase(String title, String ingredients,
+    public Recipe(String title, String ingredients,
                   String steps, String photoRecipe, String calories,
                   int status, String userId, String date, float rate,
                   boolean favorite) {
@@ -37,7 +37,7 @@ public class RecipeFirebase {
         this.favorite = favorite;
     }
 
-    public RecipeFirebase() {
+    public Recipe() {
     }
 
     public String getTitle() {

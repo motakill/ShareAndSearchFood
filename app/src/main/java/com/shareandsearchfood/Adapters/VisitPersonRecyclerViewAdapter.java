@@ -12,19 +12,17 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 
-import com.shareandsearchfood.ParcelerObjects.RecipeFirebase;
-import com.shareandsearchfood.Utils.FirebaseOperations;
+import com.shareandsearchfood.ParcelerObjects.Recipe;
 import com.shareandsearchfood.Utils.Image;
 import com.shareandsearchfood.shareandsearchfood.R;
 import com.shareandsearchfood.shareandsearchfood.RecipeContent;
-import com.squareup.picasso.Picasso;
 
 
 import java.util.List;
 
 public class VisitPersonRecyclerViewAdapter extends RecyclerView.Adapter<VisitPersonRecyclerViewAdapter.ViewHolder> {
     private final Context ctx;
-    private List<RecipeFirebase> mDataSet;
+    private List<Recipe> mDataSet;
 
     /**
      * Inner Class for a recycler view
@@ -47,7 +45,7 @@ public class VisitPersonRecyclerViewAdapter extends RecyclerView.Adapter<VisitPe
         }
     }
 
-    public VisitPersonRecyclerViewAdapter(List<RecipeFirebase> dataSet, Context ctx) {
+    public VisitPersonRecyclerViewAdapter(List<Recipe> dataSet, Context ctx) {
         mDataSet = dataSet;
         this.ctx = ctx;
     }
@@ -62,7 +60,7 @@ public class VisitPersonRecyclerViewAdapter extends RecyclerView.Adapter<VisitPe
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final RecipeFirebase recipe = mDataSet.get(position);
+        final Recipe recipe = mDataSet.get(position);
 
         holder.titulo.setText(recipe.getTitle());
         Image.download(ctx,holder.photo,recipe.getPhotoRecipe());

@@ -5,5 +5,5 @@
     android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.shareandsearchfood.shareandsearchfood.Search_places2" />
+    tools:context="com.shareandsearchfood.shareandsearchfood.com.shareandsearchfood.Maps.Search_places2" />
 

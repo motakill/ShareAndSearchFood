@@ -1,11 +1,7 @@
 package com.shareandsearchfood.shareandsearchfood;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
@@ -15,7 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,24 +20,20 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.shareandsearchfood.Adapters.CookBookRecyclerViewAdapter;
 import com.shareandsearchfood.Adapters.VisitPersonRecyclerViewAdapter;
-import com.shareandsearchfood.ParcelerObjects.RecipeFirebase;
-import com.shareandsearchfood.ParcelerObjects.UserFirebase;
+import com.shareandsearchfood.ParcelerObjects.Recipe;
+import com.shareandsearchfood.ParcelerObjects.User;
 import com.shareandsearchfood.Utils.Constants;
 import com.shareandsearchfood.Utils.FirebaseOperations;
-import com.shareandsearchfood.Utils.Image;
 import com.shareandsearchfood.login.LoginActivity;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Visit_person extends NavBar {
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
-    private List<RecipeFirebase> mRecipe;
+    private List<Recipe> mRecipe;
     private RecyclerView mRecyclerView;
     private VisitPersonRecyclerViewAdapter mAdapter;
 
@@ -93,7 +84,7 @@ public class Visit_person extends NavBar {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if (dataSnapshot != null && dataSnapshot.getValue() != null) {
                     try{
-                        RecipeFirebase model = dataSnapshot.getValue(RecipeFirebase.class);
+                        Recipe model = dataSnapshot.getValue(Recipe.class);
                         mRecipe.add(model);
                         mRecyclerView.scrollToPosition(mRecipe.size() - 1);
                         mAdapter.notifyItemInserted(mRecipe.size() - 1);
@@ -151,7 +142,7 @@ public class Visit_person extends NavBar {
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        UserFirebase user = dataSnapshot.getValue(UserFirebase.class);
+                        User user = dataSnapshot.getValue(User.class);
                         setTitle(user.getUsername());
                     }
                     @Override

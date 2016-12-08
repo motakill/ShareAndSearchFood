@@ -2,42 +2,25 @@ package com.shareandsearchfood.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.shareandsearchfood.ParcelerObjects.HowToFirebase;
-import com.shareandsearchfood.ParcelerObjects.NotebookFirebase;
-import com.shareandsearchfood.ParcelerObjects.RecipeFirebase;
+import com.shareandsearchfood.ParcelerObjects.HowTo;
 import com.shareandsearchfood.Utils.FirebaseOperations;
 import com.shareandsearchfood.Utils.Image;
-import com.shareandsearchfood.login.LoginActivity;
 import com.shareandsearchfood.shareandsearchfood.HowToDoItOption;
 import com.shareandsearchfood.shareandsearchfood.R;
-import com.shareandsearchfood.shareandsearchfood.RecipeContent;
-import com.shareandsearchfood.shareandsearchfood.Visit_person;
-import com.squareup.picasso.Picasso;
 
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URL;
 import java.util.List;
 
 public class HowToDoItRecyclerViewAdapter extends RecyclerView.Adapter<HowToDoItRecyclerViewAdapter.ViewHolder> {
     private final Context ctx;
-    private List<HowToFirebase> mDataSet;
+    private List<HowTo> mDataSet;
     /**
      * Inner Class for a recycler view
      */
@@ -58,7 +41,7 @@ public class HowToDoItRecyclerViewAdapter extends RecyclerView.Adapter<HowToDoIt
         }
     }
 
-    public HowToDoItRecyclerViewAdapter(List<HowToFirebase> dataSet, Context ctx) {
+    public HowToDoItRecyclerViewAdapter(List<HowTo> dataSet, Context ctx) {
         mDataSet = dataSet;
         this.ctx = ctx;
 
@@ -74,7 +57,7 @@ public class HowToDoItRecyclerViewAdapter extends RecyclerView.Adapter<HowToDoIt
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final HowToFirebase howTo = mDataSet.get(position);
+        final HowTo howTo = mDataSet.get(position);
         holder.titulo.setText(howTo.getTitle());
         FirebaseOperations.setUserContent(howTo.getUserId(),holder.nickname,holder.userImage,ctx);
         Image.download(ctx,holder.photo,howTo.getPhoto());

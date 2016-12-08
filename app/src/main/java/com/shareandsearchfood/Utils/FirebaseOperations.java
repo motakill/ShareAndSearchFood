@@ -1,10 +1,7 @@
 package com.shareandsearchfood.Utils;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,15 +19,12 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.shareandsearchfood.ParcelerObjects.HowToFirebase;
-import com.shareandsearchfood.ParcelerObjects.NotebookFirebase;
-import com.shareandsearchfood.ParcelerObjects.RecipeFirebase;
-import com.shareandsearchfood.ParcelerObjects.UserFirebase;
-import com.shareandsearchfood.shareandsearchfood.NotebookActivity;
+import com.shareandsearchfood.ParcelerObjects.HowTo;
+import com.shareandsearchfood.ParcelerObjects.Notebook;
+import com.shareandsearchfood.ParcelerObjects.Recipe;
+import com.shareandsearchfood.ParcelerObjects.User;
 import com.shareandsearchfood.shareandsearchfood.R;
-import com.squareup.picasso.Picasso;
 
-import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -56,7 +50,7 @@ public class FirebaseOperations {
                 .getReference(Constants.FIREBASE_CHILD_USERS);
 
         userRef.child(encodeKey(personEmail))
-                .setValue(new UserFirebase(personName, personEmail, null, personPhoto.toString()));
+                .setValue(new User(personName, personEmail, null, personPhoto.toString()));
     }
     public static void insertUser(String personName, String personEmail,
                                   String password, String personPhoto) {
@@ -65,7 +59,7 @@ public class FirebaseOperations {
                 .getReference(Constants.FIREBASE_CHILD_USERS);
 
         userRef.child(encodeKey(personEmail))
-                .setValue(new UserFirebase(personName, personEmail, password, personPhoto));
+                .setValue(new User(personName, personEmail, password, personPhoto));
 
     }
     public static void setUserContent(String email, final TextView userTextView,
@@ -77,7 +71,7 @@ public class FirebaseOperations {
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        UserFirebase user = dataSnapshot.getValue(UserFirebase.class);
+                        User user = dataSnapshot.getValue(User.class);
                         if(userTextView != null)
                             userTextView.setText(user.getName());
                         if (user.getPhoto() != null && photo != null) {
@@ -126,7 +120,7 @@ public class FirebaseOperations {
         String reportDate = df.format(today);
 
         userRef.child(encodeKey(email)).child(Constants.FIREBASE_CHILD_NOTES).push()
-                .setValue(new NotebookFirebase(note,reportDate));
+                .setValue(new Notebook(note,reportDate));
     }
     public static void removeNote() {
         FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
@@ -168,12 +162,12 @@ public class FirebaseOperations {
 
 
         DatabaseReference newRef = userRef.push();
-        newRef.setValue(new RecipeFirebase(title, ingredients, steps, photoReceipt,
+        newRef.setValue(new Recipe(title, ingredients, steps, photoReceipt,
                 calories,status, userId, reportDate, rate, favorite));
 
         key = newRef.getKey();
         userRef2.child(encodeKey(userId)).child(Constants.FIREBASE_CHILD_RECIPES).child(key)
-                .setValue(new RecipeFirebase(title, ingredients, steps, photoReceipt,
+                .setValue(new Recipe(title, ingredients, steps, photoReceipt,
                 calories,status, userId, reportDate, rate, favorite));
 
     }
@@ -226,12 +220,12 @@ public class FirebaseOperations {
         String reportDate = df.format(today);
 
         DatabaseReference newRef = userRef.push();
-        newRef.setValue(new HowToFirebase(userId,title, obs, photo, comments,
+        newRef.setValue(new HowTo(userId,title, obs, photo, comments,
                 videos,reportDate));
 
         key = newRef.getKey();
         userRef2.child(encodeKey(userId)).child(Constants.FIREBASE_CHILD_HOWTO).child(key)
-                .setValue(new HowToFirebase(userId,title, obs, photo, comments,
+                .setValue(new HowTo(userId,title, obs, photo, comments,
                         videos,reportDate));
 
         FirebaseOperations.storeHowToPhotoToFirebase(Uri.parse(photo),userId);

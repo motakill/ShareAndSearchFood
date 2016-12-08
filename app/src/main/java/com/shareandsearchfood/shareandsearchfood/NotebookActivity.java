@@ -2,7 +2,6 @@ package com.shareandsearchfood.shareandsearchfood;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -23,7 +22,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.shareandsearchfood.Adapters.NoteBookRecyclerViewAdapter;
-import com.shareandsearchfood.ParcelerObjects.NotebookFirebase;
+import com.shareandsearchfood.ParcelerObjects.Notebook;
 import com.shareandsearchfood.Utils.Constants;
 import com.shareandsearchfood.Utils.FirebaseOperations;
 import com.shareandsearchfood.login.LoginActivity;
@@ -40,7 +39,7 @@ public class NotebookActivity extends NavBar{
     private RadioButton buttonAdd;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
-    private List<NotebookFirebase> mNotes;
+    private List<Notebook> mNotes;
     private RecyclerView mRecyclerView;
     private NoteBookRecyclerViewAdapter mAdapter;
 
@@ -95,7 +94,7 @@ public class NotebookActivity extends NavBar{
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if (dataSnapshot != null && dataSnapshot.getValue() != null) {
                     try{
-                        NotebookFirebase model = dataSnapshot.getValue(NotebookFirebase.class);
+                        Notebook model = dataSnapshot.getValue(Notebook.class);
                         mNotes.add(model);
                         mRecyclerView.scrollToPosition(mNotes.size() - 1);
                         mAdapter.notifyItemInserted(mNotes.size() - 1);
@@ -113,7 +112,7 @@ public class NotebookActivity extends NavBar{
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 if (dataSnapshot != null && dataSnapshot.getValue() != null) {
                     try{
-                        NotebookFirebase model = dataSnapshot.getValue(NotebookFirebase.class);
+                        Notebook model = dataSnapshot.getValue(Notebook.class);
                         mNotes.remove(model);
                         mRecyclerView.scrollToPosition(mNotes.size() - 1);
                         mAdapter.notifyItemRemoved(mNotes.size() - 1);

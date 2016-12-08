@@ -2,9 +2,6 @@ package com.shareandsearchfood.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,24 +11,19 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.shareandsearchfood.ParcelerObjects.NotebookFirebase;
-import com.shareandsearchfood.ParcelerObjects.RecipeFirebase;
+import com.shareandsearchfood.ParcelerObjects.Recipe;
 import com.shareandsearchfood.Utils.FirebaseOperations;
 import com.shareandsearchfood.Utils.Image;
-import com.shareandsearchfood.login.LoginActivity;
 import com.shareandsearchfood.shareandsearchfood.R;
 import com.shareandsearchfood.shareandsearchfood.RecipeContent;
 import com.shareandsearchfood.shareandsearchfood.Visit_person;
-import com.squareup.picasso.Picasso;
 
 
 import java.util.List;
 
 public class CookBookRecyclerViewAdapter extends RecyclerView.Adapter<CookBookRecyclerViewAdapter.ViewHolder> {
     private final Context ctx;
-    private List<RecipeFirebase> mDataSet;
+    private List<Recipe> mDataSet;
 
 
     /**
@@ -59,7 +51,7 @@ public class CookBookRecyclerViewAdapter extends RecyclerView.Adapter<CookBookRe
         }
     }
 
-    public CookBookRecyclerViewAdapter(List<RecipeFirebase> dataSet, Context ctx) {
+    public CookBookRecyclerViewAdapter(List<Recipe> dataSet, Context ctx) {
         mDataSet = dataSet;
         this.ctx = ctx;
 
@@ -75,7 +67,7 @@ public class CookBookRecyclerViewAdapter extends RecyclerView.Adapter<CookBookRe
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final RecipeFirebase recipe = mDataSet.get(position);
+        final Recipe recipe = mDataSet.get(position);
         holder.titulo.setText(recipe.getTitle());
         FirebaseOperations.setUserContent(recipe.getUserId(),holder.nickname,holder.userImage,ctx);
         Image.download(ctx,holder.photo,recipe.getPhotoRecipe());

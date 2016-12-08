@@ -20,7 +20,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.shareandsearchfood.Adapters.CookBookRecyclerViewAdapter;
-import com.shareandsearchfood.ParcelerObjects.RecipeFirebase;
+import com.shareandsearchfood.ParcelerObjects.Recipe;
 import com.shareandsearchfood.Utils.Constants;
 
 import com.shareandsearchfood.login.LoginActivity;
@@ -34,7 +34,7 @@ import java.util.List;
 public class MenuActivity extends NavBar{
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
-    private List<RecipeFirebase> mRecipe;
+    private List<Recipe> mRecipe;
     private RecyclerView mRecyclerView;
     private CookBookRecyclerViewAdapter mAdapter;
     @Override
@@ -77,7 +77,7 @@ public class MenuActivity extends NavBar{
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                         if (dataSnapshot != null && dataSnapshot.getValue() != null) {
                             try{
-                                RecipeFirebase model = dataSnapshot.getValue(RecipeFirebase.class);
+                                Recipe model = dataSnapshot.getValue(Recipe.class);
                                 mRecipe.add(model);
                                 mAdapter.notifyItemInserted(mRecipe.size() - 1);
                             } catch (Exception ex) {

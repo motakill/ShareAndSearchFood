@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.shareandsearchfood.shareandsearchfood.Search_places">
+    tools:context="com.shareandsearchfood.shareandsearchfood.com.shareandsearchfood.Maps.Search_places">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
