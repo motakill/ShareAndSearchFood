@@ -1,10 +1,11 @@
-package com.shareandsearchfood.shareandsearchfood;
+package com.shareandsearchfood.Utils;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.shareandsearchfood.Login.LoginActivity;
+import com.shareandsearchfood.shareandsearchfood.R;
 
 /**
  * Created by tiagomota on 08/12/16.

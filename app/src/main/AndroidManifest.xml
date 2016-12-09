@@ -47,7 +47,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAjIcR0gKu0y1ImaoEuQiOxnduE6phkZl4"/>
         <activity
-            android:name="com.shareandsearchfood.shareandsearchfood.SplashScreen"
+            android:name="com.shareandsearchfood.Utils.SplashScreen"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme2">

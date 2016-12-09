@@ -75,7 +75,7 @@ public class RecipeContent extends NavBar {
         ingredients = (TextView) findViewById(R.id.ingredientsRow);
         steps = (TextView) findViewById(R.id.stepsRow);
 
-        FirebaseOperations.setUserContent(mFirebaseUser.getEmail(),nickname,userImage,RecipeContent.this);
+        FirebaseOperations.setUserContent(userID,nickname,userImage,RecipeContent.this);
         setTitle(tituloIntent);
         titulo.setText(tituloIntent);
         Image.download(this,photo,recipePhotoIntent);
