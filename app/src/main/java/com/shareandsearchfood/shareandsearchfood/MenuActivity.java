@@ -120,6 +120,19 @@ public class MenuActivity extends NavBar{
                 return super.onOptionsItemSelected(item);
         }
     }
+    /*
+//experiencia search bar
+       @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.menu_settings, menu);
+    MenuItem searchItem = menu.findItem(R.id.search_names);
+    SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+    // Configure the search info and add any event listeners
+    return super.onCreateOptionsMenu(menu);
+    }
+     */
+
+
     public void clickProfile(View view){
         Intent intent = new Intent(this, Visit_person.class);
         startActivity(intent);
@@ -130,6 +143,7 @@ public class MenuActivity extends NavBar{
         startActivity(intent);
 
     }
+
 
 
 }

@@ -28,7 +28,7 @@
         android:layout_marginTop="-890dp" />
 
     <TextView
-        android:text="Let's grow this new food comunity"
+        android:text="Let's grow this new food community"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textSize="22dp"

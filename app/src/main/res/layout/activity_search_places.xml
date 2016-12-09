@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.shareandsearchfood.shareandsearchfood.com.shareandsearchfood.Maps.Search_places">
+    tools:context="com.shareandsearchfood.EatTime.SearchPlaces">
 
     <include
         layout="@layout/app_bar_search_places"

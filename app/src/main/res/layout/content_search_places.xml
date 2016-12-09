@@ -4,14 +4,14 @@
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <fragment android:id="@+id/map"
+    <fragment android:id="@+id/googleMap_mota"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.shareandsearchfood.shareandsearchfood.com.shareandsearchfood.Maps.Search_places"/>
+        tools:context="com.shareandsearchfood.EatTime.SearchPlaces"/>
 
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -20,23 +20,21 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <Button
-            android:layout_marginTop="20dp"
-            android:id="@+id/btnRestaurant"
-            android:layout_width="wrap_content"
+
+        <EditText
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:text="Nearby Restaurants" />
+            android:id="@+id/placeText_mota"
+            android:layout_marginTop="10dp"/>
 
         <Button
-            android:id="@+id/btnCafe"
+            android:id="@+id/btnFind_mota"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nearby Cofees" />
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@id/placeText_mota"
+            android:text="Search" />
 
-        <Button
-            android:id="@+id/btnBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nearby Bars" />
+
     </LinearLayout>
 </FrameLayout>
