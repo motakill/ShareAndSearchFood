@@ -74,6 +74,7 @@
                 android:maxHeight="250dp"
                 android:minWidth="400dp"
                 android:maxWidth="400dp"
+                android:src="@drawable/loading"
                 android:id="@+id/receita_foto_my_favorites"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"

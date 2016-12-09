@@ -126,6 +126,7 @@ public class LoginActivity extends AppCompatActivity implements
     }
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        Toast.makeText(LoginActivity.this, "Sign in on S&SFood", Toast.LENGTH_LONG).show();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
     @Override
@@ -259,6 +260,8 @@ public class LoginActivity extends AppCompatActivity implements
                                                 Toast.makeText(LoginActivity.this,"Sign In Failed",
                                                         Toast.LENGTH_SHORT).show();
                                             }
+                                            Toast.makeText(LoginActivity.this, "Sign in on S&SFood", Toast.LENGTH_LONG).show();
+
                                         }
                                     });
                             startActivity(new Intent(LoginActivity.this, MyProfile.class));

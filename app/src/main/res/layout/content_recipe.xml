@@ -74,6 +74,7 @@ android:layout_marginTop="100dp">
             android:maxHeight="250dp"
             android:minWidth="400dp"
             android:maxWidth="400dp"
+            android:src="@drawable/loading"
             android:id="@+id/imageView6"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"

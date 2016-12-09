@@ -67,6 +67,7 @@ android:weightSum="1">
         android:minWidth="400dp"
         android:maxWidth="400dp"
         android:id="@+id/imageView6"
+        android:src="@drawable/loading"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:layout_marginTop="5dp"
