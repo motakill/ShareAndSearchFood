@@ -110,6 +110,7 @@ public class HowToDoIt extends NavBar {
         });
 
 }
+
     public void shareHowToDoIt (View view){
         startActivity(new Intent(this, ShareHowToDoItOption.class));
     }

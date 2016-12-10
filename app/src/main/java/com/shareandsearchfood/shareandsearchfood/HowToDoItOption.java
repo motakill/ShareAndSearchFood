@@ -7,6 +7,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -30,6 +31,7 @@ public class HowToDoItOption extends NavBar {
     private TextView nickname;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
+    private String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +67,9 @@ public class HowToDoItOption extends NavBar {
         timestamp = (TextView) findViewById(R.id.data1);
         userImage = (ImageView) findViewById(R.id.imageView4);
         nickname = (TextView) findViewById(R.id.nickname);
+        userID = intent.getStringExtra("userID");
 
-        FirebaseOperations.setUserContent(FirebaseOperations.encodeKey(mFirebaseUser.getEmail()),
+        FirebaseOperations.setUserContent(FirebaseOperations.encodeKey(userID),
                 nickname,userImage,HowToDoItOption.this);
         titulo.setText(tituloIntent);
         obs.setText(obsIntent);
@@ -92,7 +95,12 @@ public class HowToDoItOption extends NavBar {
 
 
     }
+    public void clickProfile(View view){
+        Intent intent = new Intent(this, Visit_person.class);
+        intent.putExtra("userID",userID);
+        startActivity(intent);
 
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

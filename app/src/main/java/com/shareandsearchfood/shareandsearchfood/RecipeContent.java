@@ -159,10 +159,7 @@ public class RecipeContent extends NavBar {
     public void clickProfile(View view){
         Intent intent = new Intent(this, Visit_person.class);
         intent.putExtra("userID",userID);
-        intent.putExtra("favorite",favoriteIntent);
-
         startActivity(intent);
-
     }
     public void setFavoriteStatus(View view){
         FirebaseOperations.setFavoriteStatus(mFirebaseUser.getEmail(),

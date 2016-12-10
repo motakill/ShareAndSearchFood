@@ -14,6 +14,7 @@ import com.shareandsearchfood.Utils.FirebaseOperations;
 import com.shareandsearchfood.Utils.Image;
 import com.shareandsearchfood.shareandsearchfood.HowToDoItOption;
 import com.shareandsearchfood.shareandsearchfood.R;
+import com.shareandsearchfood.shareandsearchfood.Visit_person;
 
 
 import java.util.List;
@@ -71,10 +72,19 @@ public class HowToDoItRecyclerViewAdapter extends RecyclerView.Adapter<HowToDoIt
                 intent.putExtra("htoTitulo",howTo.getTitle());
                 intent.putExtra("htoObs",howTo.getObs());
                 intent.putExtra("htoDate",howTo.getDate());
+                intent.putExtra("userID",howTo.getUserId());
+
                 ctx.startActivity(intent);
             }
         });
-
+        holder.userImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ctx, Visit_person.class);
+                intent.putExtra("userID",howTo.getUserId());
+                ctx.startActivity(intent);
+            }
+        });
         //vai ser how to do its
         holder.timestamp.setText(howTo.getDate());
     }
