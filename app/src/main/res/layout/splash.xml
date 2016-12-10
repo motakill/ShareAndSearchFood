@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:background="@color/black"
+    android:background="@color/white"
     android:layout_height="match_parent">
 
 
@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:textSize="26dp"
         android:gravity="center"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:layout_marginTop="-400dp"
         android:textStyle="bold" />
 
@@ -23,7 +23,7 @@
         android:layout_height="match_parent"
         android:textSize="26dp"
         android:gravity="center"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textStyle="bold"
         android:layout_marginTop="-890dp" />
 
@@ -33,8 +33,8 @@
         android:layout_height="match_parent"
         android:textSize="22dp"
         android:gravity="center"
-        android:textColor="@color/white"
-        android:layout_marginTop="-200dp"
+        android:textColor="@color/black"
+        android:layout_marginTop="-250dp"
         android:textAlignment="center" />
 
     <ImageView

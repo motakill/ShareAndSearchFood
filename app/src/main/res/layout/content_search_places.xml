@@ -39,5 +39,36 @@
             android:textColor="@color/white"/>
 
 
+        <Button
+            android:layout_marginTop="15dp"
+            android:id="@+id/btnRestaurant"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:text="Nearby Restaurants"
+            android:background="@drawable/action_button"
+            android:textColor="@color/white"
+            android:layout_marginLeft="5dp"/>
+
+        <Button
+            android:id="@+id/btnCafe"
+            android:layout_marginTop="10dp"
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
+            android:text="Nearby Cofees"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/action_button"
+            android:textColor="@color/white"/>
+
+        <Button
+            android:id="@+id/btnBar"
+            android:layout_marginTop="10dp"
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
+            android:text="Nearby Bars"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/action_button"
+            android:textColor="@color/white"/>
+
+
     </LinearLayout>
 </FrameLayout>

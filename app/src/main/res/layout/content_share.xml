@@ -140,7 +140,7 @@
                 style="?android:textAppearanceSmall"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Receipt Photo"
+                android:text="Recipe Photo"
                 android:textStyle="bold"
                 android:onClick="openGalleryShare"
                 android:textSize="14sp"

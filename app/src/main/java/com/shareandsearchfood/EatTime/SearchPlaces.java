@@ -11,10 +11,12 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.shareandsearchfood.shareandsearchfood.NavBar;
 import com.shareandsearchfood.shareandsearchfood.R;
@@ -28,6 +30,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+
 public class SearchPlaces extends NavBar implements LocationListener {
 
     //nossa key
@@ -39,6 +43,8 @@ public class SearchPlaces extends NavBar implements LocationListener {
     double latitude = 0;
     double longitude = 0;
     private int PROXIMITY_RADIUS = 1000;
+    ArrayList<String> lista = new ArrayList<String> ();
+    Boolean search_results = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +64,8 @@ public class SearchPlaces extends NavBar implements LocationListener {
         if (!isGooglePlayServicesAvailable()) {
             finish();
         }
+        //filtro das pesquisas
+        addItensToList(lista);
 
         placeText = (EditText) findViewById(R.id.placeText_mota);
         Button btnFind = (Button) findViewById(R.id.btnFind_mota);
@@ -77,20 +85,92 @@ public class SearchPlaces extends NavBar implements LocationListener {
             @Override
             public void onClick(View v) {
                 String type = placeText.getText().toString();
-                StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
-                googlePlacesUrl.append("location=" + latitude + "," + longitude);
-                googlePlacesUrl.append("&radius=" + PROXIMITY_RADIUS);
-                googlePlacesUrl.append("&types=" + type);
-                googlePlacesUrl.append("&sensor=true");
-                googlePlacesUrl.append("&key=" + GOOGLE_API_KEY);
+                for (String nome : lista) {
+                    if ((type.toLowerCase()).equals(nome.toLowerCase())){
+                        search_results = true;
+                        StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
+                        googlePlacesUrl.append("location=" + latitude + "," + longitude);
+                        googlePlacesUrl.append("&radius=" + PROXIMITY_RADIUS);
+                        googlePlacesUrl.append("&types=" + type);
+                        googlePlacesUrl.append("&sensor=true");
+                        googlePlacesUrl.append("&key=" + GOOGLE_API_KEY);
 
-                GooglePlacesReadTask googlePlacesReadTask = new GooglePlacesReadTask();
-                Object[] toPass = new Object[2];
-                toPass[0] = googleMap;
-                toPass[1] = googlePlacesUrl.toString();
-                googlePlacesReadTask.execute(toPass);
+                        GooglePlacesReadTask googlePlacesReadTask = new GooglePlacesReadTask();
+                        Object[] toPass = new Object[2];
+                        toPass[0] = googleMap;
+                        toPass[1] = googlePlacesUrl.toString();
+                        googlePlacesReadTask.execute(toPass);
+                    }
+                }
+                if (search_results == false)
+                    Toast.makeText(SearchPlaces.this,"That search is invalid", Toast.LENGTH_LONG).show();
             }
         });
+
+        Button btnRestaurant = (Button) findViewById(R.id.btnRestaurant);
+        btnRestaurant.setOnClickListener(new View.OnClickListener() {
+            String Restaurant = "restaurant";
+            @Override
+            public void onClick(View v) {
+                Log.d("onClick", "Button is Clicked");
+                googleMap.clear();
+                String url = getUrl(latitude, longitude, Restaurant);
+                Object[] DataTransfer = new Object[2];
+                DataTransfer[0] = googleMap;
+                DataTransfer[1] = url;
+                Log.d("onClick", url);
+                GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
+                getNearbyPlacesData.execute(DataTransfer);
+                Toast.makeText(SearchPlaces.this,"Nearby Restaurants", Toast.LENGTH_LONG).show();
+            }
+        });
+        Button btnCafe = (Button) findViewById(R.id.btnCafe);
+        btnCafe.setOnClickListener(new View.OnClickListener() {
+            String Cafe = "cafe";
+            @Override
+            public void onClick(View v) {
+                Log.d("onClick", "Button is Clicked");
+                googleMap.clear();
+                String url = getUrl(latitude, longitude, Cafe);
+                Object[] DataTransfer = new Object[2];
+                DataTransfer[0] = googleMap;
+                DataTransfer[1] = url;
+                Log.d("onClick", url);
+                GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
+                getNearbyPlacesData.execute(DataTransfer);
+                Toast.makeText(SearchPlaces.this,"Nearby Cofees", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        Button btnBar = (Button) findViewById(R.id.btnBar);
+        btnBar.setOnClickListener(new View.OnClickListener() {
+            String Bar = "bar";
+            @Override
+            public void onClick(View v) {
+                Log.d("onClick", "Button is Clicked");
+                googleMap.clear();
+                String url = getUrl(latitude, longitude, Bar);
+                Object[] DataTransfer = new Object[2];
+                DataTransfer[0] = googleMap;
+                DataTransfer[1] = url;
+                Log.d("onClick", url);
+                GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
+                getNearbyPlacesData.execute(DataTransfer);
+                Toast.makeText(SearchPlaces.this,"Nearby Bars", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private String getUrl(double latitude, double longitude, String nearbyPlace) {
+
+        StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
+        googlePlacesUrl.append("location=" + latitude + "," + longitude);
+        googlePlacesUrl.append("&radius=" + PROXIMITY_RADIUS);
+        googlePlacesUrl.append("&type=" + nearbyPlace);
+        googlePlacesUrl.append("&sensor=true");
+        googlePlacesUrl.append("&key=" + "AIzaSyAIt0L2w8BSHyHlO3dHslJDTRfowUPmvXk");
+        Log.d("getUrl", googlePlacesUrl.toString());
+        return (googlePlacesUrl.toString());
     }
 
     private boolean isGooglePlayServicesAvailable() {
@@ -103,7 +183,23 @@ public class SearchPlaces extends NavBar implements LocationListener {
         }
     }
 
-
+    private void addItensToList (ArrayList<String> lista){
+        lista.add("cafe");
+        lista.add("casino");
+        lista.add("food");
+        lista.add("hospital");
+        lista.add("police");
+        lista.add("restaurant");
+        lista.add("bar");
+        lista.add("pharmacy");
+        lista.add("university");
+        lista.add("library");
+        lista.add("airport");
+        lista.add("school");
+        lista.add("train_station");
+        lista.add("taxi_stand");
+        lista.add("subway_station");
+    }
     @Override
     public void onLocationChanged(Location location) {
         latitude = location.getLatitude();
