@@ -21,7 +21,7 @@
             android:title="How To Do It?" />
         <item
             android:id="@+id/nav_eatTime"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_play_light"
             android:title="Eat Time" />
     </group>
 

@@ -122,12 +122,6 @@ public class RecipeContent extends NavBar {
         spec.setIndicator("Preparation");
         host.addTab(spec);
 
-        //Tab 3
-        spec = host.newTabSpec("Nutrition");
-        spec.setContent(R.id.Nutrition);
-        spec.setIndicator("Nutrition");
-        host.addTab(spec);
-
         //Tab 4
         spec = host.newTabSpec("Comments");
         spec.setContent(R.id.Comments);

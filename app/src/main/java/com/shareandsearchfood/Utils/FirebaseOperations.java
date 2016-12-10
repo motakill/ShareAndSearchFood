@@ -21,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.shareandsearchfood.ParcelerObjects.Comments;
 import com.shareandsearchfood.ParcelerObjects.HowTo;
 import com.shareandsearchfood.ParcelerObjects.Notebook;
 import com.shareandsearchfood.ParcelerObjects.Recipe;
@@ -39,7 +40,6 @@ import java.util.Date;
 
 public class FirebaseOperations {
     private static String key;
-    private static String key2;
 
     //User
     public static void insertGoogleUser(GoogleSignInAccount acct) {
@@ -231,7 +231,7 @@ public class FirebaseOperations {
                 .setValue(new HowTo(userId,title, obs, photo, comments,
                         videos,reportDate));
 
-        FirebaseOperations.storeHowToPhotoToFirebase(Uri.parse(photo),userId);
+        storeHowToPhotoToFirebase(Uri.parse(photo),userId);
 
     }
     public static void storeHowToPhotoToFirebase(Uri mCurrentPhotoUri, final String email) {
@@ -321,6 +321,44 @@ public class FirebaseOperations {
                     public void onCancelled(DatabaseError databaseError) {
                     }
                 });
+    }
+
+    //Comments
+    public static void insertComment(String recipeID, String email, String comment, String photo) {
+        DatabaseReference userRef = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.FIREBASE_CHILD_RECIPES);
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date today = Calendar.getInstance().getTime();
+        String reportDate = df.format(today);
+        userRef.child(recipeID).child(Constants.FIREBASE_CHILD_NOTES).push()
+                .setValue(new Comments(comment,photo,reportDate,email));
+        storeCommentPhotoToFirebase(Uri.parse(photo),recipeID);
+    }
+    public static void storeCommentPhotoToFirebase(Uri mCurrentPhotoUri, final String recipeID) {
+        FirebaseStorage storage= FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReferenceFromUrl("gs://ss-food.appspot.com");
+        StorageReference photoRef = storageRef.child("images/comments/"+mCurrentPhotoUri.getLastPathSegment());
+        UploadTask uploadTask = photoRef.putFile(mCurrentPhotoUri);
+        final DatabaseReference userRef = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.FIREBASE_CHILD_RECIPES );
+
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                userRef.child(recipeID).child("photo").setValue(downloadUrl.toString());
+
+            }
+        });
+
     }
 
     //Utils
