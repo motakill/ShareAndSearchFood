@@ -9,5 +9,6 @@ public class Constants {
     public static final String FIREBASE_CHILD_RECIPES = "recipes";
     public static final String FIREBASE_CHILD_NOTES = "notes";
     public static final String FIREBASE_CHILD_HOWTO = "howTo";
+    public static final String FIREBASE_CHILD_FAVORITES = "favorites";
 
 }

@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.shareandsearchfood.ParcelerObjects.Recipe;
 import com.shareandsearchfood.Utils.FirebaseOperations;
 import com.shareandsearchfood.Utils.Image;
 import com.shareandsearchfood.Login.LoginActivity;
@@ -34,12 +35,18 @@ public class RecipeContent extends NavBar {
     private TextView steps;
     private RatingBar rate;
     private CheckBox favorite;
+    private String recipeId;
     private String userID;
-    private String userPhotoIntent;
     private String ingredientsIntent;
     private String stepsIntent;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
+    private Boolean favoriteIntent;
+    private String recipePhotoIntent;
+    private String tituloIntent;
+    private int rateIntent;
+    private int statusIntent;
+    private String dateIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,14 +64,16 @@ public class RecipeContent extends NavBar {
         }
 
         Intent intent = getIntent();
-        userPhotoIntent = intent.getStringExtra("userPhoto");
-        String recipePhotoIntent = intent.getStringExtra("recipePhoto");
-        String tituloIntent = intent.getStringExtra("recipeTitle");
-        Boolean favoriteIntent = intent.getBooleanExtra("favorite",false);
+        recipeId = intent.getStringExtra("recipeID");
+        recipePhotoIntent = intent.getStringExtra("recipePhoto");
+        tituloIntent = intent.getStringExtra("recipeTitle");
+        favoriteIntent = intent.getBooleanExtra("favorite",false);
         ingredientsIntent = intent.getStringExtra("ingredients");
         stepsIntent = intent.getStringExtra("steps");
-        int rateIntent = intent.getIntExtra("rating",0);
+        rateIntent = intent.getIntExtra("rating",0);
         userID = intent.getStringExtra("userID");
+        statusIntent = intent.getIntExtra("status",0);
+        dateIntent = intent.getStringExtra("date");
 
         titulo = (TextView) findViewById(R.id.titulo);
         photo = (ImageView) findViewById(R.id.imageView6);
@@ -149,31 +158,18 @@ public class RecipeContent extends NavBar {
     }
     public void clickProfile(View view){
         Intent intent = new Intent(this, Visit_person.class);
-        intent.putExtra("userPhoto",userPhotoIntent);
+        intent.putExtra("userID",userID);
+        intent.putExtra("favorite",favoriteIntent);
+
         startActivity(intent);
 
     }
-/*
-    public void setFavorite (View view){
+    public void setFavoriteStatus(View view){
+        FirebaseOperations.setFavoriteStatus(mFirebaseUser.getEmail(),
+                new Recipe(tituloIntent, ingredientsIntent, stepsIntent, recipePhotoIntent,
+                null,statusIntent, mFirebaseUser.getEmail(), dateIntent,rateIntent, favoriteIntent,recipeId));
 
-        FavoriteDao favoriteDao = daoSession.getFavoriteDao();
-        CheckBox favorite = (CheckBox) view.findViewById(R.id.star);
-        if(favorite.isChecked()) {
-            favoriteDao.insert(new Favorite(null,userID,recipeID));
-        }
-        else if(!favorite.isChecked()){
-            favoriteDao.deleteByKey(findFavorite(userID,recipeID));
-        }
     }
-
-    private Long findFavorite(Long userId, Long receiptID){
-
-        FavoriteDao favoriteDao= daoSession.getFavoriteDao();
-        QueryBuilder qb = favoriteDao.queryBuilder();
-        qb.and(FavoriteDao.Properties.UserId.eq(userId),FavoriteDao.Properties.ReceiptId.eq(receiptID));
-        List<Favorite> favorites = qb.list();
-        return favorites.get(0).getId();
-    }*/
 
     private void populateTable(){
         int i = 1;

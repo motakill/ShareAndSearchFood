@@ -46,6 +46,7 @@ public class MyProfile extends NavBar {
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private List<Recipe> mRecipe;
+    private List<Recipe> mFavRecipe;
     private RecyclerView mRecyclerView;
     private MyPubsRecyclerViewAdapter mAdapter;
     private FavoriteRecyclerViewAdapter mFAdapter;
@@ -88,20 +89,21 @@ public class MyProfile extends NavBar {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
+
+        final DatabaseReference userRef = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.FIREBASE_CHILD_USERS);
+
         TextView myPubs = (TextView) findViewById(R.id.myPubs);
         myPubs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
                 mRecipe = new ArrayList<>();
+                mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
                 mRecyclerView.setLayoutManager(new LinearLayoutManager(MyProfile.this));
                 mAdapter = new MyPubsRecyclerViewAdapter(mRecipe,MyProfile.this);
                 mRecyclerView.setAdapter(mAdapter);
-
-                DatabaseReference userRef = FirebaseDatabase
-                        .getInstance()
-                        .getReference(Constants.FIREBASE_CHILD_USERS);
-
                 userRef.child(FirebaseOperations.encodeKey(mFirebaseUser.getEmail()))
                         .child(Constants.FIREBASE_CHILD_RECIPES).getRef()
                         .addChildEventListener(new ChildEventListener() {
@@ -145,7 +147,46 @@ public class MyProfile extends NavBar {
         myFav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mFavRecipe = new ArrayList<>();
+                mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(MyProfile.this));
+                mFAdapter = new FavoriteRecyclerViewAdapter(mFavRecipe,MyProfile.this);
+                mRecyclerView.setAdapter(mFAdapter);
+                userRef.child(FirebaseOperations.encodeKey(mFirebaseUser.getEmail()))
+                        .child(Constants.FIREBASE_CHILD_FAVORITES).getRef()
+                        .addChildEventListener(new ChildEventListener() {
+                            @Override
+                            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                                if (dataSnapshot != null && dataSnapshot.getValue() != null) {
+                                    try{
+                                        Recipe model = dataSnapshot.getValue(Recipe.class);
+                                        mFavRecipe.add(model);
+                                        mFAdapter.notifyItemInserted(mFavRecipe.size() - 1);
+                                    } catch (Exception ex) {
+                                    }
+                                }
+                            }
 
+                            @Override
+                            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                            }
+
+                            @Override
+                            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                            }
+
+                            @Override
+                            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError firebaseError) {
+
+                            }
+                        });
 
             }
         });

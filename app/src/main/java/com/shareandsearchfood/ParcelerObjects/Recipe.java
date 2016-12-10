@@ -16,7 +16,7 @@ public class Recipe {
     private String date;
     private float rate;
     private boolean favorite;
-
+    private String recipe_id;
     //private List<Photo> photos;
     //private List<Video> videos;
     //private List<Favorite> favorites;
@@ -24,7 +24,7 @@ public class Recipe {
     public Recipe(String title, String ingredients,
                   String steps, String photoRecipe, String calories,
                   int status, String userId, String date, float rate,
-                  boolean favorite) {
+                  boolean favorite, String recipe_id) {
         this.title = title;
         this.ingredients = ingredients;
         this.steps = steps;
@@ -35,6 +35,7 @@ public class Recipe {
         this.date = date;
         this.rate = rate;
         this.favorite = favorite;
+        this.recipe_id = recipe_id;
     }
 
     public Recipe() {
@@ -118,5 +119,13 @@ public class Recipe {
 
     public float getRate() {
         return this.rate;
+    }
+
+    public String getRecipeId() {
+        return this.recipe_id;
+    }
+
+    public void setRecipeId(String recipe_id) {
+        this.recipe_id = recipe_id;
     }
 }

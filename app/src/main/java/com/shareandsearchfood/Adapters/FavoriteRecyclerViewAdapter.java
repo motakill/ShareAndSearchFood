@@ -1,13 +1,8 @@
 package com.shareandsearchfood.Adapters;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,42 +11,28 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.shareandsearchfood.ParcelerObjects.Recipe;
+import com.shareandsearchfood.Utils.FirebaseOperations;
+import com.shareandsearchfood.Utils.Image;
 import com.shareandsearchfood.shareandsearchfood.R;
 import com.shareandsearchfood.shareandsearchfood.RecipeContent;
 import com.shareandsearchfood.shareandsearchfood.Visit_person;
 
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 
+public class FavoriteRecyclerViewAdapter extends RecyclerView.Adapter<FavoriteRecyclerViewAdapter.ViewHolder> {
+    private final Context ctx;
+    private List<Recipe> mDataSet;
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
 
-public class FavoriteRecyclerViewAdapter extends RecyclerView.Adapter<FavoriteRecyclerViewAdapter.ViewHolder>{
-
-
-
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.row_my_favorites, parent, false);
-        return new ViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
-
-    }
-
-
-    @Override
-    public int getItemCount() {
-        return 0;
-    }
-
-
+    /**
+     * Inner Class for a recycler view
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
         public final TextView titulo;
         public final ImageView photo ;
         public final TextView timestamp ;
@@ -62,8 +43,6 @@ public class FavoriteRecyclerViewAdapter extends RecyclerView.Adapter<FavoriteRe
 
         public ViewHolder(View v) {
             super(v);
-            mView = v;
-
             nickname = (TextView) v.findViewById(R.id.nickname_my_favorites);
             userImage = (ImageView) v.findViewById(R.id.user_image_my_favorites);
             titulo = (TextView) v.findViewById(R.id.titulo_my_favorites);
@@ -71,13 +50,74 @@ public class FavoriteRecyclerViewAdapter extends RecyclerView.Adapter<FavoriteRe
             timestamp = (TextView) v.findViewById(R.id.data5_my_favorites);
             favorite = (CheckBox) v.findViewById(R.id.star5_my_favorites);
             rate = (RatingBar) v.findViewById((R.id.ratingBarContentMenu5_my_favorites));
-        }
 
-        @Override
-        public String toString() {
-            return super.toString() + " '" + titulo.getText() + "'";
         }
     }
 
+    public FavoriteRecyclerViewAdapter(List<Recipe> dataSet, Context ctx) {
+        mDataSet = dataSet;
+        this.ctx = ctx;
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+    }
 
+    @Override
+    public FavoriteRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.row_my_favorites, parent, false);
+
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        final Recipe recipe = mDataSet.get(position);
+        holder.titulo.setText(recipe.getTitle());
+        FirebaseOperations.setUserContent(recipe.getUserId(),holder.nickname,holder.userImage,ctx);
+        Image.download(ctx,holder.photo,recipe.getPhotoRecipe());
+
+        holder.photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ctx, RecipeContent.class);
+                intent.putExtra("recipePhoto",recipe.getPhotoRecipe());
+                intent.putExtra("recipeTitle",recipe.getTitle());
+                intent.putExtra("favorite",recipe.getFavorite());
+                intent.putExtra("ingredients",recipe.getIngredients());
+                intent.putExtra("steps",recipe.getSteps());
+                intent.putExtra("rating",recipe.getRate());
+                intent.putExtra("userID",recipe.getUserId());
+                intent.putExtra("status",recipe.getStatus());
+                intent.putExtra("date",recipe.getDate());
+                ctx.startActivity(intent);
+            }
+        });
+
+
+        holder.userImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ctx, Visit_person.class);
+                intent.putExtra("userID",recipe.getUserId());
+                intent.putExtra("favorite",recipe.getFavorite());
+                ctx.startActivity(intent);
+            }
+        });
+
+        holder.timestamp.setText(recipe.getDate().toString());
+        holder.favorite.setChecked(recipe.getFavorite());
+        holder.favorite.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                recipe.setFavorite(holder.favorite.isChecked());
+                FirebaseOperations.setFavoriteStatus(mFirebaseUser.getEmail(),recipe);
+            }
+        });
+        holder.rate.setRating(recipe.getRate());
+    }
+
+    @Override
+    public int getItemCount() {
+        return mDataSet.size();
+    }
 }

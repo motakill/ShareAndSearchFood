@@ -10,7 +10,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -36,6 +39,25 @@ public class Visit_person extends NavBar {
     private List<Recipe> mRecipe;
     private RecyclerView mRecyclerView;
     private VisitPersonRecyclerViewAdapter mAdapter;
+    private Boolean favoriteIntent;
+    private String recipePhotoIntent;
+    private String tituloIntent;
+    private int rateIntent;
+    private int statusIntent;
+    private String dateIntent;
+    public TextView titulo;
+    public ImageView photo;
+    public TextView timestamp;
+    public ImageView userImage ;
+    public TextView nickname;
+    private TextView ingredients;
+    private TextView steps;
+    private RatingBar rate;
+    private CheckBox favorite;
+    private String recipeId;
+    private String userID;
+    private String ingredientsIntent;
+    private String stepsIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -62,7 +84,16 @@ public class Visit_person extends NavBar {
 
 
         Intent intent = getIntent();
-        String userID = intent.getStringExtra("userID");
+        recipeId = intent.getStringExtra("recipeID");
+        recipePhotoIntent = intent.getStringExtra("recipePhoto");
+        tituloIntent = intent.getStringExtra("recipeTitle");
+        favoriteIntent = intent.getBooleanExtra("favorite",false);
+        ingredientsIntent = intent.getStringExtra("ingredients");
+        stepsIntent = intent.getStringExtra("steps");
+        rateIntent = intent.getIntExtra("rating",0);
+        userID = intent.getStringExtra("userID");
+        statusIntent = intent.getIntExtra("status",0);
+        dateIntent = intent.getStringExtra("date");
 
         FirebaseOperations.setUserContent(userID,null,userImage,Visit_person.this);
         setUserName(userID);
@@ -116,7 +147,14 @@ public class Visit_person extends NavBar {
     }
     public void clickRecipe(View view){
         Intent intent = new Intent(this, RecipeContent.class);
+        intent.putExtra("favorite",favoriteIntent);
         startActivity(intent);
+
+    }
+    public void setFavoriteStatus(View view){
+        FirebaseOperations.setFavoriteStatus(mFirebaseUser.getEmail(),
+                new Recipe(tituloIntent, ingredientsIntent, stepsIntent, recipePhotoIntent,
+                        null,statusIntent, mFirebaseUser.getEmail(), dateIntent,rateIntent, favoriteIntent,recipeId));
 
     }
     @Override

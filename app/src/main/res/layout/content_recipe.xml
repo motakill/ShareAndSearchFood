@@ -83,14 +83,14 @@ android:layout_marginTop="100dp">
             android:scaleType="center"
             android:gravity="center"
             android:clickable="true"
-            android:onClick="clickRecipe"
+            android:onClick="clickProfile"
             />
 
         <CheckBox android:id="@+id/star"
             style="?android:attr/starStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="setFavorite"
+            android:onClick="setFavoriteStatus"
             android:layout_alignTop="@+id/imageView6"
             android:layout_alignRight="@+id/imageView6"
             android:layout_alignEnd="@+id/imageView6" />

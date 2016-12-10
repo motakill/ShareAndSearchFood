@@ -12,7 +12,10 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.shareandsearchfood.ParcelerObjects.Recipe;
+import com.shareandsearchfood.Utils.FirebaseOperations;
 import com.shareandsearchfood.Utils.Image;
 import com.shareandsearchfood.shareandsearchfood.R;
 import com.shareandsearchfood.shareandsearchfood.RecipeContent;
@@ -23,7 +26,8 @@ import java.util.List;
 public class VisitPersonRecyclerViewAdapter extends RecyclerView.Adapter<VisitPersonRecyclerViewAdapter.ViewHolder> {
     private final Context ctx;
     private List<Recipe> mDataSet;
-
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
     /**
      * Inner Class for a recycler view
      */
@@ -48,6 +52,8 @@ public class VisitPersonRecyclerViewAdapter extends RecyclerView.Adapter<VisitPe
     public VisitPersonRecyclerViewAdapter(List<Recipe> dataSet, Context ctx) {
         mDataSet = dataSet;
         this.ctx = ctx;
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
     }
 
     @Override
@@ -59,7 +65,7 @@ public class VisitPersonRecyclerViewAdapter extends RecyclerView.Adapter<VisitPe
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         final Recipe recipe = mDataSet.get(position);
 
         holder.titulo.setText(recipe.getTitle());
@@ -70,11 +76,14 @@ public class VisitPersonRecyclerViewAdapter extends RecyclerView.Adapter<VisitPe
                 Intent intent = new Intent(ctx, RecipeContent.class);
                 intent.putExtra("recipePhoto",recipe.getPhotoRecipe());
                 intent.putExtra("recipeTitle",recipe.getTitle());
-                intent.putExtra("favorite",false);
+                intent.putExtra("favorite",recipe.getFavorite());
                 intent.putExtra("ingredients",recipe.getIngredients());
                 intent.putExtra("steps",recipe.getSteps());
+                intent.putExtra("recipeID",recipe.getRecipeId());
                 intent.putExtra("rating",recipe.getRate());
                 intent.putExtra("userID",recipe.getUserId());
+                intent.putExtra("status",recipe.getStatus());
+                intent.putExtra("date",recipe.getDate());
                 ctx.startActivity(intent);
             }
         });
@@ -84,9 +93,11 @@ public class VisitPersonRecyclerViewAdapter extends RecyclerView.Adapter<VisitPe
         holder.favorite.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                recipe.setFavorite(holder.favorite.isChecked());
+                FirebaseOperations.setFavoriteStatus(mFirebaseUser.getEmail(),recipe);
             }
         });
-        holder.favorite.setChecked(false);
+        FirebaseOperations.isChecked(recipe,mFirebaseUser.getEmail(),holder.favorite);
 
     }
 

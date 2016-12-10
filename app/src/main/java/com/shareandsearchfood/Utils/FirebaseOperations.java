@@ -3,6 +3,8 @@ package com.shareandsearchfood.Utils;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.util.Log;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -163,12 +165,13 @@ public class FirebaseOperations {
 
         DatabaseReference newRef = userRef.push();
         newRef.setValue(new Recipe(title, ingredients, steps, photoReceipt,
-                calories,status, userId, reportDate, rate, favorite));
+                calories,status, userId, reportDate, rate, favorite,"null"));
 
         key = newRef.getKey();
         userRef2.child(encodeKey(userId)).child(Constants.FIREBASE_CHILD_RECIPES).child(key)
                 .setValue(new Recipe(title, ingredients, steps, photoReceipt,
-                calories,status, userId, reportDate, rate, favorite));
+                calories,status, userId, reportDate, rate, favorite,key));
+        newRef.child("recipeId").setValue(key);
 
     }
     public static void storeRecipePhotoToFirebase(Uri mCurrentPhotoUri, final String email) {
@@ -261,6 +264,63 @@ public class FirebaseOperations {
             }
         });
 
+    }
+
+    //Favorites
+    public static void setFavoriteStatus(final String email, final Recipe recipe){
+        final DatabaseReference userRef = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.FIREBASE_CHILD_USERS);
+        final DatabaseReference userRefAux = userRef.child(FirebaseOperations.encodeKey(email));
+        userRef.child(FirebaseOperations.encodeKey(email)).child(Constants.FIREBASE_CHILD_FAVORITES)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        boolean encontrou = false;
+                        for (DataSnapshot child : dataSnapshot.getChildren()) {
+                            Recipe recipeNew = child.getValue(Recipe.class);
+                            if (recipeNew != null && recipeNew.getRecipeId().equals(recipe.getRecipeId())
+                                    && recipeNew.getFavorite()) {
+                                child.getRef().removeValue();
+                                encontrou = true;
+                            }
+                        }
+                        if (!encontrou) {
+                            userRefAux.child(Constants.FIREBASE_CHILD_FAVORITES)
+                                    .child(encodeKey(recipe.getRecipeId())).setValue(recipe);
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+    }
+    public static  void isChecked(final Recipe recipe, String email, final CheckBox favorite){
+        final DatabaseReference userRef = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.FIREBASE_CHILD_USERS);
+        userRef.child(FirebaseOperations.encodeKey(email)).child(Constants.FIREBASE_CHILD_FAVORITES)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        boolean entrou = false;
+                        for (DataSnapshot child : dataSnapshot.getChildren()) {
+                            Recipe recipeNew = child.getValue(Recipe.class);
+                            if (recipeNew != null && recipeNew.getRecipeId().equals(recipe.getRecipeId())) {
+                                recipe.setFavorite(true);
+                                favorite.setChecked(true);
+                                entrou = true;
+                            }
+                        }
+                        if(!entrou){
+                            recipe.setFavorite(false);
+                            favorite.setChecked(false);
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
     }
 
     //Utils

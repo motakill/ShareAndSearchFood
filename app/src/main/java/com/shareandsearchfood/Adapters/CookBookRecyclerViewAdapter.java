@@ -3,6 +3,7 @@ package com.shareandsearchfood.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FacebookAuthCredential;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.shareandsearchfood.ParcelerObjects.Recipe;
 import com.shareandsearchfood.Utils.FirebaseOperations;
 import com.shareandsearchfood.Utils.Image;
@@ -24,7 +28,8 @@ import java.util.List;
 public class CookBookRecyclerViewAdapter extends RecyclerView.Adapter<CookBookRecyclerViewAdapter.ViewHolder> {
     private final Context ctx;
     private List<Recipe> mDataSet;
-
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
 
     /**
      * Inner Class for a recycler view
@@ -54,7 +59,8 @@ public class CookBookRecyclerViewAdapter extends RecyclerView.Adapter<CookBookRe
     public CookBookRecyclerViewAdapter(List<Recipe> dataSet, Context ctx) {
         mDataSet = dataSet;
         this.ctx = ctx;
-
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
     }
 
     @Override
@@ -66,7 +72,7 @@ public class CookBookRecyclerViewAdapter extends RecyclerView.Adapter<CookBookRe
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         final Recipe recipe = mDataSet.get(position);
         holder.titulo.setText(recipe.getTitle());
         FirebaseOperations.setUserContent(recipe.getUserId(),holder.nickname,holder.userImage,ctx);
@@ -78,11 +84,15 @@ public class CookBookRecyclerViewAdapter extends RecyclerView.Adapter<CookBookRe
                 Intent intent = new Intent(ctx, RecipeContent.class);
                 intent.putExtra("recipePhoto",recipe.getPhotoRecipe());
                 intent.putExtra("recipeTitle",recipe.getTitle());
-                intent.putExtra("favorite",false);
+                intent.putExtra("favorite",recipe.getFavorite());
                 intent.putExtra("ingredients",recipe.getIngredients());
                 intent.putExtra("steps",recipe.getSteps());
                 intent.putExtra("rating",recipe.getRate());
                 intent.putExtra("userID",recipe.getUserId());
+                intent.putExtra("recipeID",recipe.getRecipeId());
+                intent.putExtra("status",recipe.getStatus());
+                intent.putExtra("date",recipe.getDate());
+
                 ctx.startActivity(intent);
             }
         });
@@ -93,17 +103,19 @@ public class CookBookRecyclerViewAdapter extends RecyclerView.Adapter<CookBookRe
             public void onClick(View v) {
                 Intent intent = new Intent(ctx, Visit_person.class);
                 intent.putExtra("userID",recipe.getUserId());
+                intent.putExtra("favorite",recipe.getFavorite());
                 ctx.startActivity(intent);
             }
         });
 
         holder.timestamp.setText(recipe.getDate().toString());
-        holder.favorite.setChecked(false);
+        FirebaseOperations.isChecked(recipe,mFirebaseUser.getEmail(),holder.favorite);
         holder.favorite.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-
-            }
+                recipe.setFavorite(holder.favorite.isChecked());
+                FirebaseOperations.setFavoriteStatus(mFirebaseUser.getEmail(),recipe);
+                }
         });
         holder.rate.setRating(recipe.getRate());
     }
