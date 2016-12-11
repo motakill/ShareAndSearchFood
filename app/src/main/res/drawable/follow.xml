@@ -5,14 +5,14 @@
         <shape android:dither="true" android:shape="rectangle">
             <corners android:bottomLeftRadius="10dp" android:bottomRightRadius="10dp" android:topLeftRadius="10dp" android:topRightRadius="10dp" />
 
-            <solid android:color="#ff0004" />
+            <solid android:color="#00ff00" />
         </shape>
     </item>
     <item android:state_pressed="true">
         <shape android:dither="true" android:shape="rectangle">
             <corners android:bottomLeftRadius="10dp" android:bottomRightRadius="10dp" android:topLeftRadius="10dp" android:topRightRadius="10dp" />
 
-            <solid android:color="#f08084" />
+            <solid android:color="#9af080" />
         </shape>
     </item>
 

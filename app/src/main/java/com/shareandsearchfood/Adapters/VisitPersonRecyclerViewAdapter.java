@@ -16,7 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.shareandsearchfood.ParcelerObjects.Recipe;
 import com.shareandsearchfood.Utils.FirebaseOperations;
-import com.shareandsearchfood.Utils.Image;
+import com.shareandsearchfood.Utils.Tools;
 import com.shareandsearchfood.shareandsearchfood.R;
 import com.shareandsearchfood.shareandsearchfood.RecipeContent;
 
@@ -69,7 +69,7 @@ public class VisitPersonRecyclerViewAdapter extends RecyclerView.Adapter<VisitPe
         final Recipe recipe = mDataSet.get(position);
 
         holder.titulo.setText(recipe.getTitle());
-        Image.download(ctx,holder.photo,recipe.getPhotoRecipe());
+        Tools.ImageDownload(ctx,holder.photo,recipe.getPhotoRecipe());
         holder.photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

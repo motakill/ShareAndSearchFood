@@ -74,8 +74,13 @@ public class MyProfile extends NavBar {
 
         TextView textView3 = (TextView) findViewById(R.id.username);
         ImageView photo = (ImageView) findViewById(R.id.profileImage);
+        TextView totalRecipes = (TextView) findViewById(R.id.totalRecipes);
+        TextView totalFollowers = (TextView) findViewById(R.id.totalFollowers);
+        TextView totalFollowing = (TextView) findViewById(R.id.totalFollowings);
 
         FirebaseOperations.setUserContent(mFirebaseUser.getEmail(),textView3,photo,MyProfile.this);
+        FirebaseOperations.totalRecipes(mFirebaseUser.getEmail(),totalRecipes);
+        FirebaseOperations.totalFF(mFirebaseUser.getEmail(),totalFollowers,totalFollowing);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

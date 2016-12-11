@@ -10,146 +10,203 @@
     tools:showIn="@layout/app_bar_how_to_do_it_option">
 
 
-<LinearLayout
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:orientation="vertical"
-android:weightSum="1">
-
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:weightSum="1">
-
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:srcCompat="@drawable/com_facebook_profile_picture_blank_square"
-        android:id="@+id/imageView4"
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:onClick="clickProfile"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="70dp"
-        android:layout_weight="0.80" />
+        android:layout_marginTop="68dp">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="135dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:id="@+id/nickname"
-            android:hint="Nickname"
-            android:layout_marginTop="70dp"
-            android:layout_marginLeft="25dp"
-            android:textSize="18sp" />
-
-        <TextView
-            android:layout_width="135dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:id="@+id/titulo"
-            android:hint="Titulo"
-            android:layout_marginTop="100dp"
-            android:layout_marginLeft="25dp"
-            android:textSize="18sp" />
-
-    </RelativeLayout>
-
-</LinearLayout>
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="250dp"
-        android:minHeight="250dp"
-        android:maxHeight="250dp"
-        android:minWidth="400dp"
-        android:maxWidth="400dp"
-        android:id="@+id/imageView6"
-        android:src="@drawable/loading"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginTop="5dp"
-        android:layout_margin="10dp"
-        android:scaleType="center"
-        android:gravity="center"
-        android:clickable="true"
-        android:onClick="clickRecipe"
-        />
-
-<TextView
-    android:text="Observações: Vi isto no restaurante do samouco, alguma ideia de como fazer?"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/textView6"
-    android:layout_marginLeft="25dp"
-    android:layout_marginRight="25dp"
-    android:layout_margin="10dp"        />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="250dp"
+            android:minHeight="250dp"
+            android:maxHeight="250dp"
+            android:minWidth="400dp"
+            android:maxWidth="400dp"
+            android:id="@+id/imageView6"
+            android:src="@drawable/loading"
+            android:layout_marginTop="5dp"
+            android:scaleType="center"
+            android:gravity="center"
+            android:clickable="true"
+            android:onClick="clickRecipe"
+            />
 
     <TextView
-        android:text="timestamp"
-        android:layout_width="wrap_content"
-        android:id="@+id/data1"
-        android:layout_marginLeft="25dp"
-        android:layout_height="wrap_content" />
-    <ScrollView
+        android:text="Observações: Vi isto no restaurante do samouco, alguma ideia de como fazer?"
         android:layout_width="match_parent"
-        android:layout_height="421dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        >
-<TabHost
-    android:id="@+id/tabHost"
-    android:layout_width="match_parent"
-    android:layout_marginTop="10dp"
-    android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:id="@+id/textView6"/>
 
-
-
-
-    <FrameLayout
-        android:id="@android:id/tabcontent"
+        <TextView
+            android:text="timestamp"
+            android:layout_width="wrap_content"
+            android:id="@+id/data1"
+            android:layout_height="wrap_content" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="421dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            >
+    <TabHost
+        android:id="@+id/tabHost"
         android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
         android:layout_height="match_parent">
 
-        <TableRow
-            android:id="@+id/Comments"
+        <FrameLayout
+            android:id="@android:id/tabcontent"
             android:layout_width="match_parent"
-            android:layout_height="350dp"
-            android:orientation="vertical"
-            android:weightSum="1">
-            <EditText
+            android:layout_height="match_parent">
+
+            <TableRow
+                android:id="@+id/Comments"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:text="Do it and do that"
-                android:id="@+id/editText2"
-                android:layout_marginTop="25dp" />
+                android:layout_height="350dp"
+                android:orientation="vertical"
+                android:weightSum="1">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="350dp"
+                    android:orientation="vertical"
+                    android:weightSum="1">
 
-        </TableRow>
-        <TableRow
-            android:id="@+id/Videos"
-            android:layout_width="match_parent"
-            android:layout_height="350dp"
-            android:orientation="vertical">
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:src="@drawable/com_facebook_profile_picture_blank_square"
+                            android:id="@+id/imageViewComments"
+                            android:layout_height="30dp"
+                            android:onClick="clickProfile"
+                            android:layout_width="40dp" />
+                        <EditText
+                            android:layout_width="308dp"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp"
+                            android:layout_marginRight="45dp"
+                            android:layout_alignParentTop="true"
+                            android:id="@+id/editText3"
+                            android:layout_toRightOf="@+id/imageViewComments" />
 
-        </TableRow>
+                        <ImageView
+                            android:src="@drawable/ic_menu_camera"
+                            android:onClick="openGalleryContent"
+                            android:id="@+id/imageViewCamera"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_toRightOf="@+id/imageViewComments"
+                            android:layout_toEndOf="@+id/imageViewComments"
+                            android:layout_marginLeft="279dp"
+                            android:layout_marginStart="279dp" />
 
-    </FrameLayout>
+                        <ImageView
+                            android:src="@drawable/ic_menu_send"
+                            android:onClick="sendComment"
+                            android:id="@+id/imageView3"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_below="@+id/imageViewCamera"
+                            android:layout_alignLeft="@+id/imageViewCamera"
+                            android:layout_alignStart="@+id/imageViewCamera" />
 
-    <TabWidget
-        android:id="@android:id/tabs"
-        android:layout_height="26dp"
-        android:layout_width="match_parent">
+                    </RelativeLayout>
 
-    </TabWidget>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerComents"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:layout_height="wrap_content">
+                    </android.support.v7.widget.RecyclerView>
+
+                </LinearLayout>
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/Videos"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:id="@+id/Video"
+                    android:layout_width="match_parent"
+                    android:layout_height="350dp"
+                    android:orientation="vertical"
+                    android:weightSum="1">
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:src="@drawable/com_facebook_profile_picture_blank_square"
+                            android:id="@+id/imageViewComments2"
+                            android:layout_height="30dp"
+                            android:onClick="clickProfile"
+                            android:layout_width="40dp" />
+                        <EditText
+                            android:layout_width="308dp"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp"
+                            android:layout_marginRight="45dp"
+                            android:layout_alignParentTop="true"
+                            android:id="@+id/editText32"
+                            android:layout_toRightOf="@+id/imageViewComments2" />
+
+                        <ImageView
+                            android:id="@+id/imageViewCamera2"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_toRightOf="@+id/imageViewComments2"
+                            android:layout_toEndOf="@+id/imageViewComments2"
+                            android:layout_marginLeft="279dp"
+                            android:layout_marginStart="279dp"
+                            android:onClick="openGalleryVideoContent"
+                            app:srcCompat="@android:drawable/presence_video_busy" />
+
+                        <ImageView
+                            android:src="@drawable/ic_menu_send"
+                            android:id="@+id/imageView32"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_below="@+id/imageViewCamera2"
+                            android:onClick="sendCommentVideo"
+                            android:layout_alignLeft="@+id/imageViewCamera2"
+                            android:layout_alignStart="@+id/imageViewCamera2" />
+
+                    </RelativeLayout>
+                    <android.support.v7.widget.RecyclerView
+                        xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/recyclerComents2"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="0.18"
+                        android:layout_height="200dp">
+                    </android.support.v7.widget.RecyclerView>
+                </LinearLayout>
+            </TableRow>
+
+        </FrameLayout>
+
+        <TabWidget
+            android:id="@android:id/tabs"
+            android:layout_height="26dp"
+            android:layout_width="match_parent">
+
+        </TabWidget>
 
 
-</TabHost>
-    </ScrollView>
+    </TabHost>
+        </ScrollView>
 
-</LinearLayout>
+    </LinearLayout>
 </RelativeLayout>

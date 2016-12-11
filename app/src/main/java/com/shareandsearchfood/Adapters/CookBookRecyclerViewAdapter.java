@@ -3,21 +3,21 @@ package com.shareandsearchfood.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FacebookAuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.shareandsearchfood.ParcelerObjects.Recipe;
 import com.shareandsearchfood.Utils.FirebaseOperations;
-import com.shareandsearchfood.Utils.Image;
+import com.shareandsearchfood.Utils.Tools;
+import com.shareandsearchfood.shareandsearchfood.MyProfile;
 import com.shareandsearchfood.shareandsearchfood.R;
 import com.shareandsearchfood.shareandsearchfood.RecipeContent;
 import com.shareandsearchfood.shareandsearchfood.Visit_person;
@@ -76,35 +76,37 @@ public class CookBookRecyclerViewAdapter extends RecyclerView.Adapter<CookBookRe
         final Recipe recipe = mDataSet.get(position);
         holder.titulo.setText(recipe.getTitle());
         FirebaseOperations.setUserContent(recipe.getUserId(),holder.nickname,holder.userImage,ctx);
-        Image.download(ctx,holder.photo,recipe.getPhotoRecipe());
+        Tools.ImageDownload(ctx,holder.photo,recipe.getPhotoRecipe());
 
         holder.photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ctx, RecipeContent.class);
-                intent.putExtra("recipePhoto",recipe.getPhotoRecipe());
-                intent.putExtra("recipeTitle",recipe.getTitle());
-                intent.putExtra("favorite",recipe.getFavorite());
-                intent.putExtra("ingredients",recipe.getIngredients());
-                intent.putExtra("steps",recipe.getSteps());
-                intent.putExtra("rating",recipe.getRate());
-                intent.putExtra("userID",recipe.getUserId());
-                intent.putExtra("recipeID",recipe.getRecipeId());
-                intent.putExtra("status",recipe.getStatus());
-                intent.putExtra("date",recipe.getDate());
-
-                ctx.startActivity(intent);
+                    Intent intent = new Intent(ctx, RecipeContent.class);
+                    intent.putExtra("recipePhoto", recipe.getPhotoRecipe());
+                    intent.putExtra("recipeTitle", recipe.getTitle());
+                    intent.putExtra("favorite", recipe.getFavorite());
+                    intent.putExtra("ingredients", recipe.getIngredients());
+                    intent.putExtra("steps", recipe.getSteps());
+                    intent.putExtra("rating", recipe.getRate());
+                    intent.putExtra("userID", recipe.getUserId());
+                    intent.putExtra("recipeID", recipe.getRecipeId());
+                    intent.putExtra("status", recipe.getStatus());
+                    intent.putExtra("date", recipe.getDate());
+                    ctx.startActivity(intent);
             }
         });
-
 
         holder.userImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ctx, Visit_person.class);
-                intent.putExtra("userID",recipe.getUserId());
-                intent.putExtra("favorite",recipe.getFavorite());
-                ctx.startActivity(intent);
+                if(mFirebaseUser.getEmail().equals(recipe.getUserId()))
+                    ctx.startActivity(new Intent(ctx,MyProfile.class));
+                else {
+                    Intent intent = new Intent(ctx, Visit_person.class);
+                    intent.putExtra("userID", recipe.getUserId());
+                    intent.putExtra("favorite", recipe.getFavorite());
+                    ctx.startActivity(intent);
+                }
             }
         });
 

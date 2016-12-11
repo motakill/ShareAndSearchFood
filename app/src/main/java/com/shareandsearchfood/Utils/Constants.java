@@ -11,5 +11,7 @@ public class Constants {
     public static final String FIREBASE_CHILD_HOWTO = "howTo";
     public static final String FIREBASE_CHILD_FAVORITES = "favorites";
     public static final String FIREBASE_CHILD_COMENTS = "coments";
+    public static final String FIREBASE_CHILD_FOLLOWING = "following";
+    public static final String FIREBASE_CHILD_FOLLOWERS = "followers";
 
 }

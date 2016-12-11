@@ -1,5 +1,6 @@
 package com.shareandsearchfood.shareandsearchfood;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -10,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -48,12 +50,8 @@ public class Visit_person extends NavBar {
     public TextView titulo;
     public ImageView photo;
     public TextView timestamp;
-    public ImageView userImage ;
     public TextView nickname;
-    private TextView ingredients;
-    private TextView steps;
-    private RatingBar rate;
-    private CheckBox favorite;
+    private Button button;
     private String recipeId;
     private String userID;
     private String ingredientsIntent;
@@ -95,8 +93,17 @@ public class Visit_person extends NavBar {
         statusIntent = intent.getIntExtra("status",0);
         dateIntent = intent.getStringExtra("date");
 
+        button = (Button) findViewById(R.id.followButton);
+        FirebaseOperations.isFriend(mFirebaseUser.getEmail(),userID,button);
         FirebaseOperations.setUserContent(userID,null,userImage,Visit_person.this);
         setUserName(userID);
+
+        TextView totalRecipes = (TextView) findViewById(R.id.totalRecipes);
+        TextView totalFollowers = (TextView) findViewById(R.id.totalFollowers);
+        TextView totalFollowing = (TextView) findViewById(R.id.totalFollowings);
+
+        FirebaseOperations.totalRecipes(userID,totalRecipes);
+        FirebaseOperations.totalFF(userID,totalFollowers,totalFollowing);
 
         //cria a view das receitas criadas
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
@@ -171,7 +178,6 @@ public class Visit_person extends NavBar {
                 return super.onOptionsItemSelected(item);
         }
     }
-
     public void setUserName(String email){
         DatabaseReference userRef = FirebaseDatabase
                 .getInstance()
@@ -187,5 +193,23 @@ public class Visit_person extends NavBar {
                     public void onCancelled(DatabaseError databaseError) {
                     }
                 });
+    }
+    public void follow(View v){
+        if(button.getText().toString().equals("Follow"))
+            FirebaseOperations.followUser(mFirebaseUser.getEmail(), userID);
+        else
+            FirebaseOperations.unFollowUser(mFirebaseUser.getEmail(),userID);
+        try {
+            Thread.sleep(500);
+            refresh();
+        } catch(InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }
+
+    }
+    public void refresh(){
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
     }
 }

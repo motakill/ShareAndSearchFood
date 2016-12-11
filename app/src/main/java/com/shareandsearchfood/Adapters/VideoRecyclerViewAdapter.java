@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.shareandsearchfood.ParcelerObjects.Comments;
 import com.shareandsearchfood.Utils.FirebaseOperations;
@@ -20,7 +20,7 @@ import java.util.List;
  * Created by david_000 on 10/12/2016.
  */
 
-public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<CommentsRecyclerViewAdapter.ViewHolder>  {
+public class VideoRecyclerViewAdapter extends RecyclerView.Adapter<VideoRecyclerViewAdapter.ViewHolder>  {
     private List<Comments> mDataSet;
     private Context ctx;
     /**
@@ -31,55 +31,36 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<CommentsRe
         public TextView mTextView;
         public ImageView userPhoto;
         public TextView data;
-        public RelativeLayout r1;
+        public VideoView videoPopUp;
         public ViewHolder(View v) {
             super(v);
             mTextView = (TextView) itemView.findViewById(R.id.textView);
             userNickname = (TextView) itemView.findViewById(R.id.nickname);
             userPhoto = (ImageView) itemView.findViewById(R.id.imageView4);
             data = (TextView) itemView.findViewById(R.id.dataComments);
-            r1 = (RelativeLayout) itemView.findViewById(R.id.row_comments);
-
+            videoPopUp = (VideoView) itemView.findViewById(R.id.videoView);
         }
     }
 
-    public CommentsRecyclerViewAdapter(List<Comments> dataSet, Context ctx) {
+    public VideoRecyclerViewAdapter(List<Comments> dataSet, Context ctx) {
         mDataSet = dataSet;
         this.ctx = ctx;
     }
 
     @Override
-    public CommentsRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public VideoRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.row_comments, parent, false);
+                .inflate(R.layout.row_videos, parent, false);
 
-        return new CommentsRecyclerViewAdapter.ViewHolder(view);
+        return new VideoRecyclerViewAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(CommentsRecyclerViewAdapter.ViewHolder holder, int position) {
-        Comments comment = mDataSet.get(position);
+    public void onBindViewHolder(final VideoRecyclerViewAdapter.ViewHolder holder, int position) {
+        final Comments comment = mDataSet.get(position);
         holder.mTextView.setText(comment.getComment());
-        if(comment.getPhoto() != null) {
-            // Initialize a new ImageView widget
-            ImageView iv = new ImageView(ctx);
 
-            Tools.ImageDownload(ctx, iv, comment.getPhoto());
-
-            // Create layout parameters for ImageView
-            RelativeLayout.LayoutParams lp = new RelativeLayout
-                    .LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-
-            // Add rule to layout parameters
-            // Add the ImageView below to Button
-            lp.addRule(RelativeLayout.BELOW, holder.mTextView.getId());
-
-            // Add layout parameters to ImageView
-            iv.setLayoutParams(lp);
-
-            // Finally, add the ImageView to layout
-            holder.r1.addView(iv);
-        }
+        Tools.downloadVideo(ctx,comment.getVideo(),holder.videoPopUp);
 
         holder.data.setText(comment.getDate());
         FirebaseOperations.setUserContent(comment.getUserID(),holder.userNickname,holder.userPhoto,ctx);

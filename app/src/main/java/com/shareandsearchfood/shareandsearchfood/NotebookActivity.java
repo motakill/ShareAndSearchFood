@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
@@ -46,6 +47,7 @@ public class NotebookActivity extends NavBar{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_notebook);
 
         // Initialize Firebase Auth
@@ -79,7 +81,7 @@ public class NotebookActivity extends NavBar{
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseOperations.insertNote(mFirebaseUser.getEmail(), textIn.getText().toString());
+                FirebaseOperations.insertNote(mFirebaseUser.getEmail(), textIn);
             }
         });
 

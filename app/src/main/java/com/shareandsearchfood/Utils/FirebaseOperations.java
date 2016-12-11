@@ -1,12 +1,15 @@
 package com.shareandsearchfood.Utils;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.util.Log;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -77,7 +80,7 @@ public class FirebaseOperations {
                         if(userTextView != null)
                             userTextView.setText(user.getName());
                         if (user.getPhoto() != null && photo != null) {
-                            Image.download(ctx,photo,user.getPhoto());
+                            Tools.ImageDownload(ctx,photo,user.getPhoto());
 
                         } else if(photo != null)
                             photo.setImageResource(R.drawable.com_facebook_profile_picture_blank_square);
@@ -104,7 +107,7 @@ public class FirebaseOperations {
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and ImageDownload URL.
                 Uri downloadUrl = taskSnapshot.getDownloadUrl();
                 userRef.child(encodeKey(email)).child("photo").setValue(downloadUrl.toString());
             }
@@ -113,7 +116,7 @@ public class FirebaseOperations {
     }
 
     //Notebook
-    public static void insertNote(String email, String note) {
+    public static void insertNote(String email, TextView note) {
         DatabaseReference userRef = FirebaseDatabase
                 .getInstance()
                 .getReference(Constants.FIREBASE_CHILD_USERS);
@@ -122,7 +125,8 @@ public class FirebaseOperations {
         String reportDate = df.format(today);
 
         userRef.child(encodeKey(email)).child(Constants.FIREBASE_CHILD_NOTES).push()
-                .setValue(new Notebook(note,reportDate));
+                .setValue(new Notebook(note.getText().toString(),reportDate));
+        note.setText("");
     }
     public static void removeNote() {
         FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
@@ -194,7 +198,7 @@ public class FirebaseOperations {
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and ImageDownload URL.
                 Uri downloadUrl = taskSnapshot.getDownloadUrl();
                 userRef.child(key).child("photoRecipe").setValue(downloadUrl.toString());
                 userRef2.child(encodeKey(email)).child(Constants.FIREBASE_CHILD_RECIPES).child(key)
@@ -203,6 +207,26 @@ public class FirebaseOperations {
             }
         });
 
+    }
+    public static void totalRecipes(final String userID,final TextView total){
+        DatabaseReference userRef = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.FIREBASE_CHILD_USERS);
+        userRef.child(encodeKey(userID)).child(Constants.FIREBASE_CHILD_RECIPES)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int i = 0;
+                for (DataSnapshot child : dataSnapshot.getChildren())
+                    i++;
+                total.setText(String.valueOf(i));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     //HowToDo
@@ -224,13 +248,13 @@ public class FirebaseOperations {
 
         DatabaseReference newRef = userRef.push();
         newRef.setValue(new HowTo(userId,title, obs, photo, comments,
-                videos,reportDate));
+                videos,reportDate,"null"));
 
         key = newRef.getKey();
         userRef2.child(encodeKey(userId)).child(Constants.FIREBASE_CHILD_HOWTO).child(key)
                 .setValue(new HowTo(userId,title, obs, photo, comments,
-                        videos,reportDate));
-
+                        videos,reportDate,key));
+        userRef.child("howToID").setValue(key);
         storeHowToPhotoToFirebase(Uri.parse(photo),userId);
 
     }
@@ -255,7 +279,7 @@ public class FirebaseOperations {
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and ImageDownload URL.
                 Uri downloadUrl = taskSnapshot.getDownloadUrl();
                 userRef.child(key).child("photo").setValue(downloadUrl.toString());
                 userRef2.child(encodeKey(email)).child(Constants.FIREBASE_CHILD_HOWTO).child(key)
@@ -324,25 +348,35 @@ public class FirebaseOperations {
     }
 
     //Comments
-    public static void insertComment(String recipeID, String email, String comment, String photo) {
+    public static void insertComment(Context ctx, String recipeID, String email
+            , TextView comment, Uri photo, String constant) {
+        Toast.makeText(ctx,
+                "Sending ...",Toast.LENGTH_SHORT).show();
+
         DatabaseReference userRef = FirebaseDatabase
                 .getInstance()
-                .getReference(Constants.FIREBASE_CHILD_RECIPES);
+                .getReference(constant);
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date today = Calendar.getInstance().getTime();
         String reportDate = df.format(today);
-        userRef.child(recipeID).child(Constants.FIREBASE_CHILD_NOTES).push()
-                .setValue(new Comments(comment,photo,reportDate,email));
-        storeCommentPhotoToFirebase(Uri.parse(photo),recipeID);
+        DatabaseReference newRef = userRef.child(recipeID).child(Constants.FIREBASE_CHILD_COMENTS).push();
+        newRef.setValue(new Comments(comment.getText().toString(),null,null,reportDate,email,null));
+        String key = newRef.getKey();
+        newRef.child("commentID").setValue(key);
+        if(photo != null)
+            storeCommentPhotoToFirebase(photo,recipeID,key,constant);
+
+        comment.setText("");
     }
-    public static void storeCommentPhotoToFirebase(Uri mCurrentPhotoUri, final String recipeID) {
+    public static void storeCommentPhotoToFirebase(Uri mCurrentPhotoUri, final String recipeID
+            , final String commentID, final String constant) {
         FirebaseStorage storage= FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReferenceFromUrl("gs://ss-food.appspot.com");
         StorageReference photoRef = storageRef.child("images/comments/"+mCurrentPhotoUri.getLastPathSegment());
         UploadTask uploadTask = photoRef.putFile(mCurrentPhotoUri);
         final DatabaseReference userRef = FirebaseDatabase
                 .getInstance()
-                .getReference(Constants.FIREBASE_CHILD_RECIPES );
+                .getReference(constant );
 
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
@@ -352,13 +386,171 @@ public class FirebaseOperations {
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and ImageDownload URL.
                 Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                userRef.child(recipeID).child("photo").setValue(downloadUrl.toString());
+                userRef.child(recipeID).child(Constants.FIREBASE_CHILD_COMENTS).child(commentID)
+                        .child("photo").setValue(downloadUrl.toString());
 
             }
         });
 
+    }
+    public static String insertCommentVideo(String recipeID, String email, String comment, String constant) {
+        DatabaseReference userRef = FirebaseDatabase
+                .getInstance()
+                .getReference(constant);
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date today = Calendar.getInstance().getTime();
+        String reportDate = df.format(today);
+        DatabaseReference newRef = userRef.child(recipeID).child(Constants.FIREBASE_CHILD_COMENTS).push();
+        newRef.setValue(new Comments(comment,null," ",reportDate,email,null));
+        String key = newRef.getKey();
+        newRef.child("commentID").setValue(key);
+        return  key;
+    }
+    public static  void storeCommnetVideoToFirebase(Uri video, final String userID, final TextView comment
+            ,final  String recipeID, final Context ctx
+            , final String constant){
+        FirebaseStorage storage= FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReferenceFromUrl("gs://ss-food.appspot.com");
+        StorageReference videoRef = storageRef.child("videos/comments/"+video.getLastPathSegment());
+        UploadTask uploadTask = videoRef.putFile(video);
+        final DatabaseReference userRef = FirebaseDatabase
+                .getInstance()
+                .getReference(constant);
+
+        Toast.makeText(ctx,
+                "Upload in progressn mensage will be send shortly.",Toast.LENGTH_SHORT).show();
+
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Toast.makeText(ctx,
+                        "Error Uploading Video. Try Again Please.",Toast.LENGTH_SHORT).show();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                String commentID = insertCommentVideo(recipeID,userID,comment.getText().toString(),constant);
+                userRef.child(recipeID).child(Constants.FIREBASE_CHILD_COMENTS).child(commentID)
+                        .child("video").setValue(downloadUrl.toString());
+                comment.setText("");
+            }
+        });
+    }
+
+    //Followers
+    public static void followUser(String userID, String followerID){
+        DatabaseReference userRef = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.FIREBASE_CHILD_USERS);
+        userRef.child(encodeKey(userID)).child(Constants.FIREBASE_CHILD_FOLLOWING).push()
+        .setValue(followerID);
+
+        DatabaseReference userRef2 = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.FIREBASE_CHILD_USERS);
+        userRef2.child(encodeKey(followerID)).child(Constants.FIREBASE_CHILD_FOLLOWERS).push()
+                .setValue(userID);
+    }
+    public static void unFollowUser(final String userID, final String followerID){
+        DatabaseReference userRef = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.FIREBASE_CHILD_USERS);
+        userRef.child(encodeKey(userID)).child(Constants.FIREBASE_CHILD_FOLLOWING)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot child : dataSnapshot.getChildren())
+                            if(child.getValue().equals(followerID))
+                                child.getRef().removeValue();
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+
+        DatabaseReference userRef2 = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.FIREBASE_CHILD_USERS);
+        userRef2.child(encodeKey(followerID)).child(Constants.FIREBASE_CHILD_FOLLOWERS)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot child : dataSnapshot.getChildren())
+                            if(child.getValue().equals(userID))
+                                child.getRef().removeValue();
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+    }
+    public static void isFriend(final String userID, final String followerID, final Button button){
+        DatabaseReference userRef = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.FIREBASE_CHILD_USERS);
+        userRef.child(FirebaseOperations.encodeKey(userID)).child(Constants.FIREBASE_CHILD_FOLLOWING)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        boolean friend = false;
+                        for (DataSnapshot child : dataSnapshot.getChildren())
+                            if(child.getValue().equals(followerID))
+                                friend = true;
+                        if(friend) {
+                            button.setText("Unfollow");
+                            button.setBackgroundResource(R.drawable.unfollow);
+                        }
+                        else{
+                            button.setText("Follow");
+                            button.setBackgroundResource(R.drawable.follow);
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+    }
+    public static void totalFF(final String userID,final TextView totalFollowers,
+                               final TextView totalFollowing){
+        DatabaseReference userRef = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.FIREBASE_CHILD_USERS);
+        userRef.child(encodeKey(userID)).child(Constants.FIREBASE_CHILD_FOLLOWERS)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        int i = 0;
+                        for (DataSnapshot child : dataSnapshot.getChildren())
+                            i++;
+                        totalFollowers.setText(String.valueOf(i));
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+        DatabaseReference userRef2 = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.FIREBASE_CHILD_USERS);
+        userRef2.child(encodeKey(userID)).child(Constants.FIREBASE_CHILD_FOLLOWING)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        int i = 0;
+                        for (DataSnapshot child : dataSnapshot.getChildren())
+                            i++;
+                        totalFollowing.setText(String.valueOf(i));
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
     }
 
     //Utils

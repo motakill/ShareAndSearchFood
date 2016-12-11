@@ -39,8 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:id="@+id/textView2"
-                android:hint="10"
+                android:id="@+id/totalRecipes"
                 android:layout_marginTop="130dp"
                 android:layout_marginLeft="115dp" />
 
@@ -48,8 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:id="@+id/textView3"
-                android:hint="8"
+                android:id="@+id/totalFollowers"
                 android:layout_marginTop="130dp"
                 android:layout_marginLeft="210dp" />
 
@@ -58,8 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:id="@+id/textView4"
-                android:hint="6"
+                android:id="@+id/totalFollowings"
                 android:layout_marginTop="130dp"
                 android:layout_marginLeft="305dp" />
 

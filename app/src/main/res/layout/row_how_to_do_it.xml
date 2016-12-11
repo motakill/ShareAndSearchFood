@@ -11,7 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="70dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
@@ -28,7 +27,6 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginLeft="25dp"
                 android:layout_marginTop="10dp"
                 android:clickable="true"
                 android:layout_weight="0.23" />
@@ -63,7 +61,7 @@
         </LinearLayout>
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="503dp"
             android:layout_marginTop="60dp">
 
             <ImageView
@@ -75,42 +73,19 @@
                 android:maxWidth="400dp"
                 android:id="@+id/how_to_do_it_foto"
                 android:src="@drawable/loading"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="25dp"
                 android:layout_marginTop="5dp"
-                android:layout_margin="10dp"
                 android:scaleType="center"
                 android:gravity="center"
                 android:clickable="true" />
 
-        </RelativeLayout>
-
-
-        <TableLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:stretchColumns="2">
-
-            <TableRow
-                android:id="@+id/tableRow2"
-                android:layout_width="fill_parent"
+            <TextView
+                android:text="timestamp"
+                android:layout_width="wrap_content"
+                android:id="@+id/data5_how_to_do_it"
+                android:layout_below="@id/how_to_do_it_foto"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_weight="1">
-
-                <TextView
-                    android:text="timestamp"
-                    android:layout_width="wrap_content"
-                    android:id="@+id/data5_how_to_do_it"
-                    android:layout_marginTop="330dp"
-                    android:layout_marginLeft="25dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    />
-            </TableRow>
-        </TableLayout>
-
+                android:layout_weight="1"
+                />
+        </RelativeLayout>
     </FrameLayout>
-
-
 </LinearLayout>

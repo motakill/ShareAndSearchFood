@@ -17,10 +17,11 @@ public class HowTo {
     private String comments;
     private String videos;
     private String date;
+    private String howToID;
 
     public HowTo(String userId, String title,
                  String obs, String photo, String comments,
-                 String videos, String date) {
+                 String videos, String date, String howToID) {
 
         this.userId = userId;
         this.title = title;
@@ -29,6 +30,7 @@ public class HowTo {
         this.comments = comments;
         this.videos = videos;
         this.date = date;
+        this.howToID = howToID;
     }
 
     public HowTo() {
@@ -90,4 +92,11 @@ public class HowTo {
         this.videos = videos;
     }
 
+    public String getHowToID() {
+        return howToID;
+    }
+
+    public void setHowToID(String howToID) {
+        this.howToID = howToID;
+    }
 }

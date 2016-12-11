@@ -9,10 +9,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.shareandsearchfood.ParcelerObjects.HowTo;
 import com.shareandsearchfood.Utils.FirebaseOperations;
-import com.shareandsearchfood.Utils.Image;
+import com.shareandsearchfood.Utils.Tools;
 import com.shareandsearchfood.shareandsearchfood.HowToDoItOption;
+import com.shareandsearchfood.shareandsearchfood.MyProfile;
 import com.shareandsearchfood.shareandsearchfood.R;
 import com.shareandsearchfood.shareandsearchfood.Visit_person;
 
@@ -22,6 +25,8 @@ import java.util.List;
 public class HowToDoItRecyclerViewAdapter extends RecyclerView.Adapter<HowToDoItRecyclerViewAdapter.ViewHolder> {
     private final Context ctx;
     private List<HowTo> mDataSet;
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
     /**
      * Inner Class for a recycler view
      */
@@ -45,7 +50,8 @@ public class HowToDoItRecyclerViewAdapter extends RecyclerView.Adapter<HowToDoIt
     public HowToDoItRecyclerViewAdapter(List<HowTo> dataSet, Context ctx) {
         mDataSet = dataSet;
         this.ctx = ctx;
-
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
     }
 
     @Override
@@ -61,28 +67,31 @@ public class HowToDoItRecyclerViewAdapter extends RecyclerView.Adapter<HowToDoIt
         final HowTo howTo = mDataSet.get(position);
         holder.titulo.setText(howTo.getTitle());
         FirebaseOperations.setUserContent(howTo.getUserId(),holder.nickname,holder.userImage,ctx);
-        Image.download(ctx,holder.photo,howTo.getPhoto());
+        Tools.ImageDownload(ctx,holder.photo,howTo.getPhoto());
 
 
         holder.photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ctx, HowToDoItOption.class);
-                intent.putExtra("htoPhoto",howTo.getPhoto());
-                intent.putExtra("htoTitulo",howTo.getTitle());
-                intent.putExtra("htoObs",howTo.getObs());
-                intent.putExtra("htoDate",howTo.getDate());
-                intent.putExtra("userID",howTo.getUserId());
-
-                ctx.startActivity(intent);
+                    Intent intent = new Intent(ctx, HowToDoItOption.class);
+                    intent.putExtra("htoPhoto", howTo.getPhoto());
+                    intent.putExtra("htoID", howTo.getHowToID());
+                    intent.putExtra("htoObs", howTo.getObs());
+                    intent.putExtra("htoDate", howTo.getDate());
+                    intent.putExtra("userID", howTo.getUserId());
+                    ctx.startActivity(intent);
             }
         });
         holder.userImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+            if(mFirebaseUser.getEmail().equals(howTo.getUserId()))
+                ctx.startActivity(new Intent(ctx,MyProfile.class));
+            else {
                 Intent intent = new Intent(ctx, Visit_person.class);
-                intent.putExtra("userID",howTo.getUserId());
+                intent.putExtra("userID", howTo.getUserId());
                 ctx.startActivity(intent);
+            }
             }
         });
         //vai ser how to do its
