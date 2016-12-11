@@ -69,7 +69,7 @@
     <string name="to_date">To Date</string>
     
     
-      <string name="welcome_msg">Welcome!</string>
+    <string name="welcome_msg">Welcome!</string>
     <string name="sign_out">Sign Out</string>
     <string name="contacts_permission_rationale">Access to account information is required to sign in.</string>
     <string name="invite_menu_label">Invite</string>
@@ -92,6 +92,17 @@
         <item>Drinks</item>
         <item>Cakes</item>
         <item>Snacks</item>
+    </string-array>
+
+    <string name="Radius">Radius</string>
+    <string-array name="Radius_arrays">
+        <item>Radius (Km)</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>10</item>
     </string-array>
 
 </resources>
