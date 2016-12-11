@@ -45,11 +45,55 @@
 
         </LinearLayout>
 
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <Spinner
+                android:id="@+id/spinner_cat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/categories_arrays"
+                android:prompt="@string/categories"
+               />
+
+        </LinearLayout>
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dip">
+
+            <TextView
+                android:text="Select Ingredients"
+                android:id="@+id/textView1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dip"
+                android:textSize="18dp"
+                />
+
+            <Button
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:text="Click here"
+                android:textStyle="bold"
+                android:id="@+id/select_ingredients"
+                android:background="@drawable/action_button"
+                android:textColor="@color/white"
+                android:padding="5dip" />
+
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/layoutIngredientes99"
-            >
+            android:layout_marginTop="2dp">
 
             <AutoCompleteTextView
                 android:id="@+id/ingredients"
@@ -59,7 +103,7 @@
                 android:layout_alignParentStart="true"
                 android:imeOptions="actionUnspecified"
                 android:layout_alignParentTop="true"
-                android:hint="@string/ingredients"
+                android:hint="More Ingredients"
                 android:inputType="textAutoComplete"
                 />
 
@@ -81,6 +125,15 @@
                     android:id="@+id/moreIngredients"
                     android:layout_weight="1"
                     android:button="@android:drawable/ic_input_add"
+                    android:buttonTint="@color/black"
+                    android:imeOptions="actionUnspecified"
+                    android:checked="false" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lessIngredients"
+                    android:layout_weight="1"
+                    android:button="@android:drawable/ic_menu_delete"
                     android:buttonTint="@color/black"
                     android:imeOptions="actionUnspecified"
                     android:checked="false" />
@@ -119,6 +172,15 @@
                     android:id="@+id/moreSteps"
                     android:layout_weight="1"
                     android:button="@android:drawable/ic_input_add"
+                    android:buttonTint="@color/black"
+                    android:imeOptions="actionUnspecified"
+                    android:checked="false" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lessSteps"
+                    android:layout_weight="1"
+                    android:button="@android:drawable/ic_menu_delete"
                     android:buttonTint="@color/black"
                     android:imeOptions="actionUnspecified"
                     android:checked="false" />

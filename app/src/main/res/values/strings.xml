@@ -80,4 +80,18 @@
     <string name="sign_up">Sign Up</string>
     <string name="fresh_config">Fresh Config</string>
     <string name="cause_crash">Cause Crash</string>
+
+
+    <string name="categories">Choose the food category</string>
+    <string-array name="categories_arrays">
+        <item>Choose the food category</item>
+        <item>Meat</item>
+        <item>Fish</item>
+        <item>Seafood</item>
+        <item>Vegan</item>
+        <item>Drinks</item>
+        <item>Cakes</item>
+        <item>Snacks</item>
+    </string-array>
+
 </resources>
