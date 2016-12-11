@@ -339,11 +339,11 @@ public class RecipeContent extends NavBar {
         startActivityForResult(gallery, PICK_VIDEO);
     }
     public void sendComment(View view){
-        FirebaseOperations.insertComment(this,recipeId,userID,comment,photoRecipe,Constants.FIREBASE_CHILD_RECIPES);
+        FirebaseOperations.insertComment(this,recipeId,mFirebaseUser.getEmail(),comment,photoRecipe,Constants.FIREBASE_CHILD_RECIPES);
         photoRecipe = null;
     }
     public void sendCommentVideo(View view){
-        FirebaseOperations.storeCommnetVideoToFirebase(videoComment,userID,comment2,
+        FirebaseOperations.storeCommnetVideoToFirebase(videoComment,mFirebaseUser.getEmail(),comment2,
                 recipeId,this,Constants.FIREBASE_CHILD_RECIPES);
         videoComment = null;
     }

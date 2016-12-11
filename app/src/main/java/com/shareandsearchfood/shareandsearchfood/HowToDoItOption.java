@@ -279,11 +279,11 @@ public class HowToDoItOption extends NavBar {
         startActivityForResult(gallery, PICK_VIDEO);
     }
     public void sendComment(View view){
-        FirebaseOperations.insertComment(this,howToID,userID,comment,howToPhoto, Constants.FIREBASE_CHILD_HOWTO);
+        FirebaseOperations.insertComment(this,howToID,mFirebaseUser.getEmail(),comment,howToPhoto, Constants.FIREBASE_CHILD_HOWTO);
         howToPhoto = null;
     }
     public void sendCommentVideo(View view){
-        FirebaseOperations.storeCommnetVideoToFirebase(videoComment,userID,comment2,
+        FirebaseOperations.storeCommnetVideoToFirebase(videoComment,mFirebaseUser.getEmail(),comment2,
                 howToID,this,Constants.FIREBASE_CHILD_HOWTO);
         videoComment = null;
     }
