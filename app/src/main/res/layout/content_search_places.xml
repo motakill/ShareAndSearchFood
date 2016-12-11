@@ -30,7 +30,7 @@
         <Button
             android:id="@+id/btnFind_mota"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="20dp"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@id/placeText_mota"
             android:text="Search"
@@ -43,7 +43,7 @@
             android:layout_marginTop="15dp"
             android:id="@+id/btnRestaurant"
             android:layout_width="170dp"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:text="Nearby Restaurants"
             android:background="@drawable/action_button"
             android:textColor="@color/white"
@@ -53,7 +53,7 @@
             android:id="@+id/btnCafe"
             android:layout_marginTop="10dp"
             android:layout_width="125dp"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:text="Nearby Cofees"
             android:layout_marginLeft="5dp"
             android:background="@drawable/action_button"
@@ -63,11 +63,28 @@
             android:id="@+id/btnBar"
             android:layout_marginTop="10dp"
             android:layout_width="125dp"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:text="Nearby Bars"
             android:layout_marginLeft="5dp"
             android:background="@drawable/action_button"
             android:textColor="@color/white"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-110dp"
+            android:layout_marginLeft="200dp"
+            android:layout_marginRight="5dp">
+
+            <Spinner
+                android:id="@+id/spinner_radius"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/Radius_arrays"
+                android:prompt="@string/Radius"
+                />
+
+        </LinearLayout>
 
 
     </LinearLayout>

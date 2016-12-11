@@ -1,12 +1,15 @@
 package com.shareandsearchfood.EatTime;
 
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,13 +17,15 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.shareandsearchfood.shareandsearchfood.CustomOnItemSelectedListener;
 import com.shareandsearchfood.shareandsearchfood.NavBar;
 import com.shareandsearchfood.shareandsearchfood.R;
-
 
 
 import com.google.android.gms.common.ConnectionResult;
@@ -43,7 +48,9 @@ public class SearchPlaces extends NavBar implements LocationListener {
     double latitude = 0;
     double longitude = 0;
     private int PROXIMITY_RADIUS = 1000;
-    ArrayList<String> lista = new ArrayList<String> ();
+    private Spinner aux_radius;
+
+    ArrayList<String> lista = new ArrayList<String>();
     Boolean search_results = false;
 
     @Override
@@ -71,6 +78,16 @@ public class SearchPlaces extends NavBar implements LocationListener {
         Button btnFind = (Button) findViewById(R.id.btnFind_mota);
         SupportMapFragment fragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.googleMap_mota);
         googleMap = fragment.getMap();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         googleMap.setMyLocationEnabled(true);
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         Criteria criteria = new Criteria();
@@ -114,6 +131,8 @@ public class SearchPlaces extends NavBar implements LocationListener {
             public void onClick(View v) {
                 Log.d("onClick", "Button is Clicked");
                 googleMap.clear();
+                Toast.makeText(SearchPlaces.this,"Nearby Restaurants lolololol: " + PROXIMITY_RADIUS, Toast.LENGTH_LONG).show();
+
                 String url = getUrl(latitude, longitude, Restaurant);
                 Object[] DataTransfer = new Object[2];
                 DataTransfer[0] = googleMap;
@@ -158,6 +177,26 @@ public class SearchPlaces extends NavBar implements LocationListener {
                 getNearbyPlacesData.execute(DataTransfer);
                 Toast.makeText(SearchPlaces.this,"Nearby Bars", Toast.LENGTH_LONG).show();
             }
+        });
+
+        aux_radius = (Spinner) findViewById(R.id.spinner_radius);
+        aux_radius.setOnItemSelectedListener(new CustomOnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                if(pos > 0) {
+                    PROXIMITY_RADIUS = Integer.parseInt(parent.getItemAtPosition(pos).toString()) * 1000;
+                    Toast.makeText(parent.getContext(),
+                            "OnItemSelectedListener : " + PROXIMITY_RADIUS,
+                            Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+            }
+
         });
     }
 
