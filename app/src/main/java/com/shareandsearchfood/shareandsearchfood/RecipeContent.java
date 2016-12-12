@@ -82,6 +82,14 @@ public class RecipeContent extends NavBar {
     private ImageView commetUserPhoto;
     private ImageView commetUserPhoto2;
     private Uri videoComment;
+    private String preparationTimeIntent;
+    private String confectionTimeIntent;
+    private String numPeopleIntent;
+    private TextView preparationTime;
+    private TextView confectionTime;
+    private TextView numPeople;
+    private String categoryIntent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,6 +118,10 @@ public class RecipeContent extends NavBar {
         userID = intent.getStringExtra("userID");
         statusIntent = intent.getIntExtra("status",0);
         dateIntent = intent.getStringExtra("date");
+        preparationTimeIntent = intent.getStringExtra("preparationTime");
+        confectionTimeIntent = intent.getStringExtra("confectionTime");
+        numPeopleIntent = intent.getStringExtra("numPeople");
+        categoryIntent = intent.getStringExtra("category");
 
         titulo = (TextView) findViewById(R.id.titulo);
         photo = (ImageView) findViewById(R.id.imageView6);
@@ -121,12 +133,18 @@ public class RecipeContent extends NavBar {
         comment2 = (TextView) findViewById(R.id.editText32);
         commetUserPhoto = (ImageView) findViewById(R.id.imageViewComments) ;
         commetUserPhoto2 = (ImageView) findViewById(R.id.imageViewComments2) ;
+        preparationTime = (TextView) findViewById(R.id.preparationTime) ;
+        confectionTime = (TextView) findViewById(R.id.confectionTime) ;
+        numPeople = (TextView) findViewById(R.id.numPeople) ;
 
         setTitle(tituloIntent);
         Tools.ImageDownload(this,photo,recipePhotoIntent);
 
         rate.setRating(rateIntent);
         favorite.setChecked(favoriteIntent);
+        preparationTime.setText(preparationTimeIntent);
+        confectionTime.setText(confectionTimeIntent);
+        numPeople.setText(numPeopleIntent);
 
         // create the TabHost that will contain the Tabs
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -310,7 +328,8 @@ public class RecipeContent extends NavBar {
     public void setFavoriteStatus(View view){
         FirebaseOperations.setFavoriteStatus(mFirebaseUser.getEmail(),
                 new Recipe(tituloIntent, ingredientsIntent, stepsIntent, recipePhotoIntent,
-                null,statusIntent, mFirebaseUser.getEmail(), dateIntent,rateIntent, favoriteIntent,recipeId));
+                null,statusIntent, mFirebaseUser.getEmail(), dateIntent,rateIntent, favoriteIntent,recipeId,
+                        preparationTimeIntent, confectionTimeIntent, numPeopleIntent, categoryIntent));
 
     }
     private void populateTable(){

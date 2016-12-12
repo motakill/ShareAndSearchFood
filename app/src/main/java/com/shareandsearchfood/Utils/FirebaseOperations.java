@@ -154,7 +154,8 @@ public class FirebaseOperations {
     public static void insertRecipe(String title, String ingredients,
                                     String steps, String photoReceipt, String calories,
                                     int status, String userId, float rate,
-                                    boolean favorite) {
+                                    boolean favorite,String numPeople,
+                                    String prepareTime, String confectionTime, String category) {
 
         DatabaseReference userRef = FirebaseDatabase
                 .getInstance()
@@ -171,12 +172,14 @@ public class FirebaseOperations {
 
         DatabaseReference newRef = userRef.push();
         newRef.setValue(new Recipe(title, ingredients, steps, photoReceipt,
-                calories,status, userId, reportDate, rate, favorite,"null"));
+                calories,status, userId, reportDate, rate, favorite,"null",numPeople,prepareTime
+                ,confectionTime, category));
 
         key = newRef.getKey();
         userRef2.child(encodeKey(userId)).child(Constants.FIREBASE_CHILD_RECIPES).child(key)
                 .setValue(new Recipe(title, ingredients, steps, photoReceipt,
-                calories,status, userId, reportDate, rate, favorite,key));
+                calories,status, userId, reportDate, rate, favorite,key,numPeople,prepareTime
+                        ,confectionTime, category));
         newRef.child("recipeId").setValue(key);
 
     }

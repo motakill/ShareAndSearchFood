@@ -91,6 +91,11 @@ public class FavoriteRecyclerViewAdapter extends RecyclerView.Adapter<FavoriteRe
                 intent.putExtra("status",recipe.getStatus());
                 intent.putExtra("date",recipe.getDate());
                 intent.putExtra("recipeID",recipe.getUserId());
+                intent.putExtra("confectionTime", recipe.getConfectionTime());
+                intent.putExtra("prepareTime", recipe.getPrepareTime());
+                intent.putExtra("numPeople", recipe.getNumPeople());
+                intent.putExtra("categoy", recipe.getCategory());
+
                 ctx.startActivity(intent);
             }
         });

@@ -58,7 +58,6 @@ public class ShareContent extends NavBar{
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     //variaveis com os valores correctos para o Firebase
-
     private String nova_categoria , new_num_people, new_preparation_time, new_confection_time;
     private int contador_more_ingredients = 0;
     private List<TextView> myEditTextList, myEditTextList2;
@@ -90,7 +89,7 @@ public class ShareContent extends NavBar{
 
 
     protected ArrayList<CharSequence> selectedIngredients = new ArrayList<CharSequence>();
-
+    protected ArrayList<CharSequence> checksSlectedIngredients = new ArrayList<CharSequence>();
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -434,11 +433,13 @@ public class ShareContent extends NavBar{
 
             if (buttomId == saveReceipt.getId())
                 FirebaseOperations.insertRecipe(title_receipt.getText().toString(), getIngredients(),
-                        getSteps(), photoReceipt.toString(), null, 0, mFirebaseUser.getEmail(), 0, false);
+                        getSteps(), photoReceipt.toString(), null, 0, mFirebaseUser.getEmail(), 0, false,
+                        new_num_people,new_preparation_time,new_confection_time,nova_categoria);
 
             else
                 FirebaseOperations.insertRecipe(title_receipt.getText().toString(), getIngredients(),
-                        getSteps(), photoReceipt.toString(), null, 1, mFirebaseUser.getEmail(), 0, false);
+                        getSteps(), photoReceipt.toString(), null, 1, mFirebaseUser.getEmail(), 0, false,
+                        new_num_people,new_preparation_time,new_confection_time,nova_categoria);
 
             FirebaseOperations.storeRecipePhotoToFirebase(photoReceipt,mFirebaseUser.getEmail());
             startActivity(new Intent(this, MyProfile.class));
@@ -484,7 +485,7 @@ public class ShareContent extends NavBar{
            boolean[] checkedIngredients = new boolean[array_ingredientes_Meat.length];
            int count = array_ingredientes_Meat.length;
            for (int i = 0; i < count; i++)
-               checkedIngredients[i] = selectedIngredients.contains(array_ingredientes_Meat[i]);
+               checkedIngredients[i] = checksSlectedIngredients.contains(array_ingredientes_Meat[i]);
 
            DialogInterface.OnMultiChoiceClickListener IngredientsDialogListener = new DialogInterface.OnMultiChoiceClickListener() {
 
@@ -492,10 +493,9 @@ public class ShareContent extends NavBar{
                public void onClick(DialogInterface dialog, final int which, boolean isChecked) {
 
                    if (isChecked) {
-                       selectedIngredients.add(array_ingredientes_Meat[which]);
+                       checksSlectedIngredients.add(array_ingredientes_Meat[which]);
                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ShareContent.this);
                        dialogBuilder.setTitle("Ingredient Quantity (Kg/un)");
-
                        LayoutInflater li = LayoutInflater.from(ShareContent.this);
                        final View myView = li.inflate(R.layout.itementry, null);
                        dialogBuilder.setView(myView);
@@ -504,7 +504,7 @@ public class ShareContent extends NavBar{
                            public void onClick(DialogInterface dialog, int whichButton) {
                                EditText mota = (EditText) myView.findViewById(R.id.titleText1);
                                Toast.makeText(ShareContent.this, "Added " + mota.getText().toString() + " for " + array_ingredientes_Meat[which], Toast.LENGTH_LONG).show();
-                               selectedIngredients.add(":" + mota.getText().toString());
+                               selectedIngredients.add((array_ingredientes_Meat[which]) + ":" + mota.getText().toString());
                                onChangeSelectedIngredients();
                            }
                        });
@@ -519,10 +519,9 @@ public class ShareContent extends NavBar{
 
                    }
                    else{
-                       if(selectedIngredients.size() > 0) {
+                       if(selectedIngredients.size() > 0)
                            selectedIngredients.remove(selectedIngredients.size() - 1);
-                           selectedIngredients.remove(selectedIngredients.size() - 1);
-                       }
+
                        onChangeSelectedIngredients();
                    }
                }
@@ -539,7 +538,7 @@ public class ShareContent extends NavBar{
             boolean[] checkedIngredients = new boolean[array_ingredientes_Fish.length];
             int count = array_ingredientes_Fish.length;
             for (int i = 0; i < count; i++)
-                checkedIngredients[i] = selectedIngredients.contains(array_ingredientes_Fish[i]);
+                checkedIngredients[i] = checksSlectedIngredients.contains(array_ingredientes_Fish[i]);
 
             DialogInterface.OnMultiChoiceClickListener IngredientsDialogListener = new DialogInterface.OnMultiChoiceClickListener() {
 
@@ -548,7 +547,7 @@ public class ShareContent extends NavBar{
 
 
                     if (isChecked) {
-                        selectedIngredients.add(array_ingredientes_Fish[which]);
+                        checksSlectedIngredients.add(array_ingredientes_Meat[which]);
                         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ShareContent.this);
 
                         //dialogBuilder.setView(R.layout.itementry);
@@ -562,7 +561,7 @@ public class ShareContent extends NavBar{
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 EditText mota = (EditText) myView.findViewById(R.id.titleText1);
                                 Toast.makeText(ShareContent.this, "Added " + mota.getText().toString() + " for " + array_ingredientes_Fish[which], Toast.LENGTH_LONG).show();
-                                selectedIngredients.add(":" + mota.getText().toString());
+                                selectedIngredients.add(array_ingredientes_Fish[which] + ":" + mota.getText().toString());
                                 onChangeSelectedIngredients();
                             }
                         });
@@ -577,10 +576,9 @@ public class ShareContent extends NavBar{
 
                     }
                     else{
-                        if(selectedIngredients.size() > 0) {
+                        if(selectedIngredients.size() > 0)
                             selectedIngredients.remove(selectedIngredients.size() - 1);
-                            selectedIngredients.remove(selectedIngredients.size() - 1);
-                        }
+
                         onChangeSelectedIngredients();
                     }
                 }
@@ -597,7 +595,7 @@ public class ShareContent extends NavBar{
            boolean[] checkedIngredients = new boolean[array_ingredientes_Seafood.length];
            int count = array_ingredientes_Seafood.length;
            for (int i = 0; i < count; i++)
-               checkedIngredients[i] = selectedIngredients.contains(array_ingredientes_Seafood[i]);
+               checkedIngredients[i] = checksSlectedIngredients.contains(array_ingredientes_Seafood[i]);
 
            DialogInterface.OnMultiChoiceClickListener IngredientsDialogListener = new DialogInterface.OnMultiChoiceClickListener() {
 
@@ -605,7 +603,7 @@ public class ShareContent extends NavBar{
                public void onClick(DialogInterface dialog, final int which, boolean isChecked) {
 
                    if (isChecked) {
-                       selectedIngredients.add(array_ingredientes_Seafood[which]);
+                       checksSlectedIngredients.add(array_ingredientes_Seafood[which]);
                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ShareContent.this);
 
                        //dialogBuilder.setView(R.layout.itementry);
@@ -619,7 +617,7 @@ public class ShareContent extends NavBar{
                            public void onClick(DialogInterface dialog, int whichButton) {
                                EditText mota = (EditText) myView.findViewById(R.id.titleText1);
                                Toast.makeText(ShareContent.this, "Added " + mota.getText().toString() + " for " + array_ingredientes_Seafood[which], Toast.LENGTH_LONG).show();
-                               selectedIngredients.add(":" + mota.getText().toString());
+                               selectedIngredients.add(array_ingredientes_Seafood[which] + ":" + mota.getText().toString());
                                onChangeSelectedIngredients();
                            }
                        });
@@ -634,10 +632,9 @@ public class ShareContent extends NavBar{
 
                    }
                    else{
-                       if(selectedIngredients.size() > 0) {
+                       if(selectedIngredients.size() > 0)
                            selectedIngredients.remove(selectedIngredients.size() - 1);
-                           selectedIngredients.remove(selectedIngredients.size() - 1);
-                       }
+
                        onChangeSelectedIngredients();
                    }
                }
@@ -654,7 +651,7 @@ public class ShareContent extends NavBar{
            final boolean[] checkedIngredients = new boolean[array_ingredientes_Vegan.length];
            int count = array_ingredientes_Vegan.length;
            for (int i = 0; i < count; i++)
-               checkedIngredients[i] = selectedIngredients.contains(array_ingredientes_Vegan[i]);
+               checkedIngredients[i] = checksSlectedIngredients.contains(array_ingredientes_Vegan[i]);
 
            DialogInterface.OnMultiChoiceClickListener IngredientsDialogListener = new DialogInterface.OnMultiChoiceClickListener() {
 
@@ -662,7 +659,7 @@ public class ShareContent extends NavBar{
                public void onClick(DialogInterface dialog, final int which, boolean isChecked) {
 
                    if (isChecked) {
-                       selectedIngredients.add(array_ingredientes_Vegan[which]);
+                       checksSlectedIngredients.add(array_ingredientes_Vegan[which]);
                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ShareContent.this);
 
                        dialogBuilder.setTitle("Ingredient Quantity (Kg/un)");
@@ -675,7 +672,7 @@ public class ShareContent extends NavBar{
                            public void onClick(DialogInterface dialog, int whichButton) {
                                EditText mota = (EditText) myView.findViewById(R.id.titleText1);
                                Toast.makeText(ShareContent.this, "Added " + mota.getText().toString() + " for " + array_ingredientes_Vegan[which], Toast.LENGTH_LONG).show();
-                               selectedIngredients.add(":" + mota.getText().toString());
+                               selectedIngredients.add(array_ingredientes_Vegan + ":" + mota.getText().toString());
                                onChangeSelectedIngredients();
                            }
                        });
@@ -689,10 +686,9 @@ public class ShareContent extends NavBar{
 
                    }
                    else{
-                       if(selectedIngredients.size() > 0) {
+                       if(selectedIngredients.size() > 0)
                            selectedIngredients.remove(selectedIngredients.size() - 1);
-                           selectedIngredients.remove(selectedIngredients.size() - 1);
-                       }
+
                        onChangeSelectedIngredients();
                    }
                }
@@ -709,7 +705,7 @@ public class ShareContent extends NavBar{
            boolean[] checkedIngredients = new boolean[array_ingredientes_Drinks.length];
            int count = array_ingredientes_Drinks.length;
            for (int i = 0; i < count; i++)
-               checkedIngredients[i] = selectedIngredients.contains(array_ingredientes_Drinks[i]);
+               checkedIngredients[i] = checksSlectedIngredients.contains(array_ingredientes_Drinks[i]);
 
            DialogInterface.OnMultiChoiceClickListener IngredientsDialogListener = new DialogInterface.OnMultiChoiceClickListener() {
 
@@ -717,7 +713,7 @@ public class ShareContent extends NavBar{
                public void onClick(DialogInterface dialog, final int which, boolean isChecked) {
 
                    if (isChecked) {
-                       selectedIngredients.add(array_ingredientes_Drinks[which]);
+                       checksSlectedIngredients.add(array_ingredientes_Drinks[which]);
                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ShareContent.this);
 
                        dialogBuilder.setTitle("Ingredient Quantity (Kg/un)");
@@ -730,7 +726,7 @@ public class ShareContent extends NavBar{
                            public void onClick(DialogInterface dialog, int whichButton) {
                                EditText mota = (EditText) myView.findViewById(R.id.titleText1);
                                Toast.makeText(ShareContent.this, "Added " + mota.getText().toString() + " for " + array_ingredientes_Drinks[which], Toast.LENGTH_LONG).show();
-                               selectedIngredients.add(":" + mota.getText().toString());
+                               selectedIngredients.add(array_ingredientes_Drinks + ":" + mota.getText().toString());
                                onChangeSelectedIngredients();
                            }
                        });
@@ -745,10 +741,9 @@ public class ShareContent extends NavBar{
 
                    }
                    else{
-                       if(selectedIngredients.size() > 0) {
+                       if(selectedIngredients.size() > 0)
                            selectedIngredients.remove(selectedIngredients.size() - 1);
-                           selectedIngredients.remove(selectedIngredients.size() - 1);
-                       }
+
                        onChangeSelectedIngredients();
                    }
                }
@@ -765,7 +760,7 @@ public class ShareContent extends NavBar{
            boolean[] checkedIngredients = new boolean[array_ingredientes_Cakes.length];
            int count = array_ingredientes_Cakes.length;
            for (int i = 0; i < count; i++)
-               checkedIngredients[i] = selectedIngredients.contains(array_ingredientes_Cakes[i]);
+               checkedIngredients[i] = checksSlectedIngredients.contains(array_ingredientes_Cakes[i]);
 
            DialogInterface.OnMultiChoiceClickListener IngredientsDialogListener = new DialogInterface.OnMultiChoiceClickListener() {
 
@@ -773,7 +768,7 @@ public class ShareContent extends NavBar{
                public void onClick(DialogInterface dialog, final int which, boolean isChecked) {
 
                    if (isChecked) {
-                       selectedIngredients.add(array_ingredientes_Cakes[which]);
+                       checksSlectedIngredients.add(array_ingredientes_Cakes[which]);
                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ShareContent.this);
 
                        dialogBuilder.setTitle("Ingredient Quantity (Kg/un)");
@@ -786,7 +781,7 @@ public class ShareContent extends NavBar{
                            public void onClick(DialogInterface dialog, int whichButton) {
                                EditText mota = (EditText) myView.findViewById(R.id.titleText1);
                                Toast.makeText(ShareContent.this, "Added " + mota.getText().toString() + " for " + array_ingredientes_Cakes[which], Toast.LENGTH_LONG).show();
-                               selectedIngredients.add(":" + mota.getText().toString());
+                               selectedIngredients.add(array_ingredientes_Cakes + ":" + mota.getText().toString());
                                onChangeSelectedIngredients();
                            }
                        });
@@ -801,10 +796,9 @@ public class ShareContent extends NavBar{
 
                    }
                    else{
-                       if(selectedIngredients.size() > 0) {
+                       if(selectedIngredients.size() > 0)
                            selectedIngredients.remove(selectedIngredients.size() - 1);
-                           selectedIngredients.remove(selectedIngredients.size() - 1);
-                       }
+
                        onChangeSelectedIngredients();
                    }
                }
@@ -821,7 +815,7 @@ public class ShareContent extends NavBar{
            boolean[] checkedIngredients = new boolean[array_ingredientes_Snacks.length];
            int count = array_ingredientes_Snacks.length;
            for (int i = 0; i < count; i++)
-               checkedIngredients[i] = selectedIngredients.contains(array_ingredientes_Snacks[i]);
+               checkedIngredients[i] = checksSlectedIngredients.contains(array_ingredientes_Snacks[i]);
 
            DialogInterface.OnMultiChoiceClickListener IngredientsDialogListener = new DialogInterface.OnMultiChoiceClickListener() {
 
@@ -829,7 +823,7 @@ public class ShareContent extends NavBar{
                public void onClick(DialogInterface dialog, final int which, boolean isChecked) {
 
                    if (isChecked) {
-                       selectedIngredients.add(array_ingredientes_Snacks[which]);
+                       checksSlectedIngredients.add(array_ingredientes_Snacks[which]);
                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ShareContent.this);
 
                        dialogBuilder.setTitle("Ingredient Quantity (Kg/un)");
@@ -842,7 +836,7 @@ public class ShareContent extends NavBar{
                            public void onClick(DialogInterface dialog, int whichButton) {
                                EditText mota = (EditText) myView.findViewById(R.id.titleText1);
                                Toast.makeText(ShareContent.this, "Added " + mota.getText().toString() + " for " + array_ingredientes_Snacks[which], Toast.LENGTH_LONG).show();
-                               selectedIngredients.add(":" + mota.getText().toString());
+                               selectedIngredients.add( array_ingredientes_Snacks + ":" + mota.getText().toString());
                                onChangeSelectedIngredients();
                            }
                        });
@@ -857,10 +851,9 @@ public class ShareContent extends NavBar{
 
                    }
                    else{
-                       if(selectedIngredients.size() > 0) {
+                       if(selectedIngredients.size() > 0)
                            selectedIngredients.remove(selectedIngredients.size() - 1);
-                           selectedIngredients.remove(selectedIngredients.size() - 1);
-                       }
+
                        onChangeSelectedIngredients();
                    }
                }

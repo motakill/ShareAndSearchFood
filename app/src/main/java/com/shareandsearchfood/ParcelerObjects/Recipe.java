@@ -17,6 +17,14 @@ public class Recipe {
     private float rate;
     private boolean favorite;
     private String recipe_id;
+    private String numPeople;
+
+
+
+    private String prepareTime;
+    private String confectionTime;
+    private String category;
+
     //private List<Photo> photos;
     //private List<Video> videos;
     //private List<Favorite> favorites;
@@ -24,7 +32,8 @@ public class Recipe {
     public Recipe(String title, String ingredients,
                   String steps, String photoRecipe, String calories,
                   int status, String userId, String date, float rate,
-                  boolean favorite, String recipe_id) {
+                  boolean favorite, String recipe_id, String numPeople,
+                  String prepareTime, String confectionTime, String category) {
         this.title = title;
         this.ingredients = ingredients;
         this.steps = steps;
@@ -36,6 +45,10 @@ public class Recipe {
         this.rate = rate;
         this.favorite = favorite;
         this.recipe_id = recipe_id;
+        this.numPeople = numPeople;
+        this.prepareTime = prepareTime;
+        this.confectionTime = confectionTime;
+        this.category = category;
     }
 
     public Recipe() {
@@ -127,5 +140,37 @@ public class Recipe {
 
     public void setRecipeId(String recipe_id) {
         this.recipe_id = recipe_id;
+    }
+
+    public String getNumPeople() {
+        return numPeople;
+    }
+
+    public void setNumPeople(String numPeople) {
+        this.numPeople = numPeople;
+    }
+
+    public String getPrepareTime() {
+        return prepareTime;
+    }
+
+    public void setPrepareTime(String prepareTime) {
+        this.prepareTime = prepareTime;
+    }
+
+    public String getConfectionTime() {
+        return confectionTime;
+    }
+
+    public void setConfectionTime(String confectionTime) {
+        this.confectionTime = confectionTime;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

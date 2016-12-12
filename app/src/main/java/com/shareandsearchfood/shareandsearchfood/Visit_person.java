@@ -56,6 +56,10 @@ public class Visit_person extends NavBar {
     private String userID;
     private String ingredientsIntent;
     private String stepsIntent;
+    private String preparationTimeIntent;
+    private String confectionTimeIntent;
+    private String numPeopleIntent;
+    private String categoryIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -92,6 +96,10 @@ public class Visit_person extends NavBar {
         userID = intent.getStringExtra("userID");
         statusIntent = intent.getIntExtra("status",0);
         dateIntent = intent.getStringExtra("date");
+        preparationTimeIntent = intent.getStringExtra("preparationTime");
+        confectionTimeIntent = intent.getStringExtra("confectionTime");
+        numPeopleIntent = intent.getStringExtra("numPeople");
+        categoryIntent = intent.getStringExtra("category");
 
         button = (Button) findViewById(R.id.followButton);
         FirebaseOperations.isFriend(mFirebaseUser.getEmail(),userID,button);
@@ -161,7 +169,8 @@ public class Visit_person extends NavBar {
     public void setFavoriteStatus(View view){
         FirebaseOperations.setFavoriteStatus(mFirebaseUser.getEmail(),
                 new Recipe(tituloIntent, ingredientsIntent, stepsIntent, recipePhotoIntent,
-                        null,statusIntent, mFirebaseUser.getEmail(), dateIntent,rateIntent, favoriteIntent,recipeId));
+                        null,statusIntent, mFirebaseUser.getEmail(), dateIntent,rateIntent, favoriteIntent,recipeId,
+                        preparationTimeIntent, confectionTimeIntent, numPeopleIntent, categoryIntent));
 
     }
     @Override

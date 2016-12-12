@@ -92,7 +92,12 @@ public class CookBookRecyclerViewAdapter extends RecyclerView.Adapter<CookBookRe
                     intent.putExtra("recipeID", recipe.getRecipeId());
                     intent.putExtra("status", recipe.getStatus());
                     intent.putExtra("date", recipe.getDate());
-                    ctx.startActivity(intent);
+                    intent.putExtra("confectionTime", recipe.getConfectionTime());
+                    intent.putExtra("prepareTime", recipe.getPrepareTime());
+                    intent.putExtra("numPeople", recipe.getNumPeople());
+                    intent.putExtra("categoy", recipe.getCategory());
+
+                ctx.startActivity(intent);
             }
         });
 
