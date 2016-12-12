@@ -66,20 +66,26 @@ public class ShareContent extends NavBar{
 
 
 
-    protected Button selectIngredientsButton, ingredientsQuantity;
+    protected Button selectIngredientsButton;
 
-    protected CharSequence[] array_ingredientes_Meat = { "Carne de vaca", "Carne de porco", "Frango","Arroz",
-                                                        "Batata cozida", "Batata frita", "Massa","Feijão","Grão",
-                                                        "Azeite","Alho", "Sal" };
-    protected CharSequence[] array_ingredientes_Fish = { "Pescada", "Bacalhau", "Sardinhas", "Carapau", "Polvo",
-                                                        "Batata cozida","Feijão","Grão", "Azeite","Alho", "Sal" };
-    protected CharSequence[] array_ingredientes_Seafood = { "Ameijôas", "Camarão", "Sapateira",
-                                                            "Sal", "Limão", "Alho" };
-    protected CharSequence[] array_ingredientes_Vegan = { "Tofu", "Tomate", "Alface", "Couves", "Espargos", "Batata",
-                                                        "Arroz", "Sal", "Azeite"};
-    protected CharSequence[] array_ingredientes_Drinks = { "Alcool", "Laranja", "Maçã", "Refrigerantes" };
-    protected CharSequence[] array_ingredientes_Cakes = { "Ovos", "Açúcar", "Sal", "Leite", "Farinha", "Manteiga","Chocolate" };
-    protected CharSequence[] array_ingredientes_Snacks = { "Tostas", "Paté de Atum", "Paté de Sardinha", "Paté de Marisco", "Chouriços", "Manteiga" };
+    protected CharSequence[] array_ingredientes_Meat = { "Beef", "Pork", "Chicken","Rice",
+                                                        "Cooked potato", "French fries", "Pasta","Bean","Grain", "Onion",
+                                                        "Olive oil","Garlic", "Salt" };
+
+    protected CharSequence[] array_ingredientes_Fish = { "Whitefish", "Codfish", "Sardines", "Tuna", "Octopus",
+                                                        "Cooked potato","Bean","Grain", "Onion","Olive oil","Garlic", "Salt" };
+
+    protected CharSequence[] array_ingredientes_Seafood = { "Clams", "Shrimp", "Lobster",
+                                                            "Salt", "Limon", "Garlic" };
+
+    protected CharSequence[] array_ingredientes_Vegan = { "Tofu", "Tomato", "Lettuce", "Cabbages", "Asparagus", "Potato", "Onion",
+                                                        "Rice", "Salt", "Olive oil"};
+
+    protected CharSequence[] array_ingredientes_Drinks = { "Alcool", "Orange", "Apple", "Soda" };
+
+    protected CharSequence[] array_ingredientes_Cakes = { "Eggs", "Sugar", "Salt", "Milk", "Flour", "Butter","Chocolate" };
+
+    protected CharSequence[] array_ingredientes_Snacks = { "Toasties", "Tuna pate", "Sardines pate", "Seafood pate", "Spicy sausage", "Butter" };
 
 
 
