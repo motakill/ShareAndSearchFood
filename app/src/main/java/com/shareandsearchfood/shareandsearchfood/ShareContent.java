@@ -47,7 +47,7 @@ public class ShareContent extends NavBar{
     private AutoCompleteTextView steps;
     private Spinner categorias;
     private Button saveReceipt;
-    private  Button pubReceipt;
+    private Button pubReceipt;
     private boolean added_ingredients = false;
     private boolean added_steps = false;
     private Uri photoReceipt;
@@ -57,7 +57,6 @@ public class ShareContent extends NavBar{
     private FirebaseUser mFirebaseUser;
     private String nova_categoria;
     private int contador_more_ingredients = 0;
-
     private List<TextView> myEditTextList, myEditTextList2;
 
 
@@ -380,13 +379,15 @@ public class ShareContent extends NavBar{
     private String getIngredients(){
         myEditTextList = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
-        sb.append(selectIngredientsButton);
+        if(!selectIngredientsButton.getText().toString().equals("Click here"))
+            sb.append(selectIngredientsButton.getText().toString());
+
         for( int i = 0; i < mLayout.getChildCount(); i++ )
             if (mLayout.getChildAt(i) instanceof TextView) {
                 myEditTextList.add((TextView) mLayout.getChildAt(i));
             }
-        for (TextView text:myEditTextList)
-            sb.append(text.getText().toString());
+        for (int i = 0; i < myEditTextList.size(); i++)
+            sb.append(myEditTextList.get(i).getText().toString());
 
         return sb.toString();
     }
@@ -397,8 +398,8 @@ public class ShareContent extends NavBar{
             if( mLayout2.getChildAt( i ) instanceof TextView )
                 myEditTextList2.add( (TextView) mLayout2.getChildAt( i ) );
 
-        for (TextView text:myEditTextList2)
-            sb.append(text.getText().toString());
+        for (int i = 0; i < myEditTextList2.size(); i++)
+            sb.append(myEditTextList2.get(i).getText().toString());
 
         return sb.toString();
     }
