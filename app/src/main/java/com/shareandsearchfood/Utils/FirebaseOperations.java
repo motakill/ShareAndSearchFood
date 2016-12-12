@@ -33,8 +33,10 @@ import com.shareandsearchfood.shareandsearchfood.R;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by david_000 on 07/12/2016.
@@ -552,7 +554,24 @@ public class FirebaseOperations {
                     }
                 });
     }
-
+    public static List<String> getFriends(String email){
+        final List<String> friends = new ArrayList<>();
+        DatabaseReference userRef = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.FIREBASE_CHILD_USERS);
+        userRef.child(FirebaseOperations.encodeKey(email)).child(Constants.FIREBASE_CHILD_FOLLOWING)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot child : dataSnapshot.getChildren())
+                           friends.add(child.getValue().toString());
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+        return  friends;
+    }
     //Utils
     public static String encodeKey(String string){
         return string.replace('.', '%');

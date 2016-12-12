@@ -2,6 +2,7 @@ package com.shareandsearchfood.EatTime;
 
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -15,6 +16,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -23,6 +25,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.shareandsearchfood.Login.LoginActivity;
 import com.shareandsearchfood.shareandsearchfood.CustomOnItemSelectedListener;
 import com.shareandsearchfood.shareandsearchfood.NavBar;
 import com.shareandsearchfood.shareandsearchfood.R;
@@ -262,5 +266,26 @@ public class SearchPlaces extends NavBar implements LocationListener {
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
         // TODO Auto-generated method stub
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+            case R.id.action_sign_out:
+                FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+                mFirebaseAuth.signOut();
+                Intent intent = new Intent(this, LoginActivity.class);
+                intent.putExtra("finish", true); // if you are checking for this in your other Activities
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                        Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                        Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.shareandsearchfood.Login.LoginActivity;
+import com.shareandsearchfood.shareandsearchfood.MyProfile;
 import com.shareandsearchfood.shareandsearchfood.R;
 
 /**
@@ -26,8 +29,17 @@ public class SplashScreen extends Activity{
                 }catch(InterruptedException e){
                     e.printStackTrace();
                 }finally{
-                    Intent intent = new Intent(SplashScreen.this,LoginActivity.class);
-                    startActivity(intent);
+                    // Initialize Firebase Auth
+                    FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+                    FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
+                    if (mFirebaseUser == null) {
+                        // Not signed in, launch the Sign In activity
+                        startActivity(new Intent(SplashScreen.this, LoginActivity.class));
+                        finish();
+                        return;
+                    }
+                    else
+                    startActivity(new Intent(SplashScreen.this,MyProfile.class));
                 }
             }
         };

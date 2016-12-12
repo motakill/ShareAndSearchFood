@@ -135,7 +135,6 @@ public class NotebookActivity extends NavBar{
         });
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -144,7 +143,13 @@ public class NotebookActivity extends NavBar{
         switch (item.getItemId()) {
             case R.id.action_sign_out:
                 mFirebaseAuth.signOut();
-                startActivity(new Intent(this, LoginActivity.class));
+                Intent intent = new Intent(this, LoginActivity.class);
+                intent.putExtra("finish", true); // if you are checking for this in your other Activities
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                        Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                        Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

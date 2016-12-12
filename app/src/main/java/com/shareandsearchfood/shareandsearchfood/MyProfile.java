@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
@@ -25,6 +26,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.shareandsearchfood.Adapters.FavoriteRecyclerViewAdapter;
 import com.shareandsearchfood.Adapters.MyPubsRecyclerViewAdapter;
 import com.shareandsearchfood.EatTime.SearchPlaces;
@@ -48,9 +50,11 @@ public class MyProfile extends NavBar {
     private static final int PICK_IMAGE = 100;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
+    private List<Recipe> mFeed;
     private List<Recipe> mRecipe;
     private List<Recipe> mFavRecipe;
     private RecyclerView mRecyclerView;
+    private FavoriteRecyclerViewAdapter mFeedAdapter;
     private MyPubsRecyclerViewAdapter mAdapter;
     private FavoriteRecyclerViewAdapter mFAdapter;
    // private View search;
@@ -75,7 +79,6 @@ public class MyProfile extends NavBar {
             finish();
             return;
         }
-
         TextView textView3 = (TextView) findViewById(R.id.username);
         ImageView photo = (ImageView) findViewById(R.id.profileImage);
         TextView totalRecipes = (TextView) findViewById(R.id.totalRecipes);
@@ -111,6 +114,49 @@ public class MyProfile extends NavBar {
                 .getInstance()
                 .getReference(Constants.FIREBASE_CHILD_USERS);
 
+        final DatabaseReference recipeRef = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.FIREBASE_CHILD_RECIPES);
+
+        TextView feed = (TextView) findViewById(R.id.feed);
+        feed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MyProfile.this,"Updating feed...",Toast.LENGTH_SHORT).show();
+                mFeed = new ArrayList<>();
+                final List<String> friends = FirebaseOperations.getFriends(mFirebaseUser.getEmail());
+                mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(MyProfile.this));
+                mFeedAdapter = new FavoriteRecyclerViewAdapter(mFeed,MyProfile.this);
+                mRecyclerView.setAdapter(mFeedAdapter);
+                recipeRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot != null && dataSnapshot.getValue() != null) {
+                                    try{
+                                        for (DataSnapshot child : dataSnapshot.getChildren()) {
+                                            Recipe model = child.getValue(Recipe.class);
+                                            if (friends.contains(model.getUserId()))
+                                                mFeed.add(model);
+                                            }
+                                        if(mFeed.isEmpty())
+                                            Toast.makeText(MyProfile.this
+                                                    ,"Nothing to show :(",Toast.LENGTH_SHORT).show();
+                                        mFeedAdapter.notifyItemInserted(0);
+                                    } catch (Exception ex) {
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError firebaseError) {
+
+                            }
+                        });
+
+            }
+        });
+
         TextView myPubs = (TextView) findViewById(R.id.myPubs);
         myPubs.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,6 +176,9 @@ public class MyProfile extends NavBar {
                                         Recipe model = dataSnapshot.getValue(Recipe.class);
                                         mRecipe.add(model);
                                         mAdapter.notifyItemInserted(mRecipe.size() - 1);
+                                        if(mRecipe.isEmpty())
+                                            Toast.makeText(MyProfile.this
+                                                    ,"Nothing to show :(",Toast.LENGTH_SHORT).show();
                                     } catch (Exception ex) {
                                     }
                                 }
@@ -178,6 +227,9 @@ public class MyProfile extends NavBar {
                                         Recipe model = dataSnapshot.getValue(Recipe.class);
                                         mFavRecipe.add(model);
                                         mFAdapter.notifyItemInserted(mFavRecipe.size() - 1);
+                                        if(mFavRecipe.isEmpty())
+                                            Toast.makeText(MyProfile.this
+                                                    ,"Nothing to show :(",Toast.LENGTH_SHORT).show();
                                     } catch (Exception ex) {
                                     }
                                 }
@@ -217,7 +269,13 @@ public class MyProfile extends NavBar {
         switch (item.getItemId()) {
             case R.id.action_sign_out:
                     mFirebaseAuth.signOut();
-                startActivity(new Intent(this, LoginActivity.class));
+                Intent intent = new Intent(this, LoginActivity.class);
+                intent.putExtra("finish", true); // if you are checking for this in your other Activities
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                        Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                        Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
