@@ -390,7 +390,7 @@ public class ShareContent extends NavBar{
 
         return sb.toString();
     }
-    private String getSteps(){
+        private String getSteps(){
         myEditTextList2 = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
         for( int i = 0; i < mLayout2.getChildCount(); i++ )
