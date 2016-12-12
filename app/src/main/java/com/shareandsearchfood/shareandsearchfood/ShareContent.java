@@ -1,5 +1,6 @@
 package com.shareandsearchfood.shareandsearchfood;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -45,7 +47,7 @@ public class ShareContent extends NavBar{
     private AutoCompleteTextView title_receipt;
     private AutoCompleteTextView ingredients;
     private AutoCompleteTextView steps;
-    private Spinner categorias;
+    private Spinner categorias, num_people, preparation_time, confection_time;
     private Button saveReceipt;
     private Button pubReceipt;
     private boolean added_ingredients = false;
@@ -55,13 +57,16 @@ public class ShareContent extends NavBar{
     private TextView photoName;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
-    private String nova_categoria;
+    //variaveis com os valores correctos para o Firebase
+
+    private String nova_categoria , new_num_people, new_preparation_time, new_confection_time;
     private int contador_more_ingredients = 0;
     private List<TextView> myEditTextList, myEditTextList2;
 
 
 
-    protected Button selectIngredientsButton;
+
+    protected Button selectIngredientsButton, ingredientsQuantity;
 
     protected CharSequence[] array_ingredientes_Meat = { "Carne de vaca", "Carne de porco", "Frango","Arroz",
                                                         "Batata cozida", "Batata frita", "Massa","Feijão","Grão",
@@ -186,6 +191,63 @@ public class ShareContent extends NavBar{
                         "OnItemSelectedListener : " + nova_categoria,
                         Toast.LENGTH_SHORT).show();
                         */
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+            }
+
+        });
+
+        //numero de pessoas
+        num_people = (Spinner) findViewById(R.id.spinner_people);
+        num_people.setOnItemSelectedListener(new CustomOnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                new_num_people = parent.getItemAtPosition(pos).toString();
+
+                /*Toast.makeText(parent.getContext(),
+                        "OnItemSelectedListener : " + new_num_people,
+                        Toast.LENGTH_SHORT).show();
+                   */
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+            }
+
+        });
+
+        //tempo de preparação
+        preparation_time = (Spinner) findViewById(R.id.spinner_preparation_time);
+        preparation_time.setOnItemSelectedListener(new CustomOnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                new_preparation_time = parent.getItemAtPosition(pos).toString();
+
+            /*    Toast.makeText(parent.getContext(),
+                        "OnItemSelectedListener : " + new_preparation_time,
+                        Toast.LENGTH_SHORT).show();
+            */
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+            }
+
+        });
+
+        //tempo de confeção
+        confection_time = (Spinner) findViewById(R.id.spinner_confection_time);
+        confection_time.setOnItemSelectedListener(new CustomOnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                new_confection_time = parent.getItemAtPosition(pos).toString();
+
             }
 
             @Override
@@ -340,7 +402,7 @@ public class ShareContent extends NavBar{
             cancel = true;
         }
 
-        else if (added_ingredients == false){
+        else if (selectIngredientsButton.getText().toString().isEmpty()){
             ingredients.setError(getString(R.string.how_to_do_it_tittle_empty));
             focusView = ingredients;
             cancel = true;
@@ -421,12 +483,42 @@ public class ShareContent extends NavBar{
            DialogInterface.OnMultiChoiceClickListener IngredientsDialogListener = new DialogInterface.OnMultiChoiceClickListener() {
 
                @Override
-               public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                   if (isChecked)
+               public void onClick(DialogInterface dialog, final int which, boolean isChecked) {
+
+                   if (isChecked) {
                        selectedIngredients.add(array_ingredientes_Meat[which]);
-                   else
-                       selectedIngredients.remove(array_ingredientes_Meat[which]);
-                   onChangeSelectedIngredients();
+                       AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ShareContent.this);
+                       dialogBuilder.setTitle("Ingredient Quantity (Kg/un)");
+
+                       LayoutInflater li = LayoutInflater.from(ShareContent.this);
+                       final View myView = li.inflate(R.layout.itementry, null);
+                       dialogBuilder.setView(myView);
+
+                       dialogBuilder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                           public void onClick(DialogInterface dialog, int whichButton) {
+                               EditText mota = (EditText) myView.findViewById(R.id.titleText1);
+                               Toast.makeText(ShareContent.this, "Added " + mota.getText().toString() + " for " + array_ingredientes_Meat[which], Toast.LENGTH_LONG).show();
+                               selectedIngredients.add(":" + mota.getText().toString());
+                               onChangeSelectedIngredients();
+                           }
+                       });
+                       dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                           public void onClick(DialogInterface dialog, int whichButton) {
+                               //pass
+                           }
+                       });
+                       AlertDialog b = dialogBuilder.create();
+                       b.show();
+
+
+                   }
+                   else{
+                       if(selectedIngredients.size() > 0) {
+                           selectedIngredients.remove(selectedIngredients.size() - 1);
+                           selectedIngredients.remove(selectedIngredients.size() - 1);
+                       }
+                       onChangeSelectedIngredients();
+                   }
                }
            };
 
@@ -446,12 +538,45 @@ public class ShareContent extends NavBar{
             DialogInterface.OnMultiChoiceClickListener IngredientsDialogListener = new DialogInterface.OnMultiChoiceClickListener() {
 
                 @Override
-                public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                    if (isChecked)
+                public void onClick(DialogInterface dialog, final int which, boolean isChecked) {
+
+
+                    if (isChecked) {
                         selectedIngredients.add(array_ingredientes_Fish[which]);
-                    else
-                        selectedIngredients.remove(array_ingredientes_Fish[which]);
-                    onChangeSelectedIngredients();
+                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ShareContent.this);
+
+                        //dialogBuilder.setView(R.layout.itementry);
+                        dialogBuilder.setTitle("Ingredient Quantity (Kg/un)");
+
+                        LayoutInflater li = LayoutInflater.from(ShareContent.this);
+                        final View myView = li.inflate(R.layout.itementry, null);
+                        dialogBuilder.setView(myView);
+
+                        dialogBuilder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                EditText mota = (EditText) myView.findViewById(R.id.titleText1);
+                                Toast.makeText(ShareContent.this, "Added " + mota.getText().toString() + " for " + array_ingredientes_Fish[which], Toast.LENGTH_LONG).show();
+                                selectedIngredients.add(":" + mota.getText().toString());
+                                onChangeSelectedIngredients();
+                            }
+                        });
+                        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                //pass
+                            }
+                        });
+                        AlertDialog b = dialogBuilder.create();
+                        b.show();
+
+
+                    }
+                    else{
+                        if(selectedIngredients.size() > 0) {
+                            selectedIngredients.remove(selectedIngredients.size() - 1);
+                            selectedIngredients.remove(selectedIngredients.size() - 1);
+                        }
+                        onChangeSelectedIngredients();
+                    }
                 }
             };
 
@@ -471,12 +596,44 @@ public class ShareContent extends NavBar{
            DialogInterface.OnMultiChoiceClickListener IngredientsDialogListener = new DialogInterface.OnMultiChoiceClickListener() {
 
                @Override
-               public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                   if (isChecked)
+               public void onClick(DialogInterface dialog, final int which, boolean isChecked) {
+
+                   if (isChecked) {
                        selectedIngredients.add(array_ingredientes_Seafood[which]);
-                   else
-                       selectedIngredients.remove(array_ingredientes_Seafood[which]);
-                   onChangeSelectedIngredients();
+                       AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ShareContent.this);
+
+                       //dialogBuilder.setView(R.layout.itementry);
+                       dialogBuilder.setTitle("Ingredient Quantity (Kg/un)");
+
+                       LayoutInflater li = LayoutInflater.from(ShareContent.this);
+                       final View myView = li.inflate(R.layout.itementry, null);
+                       dialogBuilder.setView(myView);
+
+                       dialogBuilder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                           public void onClick(DialogInterface dialog, int whichButton) {
+                               EditText mota = (EditText) myView.findViewById(R.id.titleText1);
+                               Toast.makeText(ShareContent.this, "Added " + mota.getText().toString() + " for " + array_ingredientes_Seafood[which], Toast.LENGTH_LONG).show();
+                               selectedIngredients.add(":" + mota.getText().toString());
+                               onChangeSelectedIngredients();
+                           }
+                       });
+                       dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                           public void onClick(DialogInterface dialog, int whichButton) {
+                               //pass
+                           }
+                       });
+                       AlertDialog b = dialogBuilder.create();
+                       b.show();
+
+
+                   }
+                   else{
+                       if(selectedIngredients.size() > 0) {
+                           selectedIngredients.remove(selectedIngredients.size() - 1);
+                           selectedIngredients.remove(selectedIngredients.size() - 1);
+                       }
+                       onChangeSelectedIngredients();
+                   }
                }
            };
 
@@ -488,7 +645,7 @@ public class ShareContent extends NavBar{
        }
 
        else if(nova_categoria.equals("Vegan")) {
-           boolean[] checkedIngredients = new boolean[array_ingredientes_Vegan.length];
+           final boolean[] checkedIngredients = new boolean[array_ingredientes_Vegan.length];
            int count = array_ingredientes_Vegan.length;
            for (int i = 0; i < count; i++)
                checkedIngredients[i] = selectedIngredients.contains(array_ingredientes_Vegan[i]);
@@ -496,12 +653,42 @@ public class ShareContent extends NavBar{
            DialogInterface.OnMultiChoiceClickListener IngredientsDialogListener = new DialogInterface.OnMultiChoiceClickListener() {
 
                @Override
-               public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                   if (isChecked)
+               public void onClick(DialogInterface dialog, final int which, boolean isChecked) {
+
+                   if (isChecked) {
                        selectedIngredients.add(array_ingredientes_Vegan[which]);
-                   else
-                       selectedIngredients.remove(array_ingredientes_Vegan[which]);
-                   onChangeSelectedIngredients();
+                       AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ShareContent.this);
+
+                       dialogBuilder.setTitle("Ingredient Quantity (Kg/un)");
+
+                       LayoutInflater li = LayoutInflater.from(ShareContent.this);
+                       final View myView = li.inflate(R.layout.itementry, null);
+                       dialogBuilder.setView(myView);
+
+                       dialogBuilder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                           public void onClick(DialogInterface dialog, int whichButton) {
+                               EditText mota = (EditText) myView.findViewById(R.id.titleText1);
+                               Toast.makeText(ShareContent.this, "Added " + mota.getText().toString() + " for " + array_ingredientes_Vegan[which], Toast.LENGTH_LONG).show();
+                               selectedIngredients.add(":" + mota.getText().toString());
+                               onChangeSelectedIngredients();
+                           }
+                       });
+                       dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                           public void onClick(DialogInterface dialog, int whichButton) {
+                           }
+                       });
+                       AlertDialog b = dialogBuilder.create();
+                       b.show();
+
+
+                   }
+                   else{
+                       if(selectedIngredients.size() > 0) {
+                           selectedIngredients.remove(selectedIngredients.size() - 1);
+                           selectedIngredients.remove(selectedIngredients.size() - 1);
+                       }
+                       onChangeSelectedIngredients();
+                   }
                }
            };
 
@@ -521,12 +708,43 @@ public class ShareContent extends NavBar{
            DialogInterface.OnMultiChoiceClickListener IngredientsDialogListener = new DialogInterface.OnMultiChoiceClickListener() {
 
                @Override
-               public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                   if (isChecked)
+               public void onClick(DialogInterface dialog, final int which, boolean isChecked) {
+
+                   if (isChecked) {
                        selectedIngredients.add(array_ingredientes_Drinks[which]);
-                   else
-                       selectedIngredients.remove(array_ingredientes_Drinks[which]);
-                   onChangeSelectedIngredients();
+                       AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ShareContent.this);
+
+                       dialogBuilder.setTitle("Ingredient Quantity (Kg/un)");
+
+                       LayoutInflater li = LayoutInflater.from(ShareContent.this);
+                       final View myView = li.inflate(R.layout.itementry, null);
+                       dialogBuilder.setView(myView);
+
+                       dialogBuilder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                           public void onClick(DialogInterface dialog, int whichButton) {
+                               EditText mota = (EditText) myView.findViewById(R.id.titleText1);
+                               Toast.makeText(ShareContent.this, "Added " + mota.getText().toString() + " for " + array_ingredientes_Drinks[which], Toast.LENGTH_LONG).show();
+                               selectedIngredients.add(":" + mota.getText().toString());
+                               onChangeSelectedIngredients();
+                           }
+                       });
+                       dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                           public void onClick(DialogInterface dialog, int whichButton) {
+                               //pass
+                           }
+                       });
+                       AlertDialog b = dialogBuilder.create();
+                       b.show();
+
+
+                   }
+                   else{
+                       if(selectedIngredients.size() > 0) {
+                           selectedIngredients.remove(selectedIngredients.size() - 1);
+                           selectedIngredients.remove(selectedIngredients.size() - 1);
+                       }
+                       onChangeSelectedIngredients();
+                   }
                }
            };
 
@@ -546,12 +764,43 @@ public class ShareContent extends NavBar{
            DialogInterface.OnMultiChoiceClickListener IngredientsDialogListener = new DialogInterface.OnMultiChoiceClickListener() {
 
                @Override
-               public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                   if (isChecked)
+               public void onClick(DialogInterface dialog, final int which, boolean isChecked) {
+
+                   if (isChecked) {
                        selectedIngredients.add(array_ingredientes_Cakes[which]);
-                   else
-                       selectedIngredients.remove(array_ingredientes_Cakes[which]);
-                   onChangeSelectedIngredients();
+                       AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ShareContent.this);
+
+                       dialogBuilder.setTitle("Ingredient Quantity (Kg/un)");
+
+                       LayoutInflater li = LayoutInflater.from(ShareContent.this);
+                       final View myView = li.inflate(R.layout.itementry, null);
+                       dialogBuilder.setView(myView);
+
+                       dialogBuilder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                           public void onClick(DialogInterface dialog, int whichButton) {
+                               EditText mota = (EditText) myView.findViewById(R.id.titleText1);
+                               Toast.makeText(ShareContent.this, "Added " + mota.getText().toString() + " for " + array_ingredientes_Cakes[which], Toast.LENGTH_LONG).show();
+                               selectedIngredients.add(":" + mota.getText().toString());
+                               onChangeSelectedIngredients();
+                           }
+                       });
+                       dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                           public void onClick(DialogInterface dialog, int whichButton) {
+                               //pass
+                           }
+                       });
+                       AlertDialog b = dialogBuilder.create();
+                       b.show();
+
+
+                   }
+                   else{
+                       if(selectedIngredients.size() > 0) {
+                           selectedIngredients.remove(selectedIngredients.size() - 1);
+                           selectedIngredients.remove(selectedIngredients.size() - 1);
+                       }
+                       onChangeSelectedIngredients();
+                   }
                }
            };
 
@@ -571,12 +820,43 @@ public class ShareContent extends NavBar{
            DialogInterface.OnMultiChoiceClickListener IngredientsDialogListener = new DialogInterface.OnMultiChoiceClickListener() {
 
                @Override
-               public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                   if (isChecked)
+               public void onClick(DialogInterface dialog, final int which, boolean isChecked) {
+
+                   if (isChecked) {
                        selectedIngredients.add(array_ingredientes_Snacks[which]);
-                   else
-                       selectedIngredients.remove(array_ingredientes_Snacks[which]);
-                   onChangeSelectedIngredients();
+                       AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ShareContent.this);
+
+                       dialogBuilder.setTitle("Ingredient Quantity (Kg/un)");
+
+                       LayoutInflater li = LayoutInflater.from(ShareContent.this);
+                       final View myView = li.inflate(R.layout.itementry, null);
+                       dialogBuilder.setView(myView);
+
+                       dialogBuilder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                           public void onClick(DialogInterface dialog, int whichButton) {
+                               EditText mota = (EditText) myView.findViewById(R.id.titleText1);
+                               Toast.makeText(ShareContent.this, "Added " + mota.getText().toString() + " for " + array_ingredientes_Snacks[which], Toast.LENGTH_LONG).show();
+                               selectedIngredients.add(":" + mota.getText().toString());
+                               onChangeSelectedIngredients();
+                           }
+                       });
+                       dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                           public void onClick(DialogInterface dialog, int whichButton) {
+                               //pass
+                           }
+                       });
+                       AlertDialog b = dialogBuilder.create();
+                       b.show();
+
+
+                   }
+                   else{
+                       if(selectedIngredients.size() > 0) {
+                           selectedIngredients.remove(selectedIngredients.size() - 1);
+                           selectedIngredients.remove(selectedIngredients.size() - 1);
+                       }
+                       onChangeSelectedIngredients();
+                   }
                }
            };
 

@@ -94,6 +94,39 @@
         <item>Snacks</item>
     </string-array>
 
+    <string name="preparation_time">Preparation Time</string>
+    <string-array name="preparation_time_arrays">
+        <item>Preparation Time</item>
+        <item> &lt; 5 min </item>
+        <item> &lt; 10 min </item>
+        <item> &lt; 20 min </item>
+        <item> &lt; 30 min </item>
+        <item> &gt; 30 min </item>
+    </string-array>
+
+    <string name="confection_time">Confection Time</string>
+    <string-array name="confection_time_arrays">
+        <item>Confection Time</item>
+        <item> &lt; 10 min </item>
+        <item> &lt; 20 min </item>
+        <item> &lt; 30 min </item>
+        <item> &lt; 45 min </item>
+        <item> &lt; 60 min </item>
+        <item> &gt; 60 min </item>
+    </string-array>
+
+    <string name="people_quantity">People Quantity</string>
+    <string-array name="people_quantity_arrays">
+        <item>People Quantity </item>
+        <item> 1 (px)</item>
+        <item> 2 (px)</item>
+        <item> 3 (px)</item>
+        <item> 4 (px)</item>
+        <item> 5 (px)</item>
+        <item> &gt; 5 (px)</item>
+    </string-array>
+
+
     <string name="Radius">Radius</string>
     <string-array name="Radius_arrays">
         <item>Radius (Km)</item>
@@ -104,5 +137,7 @@
         <item>5</item>
         <item>10</item>
     </string-array>
+
+
 
 </resources>
