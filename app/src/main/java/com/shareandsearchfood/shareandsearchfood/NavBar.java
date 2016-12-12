@@ -1,12 +1,17 @@
 package com.shareandsearchfood.shareandsearchfood;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import com.shareandsearchfood.EatTime.SearchPlaces;
 import com.shareandsearchfood.Settings.AboutSSFood;
@@ -19,6 +24,7 @@ import com.shareandsearchfood.Settings.FeedBackSSFood;
 
 public class NavBar extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private View search;
 
     @Override
     public void onBackPressed() {
@@ -33,7 +39,19 @@ public class NavBar extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        //Toast.makeText(NavBar.this,"Onde andas search bar", Toast.LENGTH_LONG).show();
+
         getMenuInflater().inflate(R.menu.menu_settings, menu);
+
+
+        // Associate searchable configuration with the SearchView
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.search_names).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
+
         return true;
     }
 
@@ -57,8 +75,13 @@ public class NavBar extends AppCompatActivity
             startActivity(intent);
             return true;
         }
+        else if(id == R.id.search_names) {
+            search = (View) findViewById(R.id.search_names);
+            //Toast.makeText(NavBar.this, "adeus bebe", Toast.LENGTH_LONG).show();
 
-        return super.onOptionsItemSelected(item);
+            return true;
+        }
+            return super.onOptionsItemSelected(item);
     }
 
     @Override

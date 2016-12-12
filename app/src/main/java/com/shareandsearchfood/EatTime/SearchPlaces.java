@@ -131,8 +131,6 @@ public class SearchPlaces extends NavBar implements LocationListener {
             public void onClick(View v) {
                 Log.d("onClick", "Button is Clicked");
                 googleMap.clear();
-                Toast.makeText(SearchPlaces.this,"Nearby Restaurants lolololol: " + PROXIMITY_RADIUS, Toast.LENGTH_LONG).show();
-
                 String url = getUrl(latitude, longitude, Restaurant);
                 Object[] DataTransfer = new Object[2];
                 DataTransfer[0] = googleMap;
@@ -185,9 +183,10 @@ public class SearchPlaces extends NavBar implements LocationListener {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 if(pos > 0) {
                     PROXIMITY_RADIUS = Integer.parseInt(parent.getItemAtPosition(pos).toString()) * 1000;
-                    Toast.makeText(parent.getContext(),
+                    /*Toast.makeText(parent.getContext(),
                             "OnItemSelectedListener : " + PROXIMITY_RADIUS,
                             Toast.LENGTH_SHORT).show();
+                            */
                 }
 
             }

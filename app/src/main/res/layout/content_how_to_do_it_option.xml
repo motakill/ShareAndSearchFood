@@ -21,22 +21,23 @@
         android:layout_marginTop="68dp">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="250dp"
-            android:minHeight="250dp"
-            android:maxHeight="250dp"
-            android:minWidth="400dp"
-            android:maxWidth="400dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:minHeight="150dp"
+            android:maxHeight="150dp"
+            android:minWidth="150dp"
+            android:maxWidth="150dp"
             android:id="@+id/imageView6"
             android:src="@drawable/loading"
             android:layout_marginTop="5dp"
             android:scaleType="center"
-            android:gravity="center"
             android:clickable="true"
+            android:gravity="center"
+            android:layout_marginLeft="105dp"
             android:onClick="clickRecipe"
             />
 
-    <TextView
+        <TextView
         android:text="Observações: Vi isto no restaurante do samouco, alguma ideia de como fazer?"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -84,9 +85,9 @@
                         <ImageView
                             android:src="@drawable/com_facebook_profile_picture_blank_square"
                             android:id="@+id/imageViewComments"
-                            android:layout_height="30dp"
+                            android:layout_height="35dp"
                             android:onClick="clickProfile"
-                            android:layout_width="40dp" />
+                            android:layout_width="35dp" />
                         <EditText
                             android:layout_width="308dp"
                             android:layout_height="wrap_content"

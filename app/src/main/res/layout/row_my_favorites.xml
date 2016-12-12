@@ -77,6 +77,8 @@
                 android:id="@+id/receita_foto_my_favorites"
                 android:layout_marginTop="5dp"
                 android:scaleType="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:gravity="center"
                 android:clickable="true"
                 android:onClick="clickRecipe"

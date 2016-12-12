@@ -1,5 +1,6 @@
 package com.shareandsearchfood.shareandsearchfood;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,6 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.shareandsearchfood.Adapters.FavoriteRecyclerViewAdapter;
 import com.shareandsearchfood.Adapters.MyPubsRecyclerViewAdapter;
+import com.shareandsearchfood.EatTime.SearchPlaces;
 import com.shareandsearchfood.ParcelerObjects.Recipe;
 import com.shareandsearchfood.Utils.Constants;
 import com.shareandsearchfood.Utils.FirebaseOperations;
@@ -50,6 +53,7 @@ public class MyProfile extends NavBar {
     private RecyclerView mRecyclerView;
     private MyPubsRecyclerViewAdapter mAdapter;
     private FavoriteRecyclerViewAdapter mFAdapter;
+   // private View search;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -94,7 +98,14 @@ public class MyProfile extends NavBar {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        /*search = (View) findViewById(R.id.search_names);
 
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MyProfile.this,"ola bebe", Toast.LENGTH_LONG).show();
+            }
+        });*/
 
         final DatabaseReference userRef = FirebaseDatabase
                 .getInstance()

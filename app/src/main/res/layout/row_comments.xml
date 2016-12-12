@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/row_comments"
-    android:layout_height="match_parent">
+    android:layout_height="120dp">
 
     <RelativeLayout
         android:layout_width="349dp"
@@ -12,8 +12,8 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             app:srcCompat="@drawable/com_facebook_profile_picture_blank_square"
             android:id="@+id/imageView4"
             android:layout_alignParentTop="true"

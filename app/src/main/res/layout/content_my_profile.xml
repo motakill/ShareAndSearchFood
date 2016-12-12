@@ -18,13 +18,18 @@
         android:layout_marginTop="80dp">
 
         <ImageView
-            android:layout_width="86dp"
-            android:layout_height="102dp"
+            android:layout_width="80dp"
+            android:layout_height="90dp"
+            android:minHeight="90dp"
+            android:maxHeight="90dp"
+            android:minWidth="80dp"
+            android:maxWidth="80dp"
             android:id="@+id/profileImage"
             android:clickable="true"
             android:layout_marginTop="70dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
             android:layout_alignParentStart="true" />
 
         <TextView
@@ -119,6 +124,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
+                android:textStyle="bold"
                 android:clickable="true"/>
 
             <TextView
@@ -127,6 +133,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="2"
+                android:textStyle="bold"
                 android:clickable="true" />
 
 
@@ -136,6 +143,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="3"
+                android:textStyle="bold"
                 android:clickable="true"/>
 
 
@@ -145,6 +153,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="4"
+                android:textStyle="bold"
                 android:clickable="true" />
 
         </TableRow>
