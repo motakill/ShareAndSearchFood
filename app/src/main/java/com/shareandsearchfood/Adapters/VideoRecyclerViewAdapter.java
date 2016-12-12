@@ -66,6 +66,7 @@ public class VideoRecyclerViewAdapter extends RecyclerView.Adapter<VideoRecycler
             @Override
             public void onClick(View v) {
                 Tools.downloadVideo(ctx,comment.getVideo());
+
             }
         });
 
