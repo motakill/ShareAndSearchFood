@@ -9,7 +9,11 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/app_bar_recipe_content">
 
-<LinearLayout
+<android.support.v4.widget.NestedScrollView
+    android:layout_width="wrap_content"
+    android:verticalScrollbarPosition="right"
+    android:layout_height="wrap_content">
+    <LinearLayout
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:orientation="vertical"
@@ -29,12 +33,11 @@ android:layout_marginTop="100dp">
             android:scaleType="center"
             android:gravity="center"
             android:clickable="true"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_alignParentTop="true"
+            android:layout_height="200dp"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginLeft="80dp"
-            android:layout_height="200dp" />
+            android:layout_alignParentStart="true" />
 
         <CheckBox android:id="@+id/star"
             style="?android:attr/starStyle"
@@ -88,6 +91,62 @@ android:layout_marginTop="100dp">
         android:layout_width="360dp"
         android:layout_height="match_parent">
 
+
+        <LinearLayout
+            android:id="@+id/Video"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:orientation="vertical"
+            android:weightSum="1">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:src="@drawable/com_facebook_profile_picture_blank_square"
+                    android:id="@+id/imageViewComments2"
+                    android:layout_height="35dp"
+                    android:layout_width="35dp" />
+                <EditText
+                    android:layout_width="308dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:layout_marginRight="45dp"
+                    android:layout_alignParentTop="true"
+                    android:id="@+id/editText32"
+                    android:layout_toRightOf="@+id/imageViewComments2" />
+
+                <ImageView
+                    android:id="@+id/imageViewCamera2"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/imageViewComments2"
+                    android:layout_toEndOf="@+id/imageViewComments2"
+                    android:layout_marginLeft="279dp"
+                    android:layout_marginStart="279dp"
+                    android:onClick="openGalleryVideoContent"
+                    app:srcCompat="@android:drawable/presence_video_busy" />
+
+                <ImageView
+                    android:src="@drawable/ic_menu_send"
+                    android:id="@+id/imageView32"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_below="@+id/imageViewCamera2"
+                    android:onClick="sendCommentVideo"
+                    android:layout_alignLeft="@+id/imageViewCamera2"
+                    android:layout_alignStart="@+id/imageViewCamera2" />
+
+            </RelativeLayout>
+            <android.support.v7.widget.RecyclerView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/recyclerComents2"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_height="match_parent">
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/Ingredients"
@@ -157,7 +216,6 @@ android:layout_marginTop="100dp">
                     <TextView android:text="test1"
                         android:id="@+id/ingredientsRow"
                         android:layout_weight="1"
-                        android:textAlignment="textStart"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"></TextView>
 
@@ -224,63 +282,6 @@ android:layout_marginTop="100dp">
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/Video"
-            android:layout_width="match_parent"
-            android:layout_height="350dp"
-            android:orientation="vertical"
-            android:weightSum="1">
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_marginTop="30dp"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:src="@drawable/com_facebook_profile_picture_blank_square"
-                    android:id="@+id/imageViewComments2"
-                    android:layout_height="35dp"
-                    android:layout_width="35dp" />
-                <EditText
-                    android:layout_width="308dp"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:layout_marginRight="45dp"
-                    android:layout_alignParentTop="true"
-                    android:id="@+id/editText32"
-                    android:layout_toRightOf="@+id/imageViewComments2" />
-
-                <ImageView
-                    android:id="@+id/imageViewCamera2"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_toRightOf="@+id/imageViewComments2"
-                    android:layout_toEndOf="@+id/imageViewComments2"
-                    android:layout_marginLeft="279dp"
-                    android:layout_marginStart="279dp"
-                    android:onClick="openGalleryVideoContent"
-                    app:srcCompat="@android:drawable/presence_video_busy" />
-
-                <ImageView
-                    android:src="@drawable/ic_menu_send"
-                    android:id="@+id/imageView32"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_below="@+id/imageViewCamera2"
-                    android:onClick="sendCommentVideo"
-                    android:layout_alignLeft="@+id/imageViewCamera2"
-                    android:layout_alignStart="@+id/imageViewCamera2" />
-
-            </RelativeLayout>
-            <android.support.v7.widget.RecyclerView
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/recyclerComents2"
-                android:layout_width="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_weight="0.18"
-                android:layout_height="200dp">
-            </android.support.v7.widget.RecyclerView>
-        </LinearLayout>
-
-        <LinearLayout
             android:id="@+id/Preparation"
             android:layout_width="match_parent"
             android:layout_height="350dp"
@@ -298,4 +299,5 @@ android:layout_marginTop="100dp">
 
 </TabHost>
 </LinearLayout>
+</android.support.v4.widget.NestedScrollView>
 </RelativeLayout>

@@ -1,10 +1,12 @@
 package com.shareandsearchfood.Adapters;
 
 import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.VideoView;
@@ -31,14 +33,14 @@ public class VideoRecyclerViewAdapter extends RecyclerView.Adapter<VideoRecycler
         public TextView mTextView;
         public ImageView userPhoto;
         public TextView data;
-        public VideoView videoPopUp;
+        public ImageView frame;
         public ViewHolder(View v) {
             super(v);
             mTextView = (TextView) itemView.findViewById(R.id.textView);
             userNickname = (TextView) itemView.findViewById(R.id.nickname);
             userPhoto = (ImageView) itemView.findViewById(R.id.imageView4);
             data = (TextView) itemView.findViewById(R.id.dataComments);
-            videoPopUp = (VideoView) itemView.findViewById(R.id.videoView);
+            frame = (ImageView) itemView.findViewById(R.id.frame);
         }
     }
 
@@ -60,7 +62,12 @@ public class VideoRecyclerViewAdapter extends RecyclerView.Adapter<VideoRecycler
         final Comments comment = mDataSet.get(position);
         holder.mTextView.setText(comment.getComment());
 
-        Tools.downloadVideo(ctx,comment.getVideo(),holder.videoPopUp);
+        holder.frame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Tools.downloadVideo(ctx,comment.getVideo());
+            }
+        });
 
         holder.data.setText(comment.getDate());
         FirebaseOperations.setUserContent(comment.getUserID(),holder.userNickname,holder.userPhoto,ctx);

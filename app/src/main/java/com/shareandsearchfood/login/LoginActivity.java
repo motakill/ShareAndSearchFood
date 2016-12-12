@@ -238,6 +238,7 @@ public class LoginActivity extends AppCompatActivity implements
             // form field with an error.
             focusView.requestFocus();
         } else {
+            Toast.makeText(LoginActivity.this, "Sign in on S&SFood", Toast.LENGTH_LONG).show();
             final FirebaseAuth mAuth = FirebaseAuth.getInstance();
             DatabaseReference userRef = FirebaseDatabase
                     .getInstance()
@@ -260,11 +261,10 @@ public class LoginActivity extends AppCompatActivity implements
                                                 Toast.makeText(LoginActivity.this,"Sign In Failed",
                                                         Toast.LENGTH_SHORT).show();
                                             }
-                                            Toast.makeText(LoginActivity.this, "Sign in on S&SFood", Toast.LENGTH_LONG).show();
-
+                                            else
+                                                startActivity(new Intent(LoginActivity.this, MyProfile.class));
                                         }
                                     });
-                            startActivity(new Intent(LoginActivity.this, MyProfile.class));
                         } else
                             mPasswordView.setError(getString(R.string.wrong_pass));
                     }
@@ -277,5 +277,10 @@ public class LoginActivity extends AppCompatActivity implements
     }
     private boolean isEmailValid(String email) {
         return email.contains("@");
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

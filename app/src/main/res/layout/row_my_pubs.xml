@@ -17,19 +17,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
-        <TextView
-                android:text="timestamp"
-                android:layout_width="wrap_content"
-                android:id="@+id/data2"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_below="@+id/imageView4"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
         <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="250dp"
+                android:layout_height="wrap_content"
                 android:minHeight="250dp"
                 android:maxHeight="250dp"
                 android:minWidth="400dp"
@@ -39,21 +29,33 @@
             android:gravity="center"
             android:onClick="clickRecipe"
             android:layout_below="@+id/titulo1"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="135dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:id="@+id/titulo1"
+            android:hint="Titulo"
+            android:textSize="18sp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
         <CheckBox android:id="@+id/star2"
             style="?android:attr/starStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="65dp"
-            android:layout_marginEnd="65dp"
+            android:clickable="true"
+            android:layout_marginRight="11dp"
+            android:layout_marginEnd="11dp"
             android:layout_alignTop="@+id/imageView4"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:clickable="true"/>
+            android:layout_alignRight="@+id/imageView4"
+            android:layout_alignEnd="@+id/imageView4"
+            android:layout_marginTop="10dp" />
 
         <RatingBar
             android:id="@+id/ratingBar6"
@@ -64,18 +66,16 @@
             android:stepSize="1.0"
             android:isIndicator="false"
             android:layout_alignBottom="@+id/imageView4"
-            android:layout_alignRight="@+id/star2"
-            android:layout_alignEnd="@+id/star2"
-           />
+            android:layout_alignRight="@+id/imageView4"
+            android:layout_alignEnd="@+id/imageView4" />
 
         <TextView
-            android:layout_width="135dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:id="@+id/titulo1"
-            android:hint="Titulo"
-            android:textSize="18sp"
-            android:layout_alignParentTop="true"
+                android:text="timestamp"
+                android:layout_width="wrap_content"
+                android:id="@+id/data2"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+            android:layout_alignTop="@+id/ratingBar6"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 

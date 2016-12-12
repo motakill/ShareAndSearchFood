@@ -6,14 +6,11 @@
     android:id="@+id/row_videos"
     android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:layout_width="349dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             app:srcCompat="@drawable/com_facebook_profile_picture_blank_square"
             android:id="@+id/imageView4"
             android:layout_alignParentTop="true"
@@ -24,55 +21,46 @@
             android:onClick="clickProfile"
             />
 
-        <RelativeLayout
-            android:layout_width="131dp"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/imageView4"
-            android:layout_toEndOf="@+id/imageView4">
-            <TextView
-                android:layout_width="135dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:id="@+id/nickname"
-                android:hint="Nickname"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="25dp"
-                android:textSize="18sp" />
-
-        </RelativeLayout>
-
-    </RelativeLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="64dp" />
-
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_gravity="center"
-        android:id="@+id/frame"
-        android:background="@android:color/black"
-        android:layout_below="@+id/textView"
-        android:layout_height="460dp">
-        <VideoView
-            android:id="@+id/videoView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center" />
-    </FrameLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/dataComments"
-        android:layout_below="@+id/frame"
+        android:layout_below="@+id/textView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:id="@+id/frame"
+        android:background="@drawable/ic_play_light"
+        android:layout_height="250dp"
+        android:layout_below="@+id/dataComments"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+    </ImageView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        android:layout_below="@+id/imageView4"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="135dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:id="@+id/nickname"
+        android:hint="Nickname"
+        android:layout_marginLeft="15dp"
+        android:textSize="18sp"
+        android:layout_marginStart="15dp"
+        android:layout_alignTop="@+id/imageView4"
+        android:layout_toRightOf="@+id/imageView4"
+        android:layout_toEndOf="@+id/imageView4" />
 
 </RelativeLayout>

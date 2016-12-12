@@ -60,6 +60,7 @@
             </RelativeLayout>
 
         </LinearLayout>
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="503dp"
@@ -75,21 +76,23 @@
                 android:id="@+id/how_to_do_it_foto"
                 android:src="@drawable/loading"
                 android:layout_marginTop="5dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:scaleType="center"
                 android:gravity="center"
-                android:clickable="true" />
+                android:clickable="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
             <TextView
                 android:text="timestamp"
                 android:layout_width="wrap_content"
                 android:id="@+id/data5_how_to_do_it"
-                android:layout_below="@id/how_to_do_it_foto"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
                 android:layout_weight="1"
-                />
+                android:layout_alignBottom="@+id/how_to_do_it_foto"
+                android:layout_alignLeft="@+id/how_to_do_it_foto"
+                android:layout_alignStart="@+id/how_to_do_it_foto" />
         </RelativeLayout>
     </FrameLayout>
 </LinearLayout>

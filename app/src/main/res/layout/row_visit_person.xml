@@ -23,28 +23,20 @@
             android:id="@+id/data2"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_below="@+id/imageView4"
+            android:layout_alignBottom="@+id/imageView4"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="250dp"
-            android:minHeight="250dp"
-            android:maxHeight="250dp"
-            android:minWidth="400dp"
-            android:maxWidth="400dp"
-            android:src="@drawable/loading"
-            android:id="@+id/imageView4"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginTop="5dp"
-            android:layout_margin="10dp"
-            android:scaleType="center"
-            android:clickable="true"
-            android:gravity="center"
-            android:onClick="clickRecipe"
-            android:layout_below="@+id/titulo1"
+        <TextView
+            android:layout_width="135dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:id="@+id/titulo1"
+            android:hint="Titulo"
+            android:textSize="18sp"
+            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
@@ -52,12 +44,13 @@
             style="?android:attr/starStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="65dp"
-            android:layout_marginEnd="65dp"
+            android:layout_marginRight="14dp"
+            android:layout_marginEnd="14dp"
+            android:clickable="true"
             android:layout_alignTop="@+id/imageView4"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:clickable="true"/>
+            android:layout_alignRight="@+id/imageView4"
+            android:layout_alignEnd="@+id/imageView4"
+            android:layout_marginTop="17dp" />
 
         <RatingBar
             android:id="@+id/ratingBar6"
@@ -69,17 +62,22 @@
             android:isIndicator="false"
             android:layout_alignBottom="@+id/imageView4"
             android:layout_alignRight="@+id/star2"
-            android:layout_alignEnd="@+id/star2"
-            />
+            android:layout_alignEnd="@+id/star2" />
 
-        <TextView
-            android:layout_width="135dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:id="@+id/titulo1"
-            android:hint="Titulo"
-            android:textSize="18sp"
-            android:layout_alignParentTop="true"
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="250dp"
+            android:minHeight="250dp"
+            android:maxHeight="250dp"
+            android:minWidth="400dp"
+            android:maxWidth="400dp"
+            android:src="@drawable/loading"
+            android:id="@+id/imageView4"
+            android:scaleType="center"
+            android:clickable="true"
+            android:gravity="center"
+            android:onClick="clickRecipe"
+            android:layout_below="@+id/titulo1"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 

@@ -139,13 +139,13 @@ public class MyProfile extends NavBar {
                                             if (friends.contains(model.getUserId()))
                                                 mFeed.add(model);
                                             }
-                                        if(mFeed.isEmpty())
-                                            Toast.makeText(MyProfile.this
-                                                    ,"Nothing to show :(",Toast.LENGTH_SHORT).show();
                                         mFeedAdapter.notifyItemInserted(0);
                                     } catch (Exception ex) {
                                     }
                                 }
+                                if(mFeed.isEmpty())
+                                    Toast.makeText(MyProfile.this
+                                            ,"Nothing to show :(",Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
@@ -176,12 +176,12 @@ public class MyProfile extends NavBar {
                                         Recipe model = dataSnapshot.getValue(Recipe.class);
                                         mRecipe.add(model);
                                         mAdapter.notifyItemInserted(mRecipe.size() - 1);
-                                        if(mRecipe.isEmpty())
-                                            Toast.makeText(MyProfile.this
-                                                    ,"Nothing to show :(",Toast.LENGTH_SHORT).show();
                                     } catch (Exception ex) {
                                     }
                                 }
+                                if(mRecipe.isEmpty())
+                                    Toast.makeText(MyProfile.this
+                                            ,"Nothing to show :(",Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
@@ -227,12 +227,13 @@ public class MyProfile extends NavBar {
                                         Recipe model = dataSnapshot.getValue(Recipe.class);
                                         mFavRecipe.add(model);
                                         mFAdapter.notifyItemInserted(mFavRecipe.size() - 1);
-                                        if(mFavRecipe.isEmpty())
-                                            Toast.makeText(MyProfile.this
-                                                    ,"Nothing to show :(",Toast.LENGTH_SHORT).show();
+
                                     } catch (Exception ex) {
                                     }
                                 }
+                                if(mFavRecipe.isEmpty())
+                                    Toast.makeText(MyProfile.this
+                                            ,"Nothing to show :(",Toast.LENGTH_SHORT).show();
                             }
 
                             @Override

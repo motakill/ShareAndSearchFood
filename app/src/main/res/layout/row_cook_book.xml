@@ -12,8 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="23dp"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
@@ -65,7 +64,7 @@
         </LinearLayout>
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="255dp">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -77,38 +76,50 @@
                 android:id="@+id/receita_foto"
                 android:src="@drawable/loading"
                 android:layout_marginTop="5dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:scaleType="center"
                 android:gravity="center"
                 android:clickable="true"
                 android:onClick="clickRecipe"
-                />
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
             <CheckBox android:id="@+id/star5"
                 style="?android:attr/starStyle"
                 android:layout_width="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="300dp"
+                android:layout_marginTop="10dp"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/imageView6"
-                android:layout_alignRight="@+id/imageView6"
-                android:layout_alignEnd="@+id/imageView6"
-                android:onClick="saveFavoriteCookBook"/>
+                android:onClick="saveFavoriteCookBook"
+                android:layout_alignTop="@+id/receita_foto"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp" />
 
             <RatingBar
                 android:id="@+id/ratingBarContentMenu5"
                 style="?android:attr/ratingBarStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="235dp"
-                android:layout_marginLeft="20dp"
                 android:numStars="5"
                 android:stepSize="1.0"
                 android:isIndicator="false"
-                android:layout_alignBottom="@+id/imageView6"
-                android:layout_alignRight="@+id/imageView6"
-                android:layout_alignEnd="@+id/imageView6" />
+                android:layout_alignParentBottom="true"
+                android:layout_alignRight="@+id/star5"
+                android:layout_alignEnd="@+id/star5" />
+
+            <TextView
+                android:text="timestamp"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="11dp"
+                android:id="@+id/data5"
+                android:layout_weight="1"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="11dp"
+                android:layout_height="wrap_content" />
         </RelativeLayout>
 
 
@@ -124,14 +135,6 @@
                 android:orientation="horizontal"
                 android:layout_weight="1">
 
-                <TextView
-                    android:text="timestamp"
-                    android:layout_width="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:id="@+id/data5"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    />
             </TableRow>
         </TableLayout>
 
