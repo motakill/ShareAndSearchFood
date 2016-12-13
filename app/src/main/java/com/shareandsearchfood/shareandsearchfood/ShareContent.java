@@ -506,7 +506,6 @@ public class ShareContent extends NavBar{
                        });
                        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                            public void onClick(DialogInterface dialog, int whichButton) {
-                               selectedIngredients.remove(array_ingredientes_Meat[which]);
                            }
                        });
                        AlertDialog b = dialogBuilder.create();
@@ -563,7 +562,6 @@ public class ShareContent extends NavBar{
                         });
                         dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                selectedIngredients.remove(array_ingredientes_Fish[which]);
                             }
                         });
                         AlertDialog b = dialogBuilder.create();
@@ -619,7 +617,6 @@ public class ShareContent extends NavBar{
                        });
                        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                            public void onClick(DialogInterface dialog, int whichButton) {
-                               selectedIngredients.remove(array_ingredientes_Seafood[which]);
                            }
                        });
                        AlertDialog b = dialogBuilder.create();
@@ -674,7 +671,6 @@ public class ShareContent extends NavBar{
                        });
                        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                            public void onClick(DialogInterface dialog, int whichButton) {
-                               selectedIngredients.remove(array_ingredientes_Vegan[which]);
                            }
                        });
                        AlertDialog b = dialogBuilder.create();
@@ -729,7 +725,6 @@ public class ShareContent extends NavBar{
                        });
                        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                            public void onClick(DialogInterface dialog, int whichButton) {
-                               selectedIngredients.remove(array_ingredientes_Drinks[which]);
                            }
                        });
                        AlertDialog b = dialogBuilder.create();
@@ -784,7 +779,6 @@ public class ShareContent extends NavBar{
                        });
                        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                            public void onClick(DialogInterface dialog, int whichButton) {
-                               selectedIngredients.remove(array_ingredientes_Cakes[which]);
                            }
                        });
                        AlertDialog b = dialogBuilder.create();
@@ -839,7 +833,6 @@ public class ShareContent extends NavBar{
                        });
                        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                            public void onClick(DialogInterface dialog, int whichButton) {
-                               selectedIngredients.remove(array_ingredientes_Snacks[which]);
                            }
                        });
                        AlertDialog b = dialogBuilder.create();
