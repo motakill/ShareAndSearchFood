@@ -153,7 +153,6 @@ public class ShareContent extends NavBar{
 
         TextView textView = new TextView(this);
         textView.setText("More ingredients");
-
         // cenas para adicionar mais steps no share
         mLayout2 = (LinearLayout) findViewById(R.id.layoutSteps);
         mEditText2 = (EditText) findViewById(R.id.Step_by_Step);
@@ -365,11 +364,10 @@ public class ShareContent extends NavBar{
         textView.setLayoutParams(lparams);
         if (!text.isEmpty()) {
             contador_more_ingredients++;
-            textView.setText(text + "; ");
+            textView.setText(text + ";");
             return textView;
         }
         else {
-
             textView.setText("");
             return textView;
         }
@@ -382,11 +380,10 @@ public class ShareContent extends NavBar{
 
         if (!text.isEmpty()) {
 
-            textView2.setText(text + "; ");
+            textView2.setText(text + ";");
             return textView2;
         }
         else {
-
             textView2.setText("");
             return textView2;
         }
@@ -466,7 +463,7 @@ public class ShareContent extends NavBar{
 
         return sb.toString();
     }
-        private String getSteps(){
+    private String getSteps(){
         myEditTextList2 = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
         for( int i = 0; i < mLayout2.getChildCount(); i++ )

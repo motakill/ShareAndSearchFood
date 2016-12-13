@@ -118,7 +118,7 @@ public class RecipeContent extends NavBar {
         userID = intent.getStringExtra("userID");
         statusIntent = intent.getIntExtra("status",0);
         dateIntent = intent.getStringExtra("date");
-        preparationTimeIntent = intent.getStringExtra("preparationTime");
+        preparationTimeIntent = intent.getStringExtra("prepareTime");
         confectionTimeIntent = intent.getStringExtra("confectionTime");
         numPeopleIntent = intent.getStringExtra("numPeople");
         categoryIntent = intent.getStringExtra("category");
@@ -339,13 +339,13 @@ public class RecipeContent extends NavBar {
         StringBuilder sb = new StringBuilder();
         StringBuilder sb2 = new StringBuilder();
         for (String s:split) {
-            if(i!=split.length)
+            if(i!=split.length+1)
                 sb.append(i + ": " + s +'\n');
             i++;
         }
         i = 1;
         for (String s:split2) {
-            if(i!=split.length)
+            if(i!=split2.length)
                 sb2.append(i + ": " + s +'\n');
             i++;
         }

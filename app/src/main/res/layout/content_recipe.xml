@@ -93,6 +93,20 @@ android:layout_marginTop="100dp">
 
 
         <LinearLayout
+            android:id="@+id/Preparation"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/stepsRow"
+                android:layout_marginTop="40dp"
+                android:textAlignment="textStart"
+                android:layout_width="match_parent"
+                android:layout_height="260dp" />
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/Ingredients"
             android:layout_width="360dp"
             android:layout_height="match_parent"
@@ -126,14 +140,14 @@ android:layout_marginTop="100dp">
                         android:layout_weight="1"
                         app:srcCompat="@drawable/fire"
                         android:id="@+id/imageView7"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
                     <ImageView
                         android:layout_weight="1"
                         app:srcCompat="@drawable/ic_stat_name"
                         android:id="@+id/imageView8"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </TableRow>
 
@@ -143,13 +157,16 @@ android:layout_marginTop="100dp">
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_weight="0">
-                    <TextView android:text="test1" android:layout_weight="1"
+                    <TextView
+                        android:layout_weight="1"
                         android:id="@+id/preparationTime"
                         android:textAlignment="center"/>
-                    <TextView android:text="test2" android:layout_weight="1"
+                    <TextView
+                        android:layout_weight="1"
                         android:id="@+id/confectionTime"
                         android:textAlignment="center"/>
-                    <TextView android:text="test3" android:layout_weight="1"
+                    <TextView
+                        android:layout_weight="1"
                         android:id="@+id/numPeople"
                         android:textAlignment="center"/>
                 </TableRow>
@@ -160,11 +177,11 @@ android:layout_marginTop="100dp">
                     android:layout_height="fill_parent"
                     android:orientation="horizontal"
                     android:layout_weight="0">
-                    <TextView android:text="test1"
+                    <TextView
                         android:id="@+id/ingredientsRow"
                         android:layout_weight="1"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"></TextView>
+                        android:layout_height="wrap_content"/>
 
                 </TableRow>
             </TableLayout>
@@ -282,20 +299,6 @@ android:layout_marginTop="100dp">
                 android:layout_height="wrap_content">
             </android.support.v7.widget.RecyclerView>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/Preparation"
-            android:layout_width="match_parent"
-            android:layout_height="350dp"
-            android:orientation="vertical">
-            <TextView android:text="test1"
-                android:id="@+id/stepsRow"
-                android:layout_weight="1"
-                android:layout_marginTop="50dp"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:textAlignment="center"></TextView>
         </LinearLayout>
 
     </FrameLayout>
