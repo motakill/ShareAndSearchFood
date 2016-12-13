@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
@@ -40,7 +41,7 @@ public class Tools extends AppCompatActivity {
         dialog.setView(R.layout.video_pop_up);
 
         AlertDialog b = dialog.create();
-        b.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        b.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         b.getWindow().setLayout(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
         b.show();
 
@@ -54,6 +55,7 @@ public class Tools extends AppCompatActivity {
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
         lp.gravity = Gravity.BOTTOM;
         mediaController.setLayoutParams(lp);
+        mediaController.setBackground(new ColorDrawable(Color.BLACK));
         ((ViewGroup) mediaController.getParent()).removeView(mediaController);
         ((FrameLayout) b.findViewById(R.id.controllerAnchor)).addView(mediaController);
 

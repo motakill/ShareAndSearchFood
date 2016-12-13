@@ -16,6 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,8 +56,11 @@ public class MyProfile extends NavBar {
     private List<Recipe> mRecipe;
     private List<Recipe> mFavRecipe;
     private RecyclerView mRecyclerView;
+    private RecyclerView mRecyclerView2;
+    private RecyclerView mRecyclerView3;
     private FavoriteRecyclerViewAdapter mFeedAdapter;
     private MyPubsRecyclerViewAdapter mAdapter;
+    private MyPubsRecyclerViewAdapter mAdapter2;
     private FavoriteRecyclerViewAdapter mFAdapter;
    // private View search;
 
@@ -84,11 +89,21 @@ public class MyProfile extends NavBar {
         TextView totalRecipes = (TextView) findViewById(R.id.totalRecipes);
         TextView totalFollowers = (TextView) findViewById(R.id.totalFollowers);
         TextView totalFollowing = (TextView) findViewById(R.id.totalFollowings);
+        final ImageView meatBadge = (ImageView) findViewById(R.id.meatBadge);
+        final ImageView fishBadge = (ImageView) findViewById(R.id.fishBadge);
+        final ImageView cakeBadge = (ImageView) findViewById(R.id.cakeBadge);
+        final ImageView drinkBadge = (ImageView) findViewById(R.id.drinkBadge);
+        final ImageView snackBadge = (ImageView) findViewById(R.id.snackBadge);
+        final ImageView seafoodBadge = (ImageView) findViewById(R.id.seafoodBadge);
+        final ImageView followersBadge = (ImageView) findViewById(R.id.followersBadge);
+        final ImageView pubsBadge = (ImageView) findViewById(R.id.pubsBadge);
+        final ImageView veganBadge = (ImageView) findViewById(R.id.veganfoodBadge);
 
         FirebaseOperations.setUserContent(mFirebaseUser.getEmail(),textView3,photo,MyProfile.this);
         FirebaseOperations.totalRecipes(mFirebaseUser.getEmail(),totalRecipes);
         FirebaseOperations.totalFF(mFirebaseUser.getEmail(),totalFollowers,totalFollowing);
 
+        // create the TabHost that will contain the Tabs
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -101,87 +116,106 @@ public class MyProfile extends NavBar {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        /*search = (View) findViewById(R.id.search_names);
+        final TabHost host = (TabHost)findViewById(R.id.tabHost);
+        host.setup();
 
-        search.setOnClickListener(new View.OnClickListener() {
+        TabHost.TabSpec spec;
+
+        //Tab 1
+        spec = host.newTabSpec("Feed");
+        spec.setContent(R.id.Feed);
+        spec.setIndicator("Feed");
+        host.addTab(spec);
+
+        //Tab 2
+        spec = host.newTabSpec("MyPubs");
+        spec.setContent(R.id.MyPubs);
+        spec.setIndicator("MyPubs");
+        host.addTab(spec);
+
+        //Tab 3
+        spec = host.newTabSpec("MyFavorites");
+        spec.setContent(R.id.MyFavorites);
+        spec.setIndicator("MyFavorites");
+        host.addTab(spec);
+
+        //Tab 4
+        spec = host.newTabSpec("Badges");
+        spec.setContent(R.id.Badges);
+        spec.setIndicator("Badges");
+        host.addTab(spec);
+
+        host.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(MyProfile.this,"ola bebe", Toast.LENGTH_LONG).show();
-            }
-        });*/
+            public void onTabChanged(String tabId) {
+                final DatabaseReference userRef = FirebaseDatabase
+                        .getInstance()
+                        .getReference(Constants.FIREBASE_CHILD_USERS);
 
-        final DatabaseReference userRef = FirebaseDatabase
-                .getInstance()
-                .getReference(Constants.FIREBASE_CHILD_USERS);
+                final DatabaseReference recipeRef = FirebaseDatabase
+                        .getInstance()
+                        .getReference(Constants.FIREBASE_CHILD_RECIPES);
 
-        final DatabaseReference recipeRef = FirebaseDatabase
-                .getInstance()
-                .getReference(Constants.FIREBASE_CHILD_RECIPES);
+                final DatabaseReference userRef2 = FirebaseDatabase
+                        .getInstance()
+                        .getReference(Constants.FIREBASE_CHILD_USERS);
 
-        TextView feed = (TextView) findViewById(R.id.feed);
-        feed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MyProfile.this,"Updating feed...",Toast.LENGTH_SHORT).show();
                 mFeed = new ArrayList<>();
                 final List<String> friends = FirebaseOperations.getFriends(mFirebaseUser.getEmail());
                 mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
                 mRecyclerView.setLayoutManager(new LinearLayoutManager(MyProfile.this));
-                mFeedAdapter = new FavoriteRecyclerViewAdapter(mFeed,MyProfile.this);
+                mFeedAdapter = new FavoriteRecyclerViewAdapter(mFeed, MyProfile.this);
                 mRecyclerView.setAdapter(mFeedAdapter);
-                recipeRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                if (dataSnapshot != null && dataSnapshot.getValue() != null) {
-                                    try{
-                                        for (DataSnapshot child : dataSnapshot.getChildren()) {
-                                            Recipe model = child.getValue(Recipe.class);
-                                            if (friends.contains(model.getUserId()))
-                                                mFeed.add(model);
-                                            }
-                                        mFeedAdapter.notifyItemInserted(0);
-                                    } catch (Exception ex) {
+
+                    recipeRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if(host.getCurrentTabTag().equals("Feed"))
+                                Toast.makeText(MyProfile.this
+                                    , "Feed updating...", Toast.LENGTH_SHORT).show();
+                            if (dataSnapshot != null && dataSnapshot.getValue() != null) {
+                                try {
+                                    for (DataSnapshot child : dataSnapshot.getChildren()) {
+                                        Recipe model = child.getValue(Recipe.class);
+                                        if (friends.contains(model.getUserId()))
+                                            mFeed.add(model);
                                     }
+                                    mFeedAdapter.notifyItemInserted(0);
+                                } catch (Exception ex) {
                                 }
-                                if(mFeed.isEmpty())
-                                    Toast.makeText(MyProfile.this
-                                            ,"Nothing to show :(",Toast.LENGTH_SHORT).show();
                             }
+                            if (mFeed.isEmpty() && host.getCurrentTabTag().equals("Feed"))
+                                Toast.makeText(MyProfile.this
+                                        , "Nothing to show :(", Toast.LENGTH_SHORT).show();
+                        }
 
-                            @Override
-                            public void onCancelled(DatabaseError firebaseError) {
+                        @Override
+                        public void onCancelled(DatabaseError firebaseError) {
 
-                            }
-                        });
+                        }
+                    });
 
-            }
-        });
-
-        TextView myPubs = (TextView) findViewById(R.id.myPubs);
-        myPubs.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 mRecipe = new ArrayList<>();
-                mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-                mRecyclerView.setLayoutManager(new LinearLayoutManager(MyProfile.this));
-                mAdapter = new MyPubsRecyclerViewAdapter(mRecipe,MyProfile.this);
-                mRecyclerView.setAdapter(mAdapter);
+                mRecyclerView2 = (RecyclerView) findViewById(R.id.recyclerView1);
+                mRecyclerView2.setLayoutManager(new LinearLayoutManager(MyProfile.this));
+                mAdapter2 = new MyPubsRecyclerViewAdapter(mRecipe, MyProfile.this);
+                mRecyclerView2.setAdapter(mAdapter2);
                 userRef.child(FirebaseOperations.encodeKey(mFirebaseUser.getEmail()))
                         .child(Constants.FIREBASE_CHILD_RECIPES).getRef()
                         .addChildEventListener(new ChildEventListener() {
                             @Override
                             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                                 if (dataSnapshot != null && dataSnapshot.getValue() != null) {
-                                    try{
+                                    try {
                                         Recipe model = dataSnapshot.getValue(Recipe.class);
                                         mRecipe.add(model);
-                                        mAdapter.notifyItemInserted(mRecipe.size() - 1);
+                                        mAdapter2.notifyItemInserted(mRecipe.size() - 1);
                                     } catch (Exception ex) {
                                     }
                                 }
-                                if(mRecipe.isEmpty())
+                                if (mRecipe.isEmpty())
                                     Toast.makeText(MyProfile.this
-                                            ,"Nothing to show :(",Toast.LENGTH_SHORT).show();
+                                            , "Nothing to show :(", Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
@@ -205,25 +239,18 @@ public class MyProfile extends NavBar {
                             }
                         });
 
-            }
-        });
-
-        TextView myFav = (TextView) findViewById(R.id.myFav);
-        myFav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 mFavRecipe = new ArrayList<>();
-                mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-                mRecyclerView.setLayoutManager(new LinearLayoutManager(MyProfile.this));
-                mFAdapter = new FavoriteRecyclerViewAdapter(mFavRecipe,MyProfile.this);
-                mRecyclerView.setAdapter(mFAdapter);
-                userRef.child(FirebaseOperations.encodeKey(mFirebaseUser.getEmail()))
+                mRecyclerView3 = (RecyclerView) findViewById(R.id.recyclerView2);
+                mRecyclerView3.setLayoutManager(new LinearLayoutManager(MyProfile.this));
+                mFAdapter = new FavoriteRecyclerViewAdapter(mFavRecipe, MyProfile.this);
+                mRecyclerView3.setAdapter(mFAdapter);
+                userRef2.child(FirebaseOperations.encodeKey(mFirebaseUser.getEmail()))
                         .child(Constants.FIREBASE_CHILD_FAVORITES).getRef()
                         .addChildEventListener(new ChildEventListener() {
                             @Override
                             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                                 if (dataSnapshot != null && dataSnapshot.getValue() != null) {
-                                    try{
+                                    try {
                                         Recipe model = dataSnapshot.getValue(Recipe.class);
                                         mFavRecipe.add(model);
                                         mFAdapter.notifyItemInserted(mFavRecipe.size() - 1);
@@ -231,14 +258,13 @@ public class MyProfile extends NavBar {
                                     } catch (Exception ex) {
                                     }
                                 }
-                                if(mFavRecipe.isEmpty())
+                                if (mFavRecipe.isEmpty())
                                     Toast.makeText(MyProfile.this
-                                            ,"Nothing to show :(",Toast.LENGTH_SHORT).show();
+                                            , "Nothing to show :(", Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
                             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
                             }
 
                             @Override
@@ -257,8 +283,21 @@ public class MyProfile extends NavBar {
                             }
                         });
 
+                if (host.getCurrentTabTag().equals("Badges")){
+                    FirebaseOperations.meatBadge(mFirebaseUser.getEmail(),meatBadge);
+                    FirebaseOperations.fishBadge(mFirebaseUser.getEmail(),fishBadge);
+                    FirebaseOperations.cakesBadge(mFirebaseUser.getEmail(),cakeBadge);
+                    FirebaseOperations.drinksBadge(mFirebaseUser.getEmail(),drinkBadge);
+                    FirebaseOperations.veganBadge(mFirebaseUser.getEmail(),veganBadge);
+                    FirebaseOperations.snacksBadge(mFirebaseUser.getEmail(),snackBadge);
+                    FirebaseOperations.followersBadge(mFirebaseUser.getEmail(),followersBadge);
+                    FirebaseOperations.pubsBadge(mFirebaseUser.getEmail(),pubsBadge);
+                    FirebaseOperations.seafoodBadge(mFirebaseUser.getEmail(),seafoodBadge);
+                }
             }
         });
+
+
 
     }
 

@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v7.graphics.drawable.DrawableWrapper;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -58,6 +59,7 @@ public class FirebaseOperations {
 
         userRef.child(encodeKey(personEmail))
                 .setValue(new User(personName, personEmail, null, personPhoto.toString()));
+
     }
     public static void insertUser(String personName, String personEmail,
                                   String password, String personPhoto) {
@@ -575,6 +577,257 @@ public class FirebaseOperations {
                 });
         return  friends;
     }
+
+    //Badges
+    public static void meatBadge(final String email, final ImageView meat){
+        final DatabaseReference userRef = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.FIREBASE_CHILD_USERS);
+        userRef.child(FirebaseOperations.encodeKey(email)).child(Constants.FIREBASE_CHILD_RECIPES)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        int contador = 0;
+                        for (DataSnapshot child : dataSnapshot.getChildren()) {
+                            Recipe recipeNew = child.getValue(Recipe.class);
+                            if(recipeNew.getCategory().equals("Meat"))
+                                contador ++;
+                        }
+                        if(contador == 1 || contador < 5 && contador != 0)
+                            meat.setImageResource(R.drawable.badge_meat_bronze);
+                        else  if(contador == 5 || contador < 15 && contador != 0)
+                            meat.setImageResource(R.drawable.badge_meat_silver);
+                        else  if(contador == 15 || contador < 30 && contador != 0)
+                            meat.setImageResource(R.drawable.badge_meat_gold);
+                        else  if(contador >= 30)
+                            meat.setImageResource(R.drawable.badge_meat_diamond);
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+    }
+    public static void fishBadge(final String email, final ImageView fish){
+        final DatabaseReference userRef = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.FIREBASE_CHILD_USERS);
+        userRef.child(FirebaseOperations.encodeKey(email)).child(Constants.FIREBASE_CHILD_RECIPES)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        int contador = 0;
+                        for (DataSnapshot child : dataSnapshot.getChildren()) {
+                            Recipe recipeNew = child.getValue(Recipe.class);
+                            if(recipeNew.getCategory().equals("Fish"))
+                                contador ++;
+                        }
+                        if(contador == 1 || contador < 5 && contador != 0)
+                            fish.setImageResource(R.drawable.badge_fish_bronze);
+                        else  if(contador == 5 || contador < 15 && contador != 0)
+                            fish.setImageResource(R.drawable.badge_fish_silver);
+                        else  if(contador == 15 || contador < 30 && contador != 0)
+                            fish.setImageResource(R.drawable.badge_fish_gold);
+                        else  if(contador >= 30)
+                            fish.setImageResource(R.drawable.badge_fish_diamond);
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+    }
+    public static void cakesBadge(final String email, final ImageView cake){
+        final DatabaseReference userRef = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.FIREBASE_CHILD_USERS);
+        userRef.child(FirebaseOperations.encodeKey(email)).child(Constants.FIREBASE_CHILD_RECIPES)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        int contador = 0;
+                        for (DataSnapshot child : dataSnapshot.getChildren()) {
+                            Recipe recipeNew = child.getValue(Recipe.class);
+                            if(recipeNew.getCategory().equals("Cakes"))
+                                contador ++;
+                        }
+                        if(contador == 1 || contador < 5 && contador != 0)
+                            cake.setImageResource(R.drawable.badge_cake_bronze);
+                        else  if(contador == 5 || contador < 15 && contador != 0)
+                            cake.setImageResource(R.drawable.badge_cake_silver);
+                        else  if(contador == 15 || contador < 30 && contador != 0)
+                            cake.setImageResource(R.drawable.badge_cake_gold);
+                        else  if(contador >= 30)
+                            cake.setImageResource(R.drawable.badge_cake_diamond);
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+    }
+    public static void snacksBadge(final String email, final ImageView snack){
+        final DatabaseReference userRef = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.FIREBASE_CHILD_USERS);
+        userRef.child(FirebaseOperations.encodeKey(email)).child(Constants.FIREBASE_CHILD_RECIPES)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        int contador = 0;
+                        for (DataSnapshot child : dataSnapshot.getChildren()) {
+                            Recipe recipeNew = child.getValue(Recipe.class);
+                            if(recipeNew.getCategory().equals("Snacks"))
+                                contador ++;
+                        }
+                        if(contador == 1 || contador < 5 && contador != 0)
+                            snack.setImageResource(R.drawable.badge_snacks_bronze);
+                        else  if(contador == 5 || contador < 15 && contador != 0)
+                            snack.setImageResource(R.drawable.badge_snacks_silver);
+                        else  if(contador == 15 || contador < 30 && contador != 0)
+                            snack.setImageResource(R.drawable.badge_snacks_gold);
+                        else  if(contador >= 30)
+                            snack.setImageResource(R.drawable.badge_snacks_diamond);
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+    }
+    public static void seafoodBadge(final String email, final ImageView seafood){
+        final DatabaseReference userRef = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.FIREBASE_CHILD_USERS);
+        userRef.child(FirebaseOperations.encodeKey(email)).child(Constants.FIREBASE_CHILD_RECIPES)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        int contador = 0;
+                        for (DataSnapshot child : dataSnapshot.getChildren()) {
+                            Recipe recipeNew = child.getValue(Recipe.class);
+                            if(recipeNew.getCategory().equals("Seafood"))
+                                contador ++;
+                        }
+                        if(contador == 1 || contador < 5 && contador != 0)
+                            seafood.setImageResource(R.drawable.badge_seafood_bronze);
+                        else  if(contador == 5 || contador < 15 && contador != 0)
+                            seafood.setImageResource(R.drawable.badge_seafood_silver);
+                        else  if(contador == 15 || contador < 30 && contador != 0)
+                            seafood.setImageResource(R.drawable.badge_seafood_gold);
+                        else  if(contador >= 30)
+                            seafood.setImageResource(R.drawable.badge_seafood_diamond);
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+    }
+    public static void veganBadge(final String email, final ImageView vegan){
+        final DatabaseReference userRef = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.FIREBASE_CHILD_USERS);
+        userRef.child(FirebaseOperations.encodeKey(email)).child(Constants.FIREBASE_CHILD_RECIPES)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        int contador = 0;
+                        for (DataSnapshot child : dataSnapshot.getChildren()) {
+                            Recipe recipeNew = child.getValue(Recipe.class);
+                            if(recipeNew.getCategory().equals("Vegan"))
+                                contador ++;
+                        }
+                        if(contador == 1 || contador < 5 && contador != 0)
+                            vegan.setImageResource(R.drawable.badge_vegan_bronze);
+                        else  if(contador == 5 || contador < 15 && contador != 0)
+                            vegan.setImageResource(R.drawable.badge_vegan_silver);
+                        else  if(contador == 15 || contador < 30 && contador != 0)
+                            vegan.setImageResource(R.drawable.badge_vegan_gold);
+                        else  if(contador >= 30)
+                            vegan.setImageResource(R.drawable.badge_vegan_diamond);
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+    }
+    public static void drinksBadge(final String email, final ImageView drinks){
+        final DatabaseReference userRef = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.FIREBASE_CHILD_USERS);
+        userRef.child(FirebaseOperations.encodeKey(email)).child(Constants.FIREBASE_CHILD_RECIPES)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        int contador = 0;
+                        for (DataSnapshot child : dataSnapshot.getChildren()) {
+                            Recipe recipeNew = child.getValue(Recipe.class);
+                            if(recipeNew.getCategory().equals("Drinks"))
+                                contador ++;
+                        }
+                        if(contador == 1 || contador < 5 && contador != 0)
+                            drinks.setImageResource(R.drawable.badge_drink_bronze);
+                        else  if(contador == 5 || contador < 15 && contador != 0)
+                            drinks.setImageResource(R.drawable.badge_drink_silver);
+                        else  if(contador == 15 || contador < 30 && contador != 0)
+                            drinks.setImageResource(R.drawable.badge_drink_gold);
+                        else  if(contador >= 30)
+                            drinks.setImageResource(R.drawable.badge_drink_diamond);
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+    }
+    public static void followersBadge(final String email, final ImageView followers){
+        final DatabaseReference userRef = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.FIREBASE_CHILD_USERS);
+        userRef.child(FirebaseOperations.encodeKey(email)).child(Constants.FIREBASE_CHILD_FOLLOWERS)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        int contador = 0;
+                        for (DataSnapshot child : dataSnapshot.getChildren())
+                                contador ++;
+                        if(contador == 1 || contador < 5 && contador != 0)
+                            followers.setImageResource(R.drawable.badge_followers_bronze);
+                        else  if(contador == 5 || contador < 15&& contador != 0 )
+                            followers.setImageResource(R.drawable.badge_followers_silver);
+                        else  if(contador == 15 || contador < 30 && contador != 0)
+                            followers.setImageResource(R.drawable.badge_followers_gold);
+                        else  if(contador >= 30)
+                            followers.setImageResource(R.drawable.badge_followers_diamond);
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+    }
+    public static void pubsBadge(final String email, final ImageView pubs){
+        final DatabaseReference userRef = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.FIREBASE_CHILD_USERS);
+        userRef.child(FirebaseOperations.encodeKey(email)).child(Constants.FIREBASE_CHILD_RECIPES)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        int contador = 0;
+                        for (DataSnapshot child : dataSnapshot.getChildren())
+                                contador ++;
+
+                        if(contador == 1 || contador < 5 && contador != 0)
+                            pubs.setImageResource(R.drawable.badge_mypubs_bronze);
+                        else  if(contador == 5 || contador < 15 && contador != 0)
+                            pubs.setImageResource(R.drawable.badge_mypubs_silver);
+                        else  if(contador == 15 || contador < 30 && contador != 0)
+                            pubs.setImageResource(R.drawable.badge_mypubs_gold);
+                        else  if(contador >= 30)
+                            pubs.setImageResource(R.drawable.badge_mypubs_diamond);
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+    }
+
+
     //Utils
     public static String encodeKey(String string){
         return string.replace('.', '%');

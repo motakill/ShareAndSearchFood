@@ -6,7 +6,7 @@ android {
     buildToolsVersion "24.0.2"
     defaultConfig {
         applicationId "com.shareandsearchfood.shareandsearchfood"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 24
         multiDexEnabled true
         versionCode 1

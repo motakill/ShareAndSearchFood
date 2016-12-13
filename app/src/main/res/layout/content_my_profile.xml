@@ -103,77 +103,14 @@
 
         </RelativeLayout>
 
-    <TableLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:stretchColumns="*"
-        android:layout_marginTop="270dp"
-        android:layout_marginBottom="20dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true">
-
-        <TableRow
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:text="Feed"
-                android:id="@+id/feed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:textStyle="bold"
-                android:clickable="true"/>
-
-            <TextView
-                android:text="My Pubs"
-                android:id="@+id/myPubs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="2"
-                android:textStyle="bold"
-                android:clickable="true" />
-
-
-            <TextView
-                android:text="My Favorites"
-                android:id="@+id/myFav"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="3"
-                android:textStyle="bold"
-                android:clickable="true"/>
-
-
-            <TextView
-                android:text="Badges"
-                android:id="@+id/badges"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="4"
-                android:textStyle="bold"
-                android:clickable="true" />
-
-        </TableRow>
-
-        <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_height="match_parent"
-            />
-
-    </TableLayout>
-
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="215dp">
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/radioButton"
@@ -189,6 +126,193 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
+
+        <TabHost
+            android:id="@+id/tabHost"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginTop="58dp"
+            android:scaleX="1.0"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true">
+
+            <HorizontalScrollView
+                android:id="@+id/horizontalScrollView1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:fillViewport="true">
+
+                <TabWidget
+                    android:id="@android:id/tabs"
+                    android:layout_width="fill_parent"
+                    android:layout_height="25dp" >
+
+                </TabWidget>
+            </HorizontalScrollView>
+
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="360dp"
+                android:layout_height="match_parent">
+
+
+                <LinearLayout
+                    android:id="@+id/Badges"
+                    android:layout_width="match_parent"
+                    android:layout_height="350dp"
+                    android:orientation="vertical"
+                    android:weightSum="1">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="30dp"
+                        android:layout_weight="1.23">
+
+
+                        <ImageView
+                            app:srcCompat="@drawable/badge1"
+                            android:id="@+id/fishBadge"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_alignTop="@+id/meatBadge"
+                            android:layout_alignLeft="@+id/veganfoodBadge"
+                            android:layout_alignStart="@+id/veganfoodBadge" />
+
+                        <ImageView
+                            app:srcCompat="@drawable/badge1"
+                            android:id="@+id/drinkBadge"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_alignTop="@+id/veganfoodBadge"
+                            android:layout_alignLeft="@+id/seafoodBadge"
+                            android:layout_alignStart="@+id/seafoodBadge" />
+
+                        <ImageView
+                            app:srcCompat="@drawable/badge1"
+                            android:id="@+id/snackBadge"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_alignTop="@+id/followersBadge"
+                            android:layout_alignLeft="@+id/cakeBadge"
+                            android:layout_alignStart="@+id/cakeBadge" />
+
+                        <ImageView
+                            app:srcCompat="@drawable/badge1"
+                            android:id="@+id/meatBadge"
+                            android:layout_marginTop="7dp"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_marginLeft="25dp"
+                            android:layout_marginStart="25dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true" />
+
+                        <ImageView
+                            app:srcCompat="@drawable/badge1"
+                            android:id="@+id/seafoodBadge"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_marginRight="27dp"
+                            android:layout_marginEnd="27dp"
+                            android:layout_alignTop="@+id/fishBadge"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true" />
+
+                        <ImageView
+                            app:srcCompat="@drawable/badge1"
+                            android:id="@+id/pubsBadge"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_alignTop="@+id/followersBadge"
+                            android:layout_alignLeft="@+id/drinkBadge"
+                            android:layout_alignStart="@+id/drinkBadge" />
+
+                        <ImageView
+                            app:srcCompat="@drawable/badge1"
+                            android:id="@+id/cakeBadge"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_marginTop="11dp"
+                            android:layout_below="@+id/meatBadge"
+                            android:layout_alignLeft="@+id/meatBadge"
+                            android:layout_alignStart="@+id/meatBadge" />
+
+                        <ImageView
+                            app:srcCompat="@drawable/badge1"
+                            android:id="@+id/veganfoodBadge"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_alignTop="@+id/cakeBadge"
+                            android:layout_alignLeft="@+id/followersBadge"
+                            android:layout_alignStart="@+id/followersBadge" />
+
+                        <ImageView
+                            app:srcCompat="@drawable/badge1"
+                            android:id="@+id/followersBadge"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_below="@+id/veganfoodBadge"
+                            android:layout_centerHorizontal="true" />
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/Feed"
+                    android:layout_width="360dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:weightSum="1">
+                    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/recyclerView"
+                        android:layout_marginTop="30dp"
+                        android:layout_width="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_height="334dp"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/MyPubs"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/recyclerView1"
+                        android:layout_marginTop="30dp"
+                        android:layout_width="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_height="match_parent"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/MyFavorites"
+                    android:layout_width="match_parent"
+                    android:layout_height="350dp"
+                    android:orientation="vertical"
+                    android:weightSum="1">
+
+                    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/recyclerView2"
+                        android:layout_marginTop="30dp"
+                        android:layout_width="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_height="match_parent"
+                        />
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+        </TabHost>
+
     </RelativeLayout>
 </RelativeLayout>
 
