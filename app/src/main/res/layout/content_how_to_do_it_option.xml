@@ -150,9 +150,9 @@
                         <ImageView
                             android:src="@drawable/com_facebook_profile_picture_blank_square"
                             android:id="@+id/imageViewComments2"
-                            android:layout_height="30dp"
+                            android:layout_height="35dp"
                             android:onClick="clickProfile"
-                            android:layout_width="40dp" />
+                            android:layout_width="35dp" />
                         <EditText
                             android:layout_width="308dp"
                             android:layout_height="wrap_content"

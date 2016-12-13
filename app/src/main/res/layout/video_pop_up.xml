@@ -9,7 +9,7 @@
         android:id="@+id/videoView"
         android:layout_width="match_parent"
         android:layout_gravity="center"
-        android:layout_height="250dp" />
+        android:layout_height="403dp" />
 
     <FrameLayout android:id="@+id/controllerAnchor"
         android:layout_width="match_parent"
