@@ -542,7 +542,7 @@ public class ShareContent extends NavBar{
 
 
                     if (isChecked) {
-                        checksSlectedIngredients.add(array_ingredientes_Meat[which]);
+                        checksSlectedIngredients.add(array_ingredientes_Fish[which]);
                         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ShareContent.this);
 
                         //dialogBuilder.setView(R.layout.itementry);
