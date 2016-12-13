@@ -345,7 +345,7 @@ public class RecipeContent extends NavBar {
         }
         i = 1;
         for (String s:split2) {
-            if(i!=split2.length)
+            if(i!=split2.length+1)
                 sb2.append(i + ": " + s +'\n');
             i++;
         }
