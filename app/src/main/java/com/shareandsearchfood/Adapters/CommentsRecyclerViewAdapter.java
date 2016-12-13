@@ -1,6 +1,7 @@
 package com.shareandsearchfood.Adapters;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,6 +63,7 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<CommentsRe
         Comments comment = mDataSet.get(position);
         holder.mTextView.setText(comment.getComment());
         if(comment.getPhoto() != null) {
+
             // Initialize a new ImageView widget
             ImageView iv = new ImageView(ctx);
 
