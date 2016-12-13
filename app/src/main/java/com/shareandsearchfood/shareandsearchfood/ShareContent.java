@@ -669,7 +669,7 @@ public class ShareContent extends NavBar{
                            public void onClick(DialogInterface dialog, int whichButton) {
                                EditText mota = (EditText) myView.findViewById(R.id.titleText1);
                                Toast.makeText(ShareContent.this, "Added " + mota.getText().toString() + " for " + array_ingredientes_Vegan[which], Toast.LENGTH_LONG).show();
-                               selectedIngredients.add(array_ingredientes_Vegan + ":" + mota.getText().toString());
+                               selectedIngredients.add(array_ingredientes_Vegan[which] + ":" + mota.getText().toString());
                                onChangeSelectedIngredients();
                            }
                        });
@@ -723,7 +723,7 @@ public class ShareContent extends NavBar{
                            public void onClick(DialogInterface dialog, int whichButton) {
                                EditText mota = (EditText) myView.findViewById(R.id.titleText1);
                                Toast.makeText(ShareContent.this, "Added " + mota.getText().toString() + " for " + array_ingredientes_Drinks[which], Toast.LENGTH_LONG).show();
-                               selectedIngredients.add(array_ingredientes_Drinks + ":" + mota.getText().toString());
+                               selectedIngredients.add(array_ingredientes_Drinks[which] + ":" + mota.getText().toString());
                                onChangeSelectedIngredients();
                            }
                        });
@@ -778,7 +778,7 @@ public class ShareContent extends NavBar{
                            public void onClick(DialogInterface dialog, int whichButton) {
                                EditText mota = (EditText) myView.findViewById(R.id.titleText1);
                                Toast.makeText(ShareContent.this, "Added " + mota.getText().toString() + " for " + array_ingredientes_Cakes[which], Toast.LENGTH_LONG).show();
-                               selectedIngredients.add(array_ingredientes_Cakes + ":" + mota.getText().toString());
+                               selectedIngredients.add(array_ingredientes_Cakes[which] + ":" + mota.getText().toString());
                                onChangeSelectedIngredients();
                            }
                        });
@@ -833,7 +833,7 @@ public class ShareContent extends NavBar{
                            public void onClick(DialogInterface dialog, int whichButton) {
                                EditText mota = (EditText) myView.findViewById(R.id.titleText1);
                                Toast.makeText(ShareContent.this, "Added " + mota.getText().toString() + " for " + array_ingredientes_Snacks[which], Toast.LENGTH_LONG).show();
-                               selectedIngredients.add( array_ingredientes_Snacks + ":" + mota.getText().toString());
+                               selectedIngredients.add( array_ingredientes_Snacks[which] + ":" + mota.getText().toString());
                                onChangeSelectedIngredients();
                            }
                        });
