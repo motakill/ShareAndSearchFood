@@ -29,6 +29,7 @@ import com.google.firebase.storage.UploadTask;
 import com.shareandsearchfood.ParcelerObjects.Comments;
 import com.shareandsearchfood.ParcelerObjects.HowTo;
 import com.shareandsearchfood.ParcelerObjects.Notebook;
+import com.shareandsearchfood.ParcelerObjects.Rate;
 import com.shareandsearchfood.ParcelerObjects.Recipe;
 import com.shareandsearchfood.ParcelerObjects.User;
 import com.shareandsearchfood.shareandsearchfood.R;
@@ -179,7 +180,7 @@ public class FirebaseOperations {
     //Recipes
     public static void insertRecipe(String title, String ingredients,
                                     String steps, String photoReceipt, String calories,
-                                    int status, String userId, float rate,
+                                    int status, String userId,
                                     boolean favorite,String numPeople,
                                     String prepareTime, String confectionTime, String category) {
 
@@ -198,13 +199,13 @@ public class FirebaseOperations {
 
         DatabaseReference newRef = userRef.push();
         newRef.setValue(new Recipe(title, ingredients, steps, photoReceipt,
-                calories,status, userId, reportDate, rate, favorite,"null",numPeople,prepareTime
+                calories,status, userId, reportDate, new Rate(0,0,0), favorite,"null",numPeople,prepareTime
                 ,confectionTime, category));
 
         key = newRef.getKey();
         userRef2.child(encodeKey(userId)).child(Constants.FIREBASE_CHILD_RECIPES).child(key)
                 .setValue(new Recipe(title, ingredients, steps, photoReceipt,
-                calories,status, userId, reportDate, rate, favorite,key,numPeople,prepareTime
+                calories,status, userId, reportDate, new Rate(0,0,0), favorite,key,numPeople,prepareTime
                         ,confectionTime, category));
         newRef.child("recipeId").setValue(key);
 
@@ -851,7 +852,48 @@ public class FirebaseOperations {
                 });
     }
 
+    //RatingBar
+    public static void insertRate(final String email, final String recipeID, final float rates){
+        final DatabaseReference userRef = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.FIREBASE_CHILD_USERS);
 
+        final DatabaseReference recipeRef = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.FIREBASE_CHILD_RECIPES);
+
+        recipeRef.child(FirebaseOperations.encodeKey(recipeID))
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Recipe recipe = dataSnapshot.getValue(Recipe.class);
+                        Rate rate = recipe.getRateBar();
+                        rate.setValue(rates);
+                        dataSnapshot.getRef().child("rateBar").setValue(rate);
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+
+        userRef.child(FirebaseOperations.encodeKey(email)).child(Constants.FIREBASE_CHILD_RECIPES)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot child : dataSnapshot.getChildren()) {
+                            Recipe recipe = child.getValue(Recipe.class);
+                            if (recipe.getUserId().equals(email)){
+                                Rate rate = recipe.getRateBar();
+                                rate.setValue(rates);
+                                child.getRef().child("rateBar").setValue(rate);
+                            }
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+    }
     //Utils
     public static String encodeKey(String string){
         return string.replace('.', '%');

@@ -26,6 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.shareandsearchfood.Adapters.VisitPersonRecyclerViewAdapter;
+import com.shareandsearchfood.ParcelerObjects.Rate;
 import com.shareandsearchfood.ParcelerObjects.Recipe;
 import com.shareandsearchfood.ParcelerObjects.User;
 import com.shareandsearchfood.Utils.Constants;
@@ -44,7 +45,9 @@ public class Visit_person extends NavBar {
     private Boolean favoriteIntent;
     private String recipePhotoIntent;
     private String tituloIntent;
-    private int rateIntent;
+    private int ratePeopleIntent;
+    private float rateIntent;
+    private float rateValueIntent;
     private int statusIntent;
     private String dateIntent;
     public TextView titulo;
@@ -93,6 +96,8 @@ public class Visit_person extends NavBar {
         ingredientsIntent = intent.getStringExtra("ingredients");
         stepsIntent = intent.getStringExtra("steps");
         rateIntent = intent.getIntExtra("rating",0);
+        ratePeopleIntent = intent.getIntExtra("ratingPeople",0);
+        rateValueIntent = intent.getIntExtra("ratingValue",0);
         userID = intent.getStringExtra("userID");
         statusIntent = intent.getIntExtra("status",0);
         dateIntent = intent.getStringExtra("date");
@@ -169,7 +174,8 @@ public class Visit_person extends NavBar {
     public void setFavoriteStatus(View view){
         FirebaseOperations.setFavoriteStatus(mFirebaseUser.getEmail(),
                 new Recipe(tituloIntent, ingredientsIntent, stepsIntent, recipePhotoIntent,
-                        null,statusIntent, mFirebaseUser.getEmail(), dateIntent,rateIntent, favoriteIntent,recipeId,
+                        null,statusIntent, mFirebaseUser.getEmail(), dateIntent,new Rate(ratePeopleIntent
+                ,rateValueIntent,rateIntent), favoriteIntent,recipeId,
                         preparationTimeIntent, confectionTimeIntent, numPeopleIntent, categoryIntent));
 
     }

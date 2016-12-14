@@ -12,7 +12,9 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.CheckBox;
@@ -21,7 +23,12 @@ import android.widget.RatingBar;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.View.OnTouchListener;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -32,6 +39,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.shareandsearchfood.Adapters.CommentsRecyclerViewAdapter;
 import com.shareandsearchfood.Adapters.VideoRecyclerViewAdapter;
 import com.shareandsearchfood.ParcelerObjects.Comments;
+import com.shareandsearchfood.ParcelerObjects.Rate;
 import com.shareandsearchfood.ParcelerObjects.Recipe;
 import com.shareandsearchfood.Utils.Constants;
 import com.shareandsearchfood.Utils.FirebaseOperations;
@@ -50,7 +58,7 @@ public class RecipeContent extends NavBar {
     public TextView titulo;
     public ImageView photo;
     public TextView timestamp;
-    public ImageView userImage ;
+    public ImageView userImage;
     public TextView nickname;
     private TextView ingredients;
     private TextView steps;
@@ -65,7 +73,9 @@ public class RecipeContent extends NavBar {
     private Boolean favoriteIntent;
     private String recipePhotoIntent;
     private String tituloIntent;
-    private int rateIntent;
+    private float rateIntent;
+    private float rateValueIntent;
+    private int ratePeopleIntent;
     private int statusIntent;
     private String dateIntent;
     private static final int PICK_IMAGE = 100;
@@ -89,6 +99,11 @@ public class RecipeContent extends NavBar {
     private TextView confectionTime;
     private TextView numPeople;
     private String categoryIntent;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,12 +126,14 @@ public class RecipeContent extends NavBar {
         recipeId = FirebaseOperations.encodeKey(intent.getStringExtra("recipeID"));
         recipePhotoIntent = intent.getStringExtra("recipePhoto");
         tituloIntent = intent.getStringExtra("recipeTitle");
-        favoriteIntent = intent.getBooleanExtra("favorite",false);
+        favoriteIntent = intent.getBooleanExtra("favorite", false);
         ingredientsIntent = intent.getStringExtra("ingredients");
         stepsIntent = intent.getStringExtra("steps");
-        rateIntent = intent.getIntExtra("rating",0);
+        rateIntent = intent.getFloatExtra("rating", 0);
+        ratePeopleIntent = intent.getIntExtra("ratingPeople", 0);
+        rateValueIntent = intent.getFloatExtra("ratingValue", 0);
         userID = intent.getStringExtra("userID");
-        statusIntent = intent.getIntExtra("status",0);
+        statusIntent = intent.getIntExtra("status", 0);
         dateIntent = intent.getStringExtra("date");
         preparationTimeIntent = intent.getStringExtra("prepareTime");
         confectionTimeIntent = intent.getStringExtra("confectionTime");
@@ -125,26 +142,34 @@ public class RecipeContent extends NavBar {
 
         titulo = (TextView) findViewById(R.id.titulo);
         photo = (ImageView) findViewById(R.id.imageView6);
-        rate = (RatingBar) findViewById(R.id.ratingBar2) ;
+        rate = (RatingBar) findViewById(R.id.ratingBar2);
         favorite = (CheckBox) findViewById(R.id.star);
         ingredients = (TextView) findViewById(R.id.ingredientsRow);
         steps = (TextView) findViewById(R.id.stepsRow);
         comment = (TextView) findViewById(R.id.editText3);
         comment2 = (TextView) findViewById(R.id.editText32);
-        commetUserPhoto = (ImageView) findViewById(R.id.imageViewComments) ;
-        commetUserPhoto2 = (ImageView) findViewById(R.id.imageViewComments2) ;
-        preparationTime = (TextView) findViewById(R.id.preparationTime) ;
-        confectionTime = (TextView) findViewById(R.id.confectionTime) ;
-        numPeople = (TextView) findViewById(R.id.numPeople) ;
+        commetUserPhoto = (ImageView) findViewById(R.id.imageViewComments);
+        commetUserPhoto2 = (ImageView) findViewById(R.id.imageViewComments2);
+        preparationTime = (TextView) findViewById(R.id.preparationTime);
+        confectionTime = (TextView) findViewById(R.id.confectionTime);
+        numPeople = (TextView) findViewById(R.id.numPeople);
 
         setTitle(tituloIntent);
-        Tools.ImageDownload(this,photo,recipePhotoIntent);
-
-        rate.setRating(rateIntent);
+        Tools.ImageDownload(this, photo, recipePhotoIntent);
+        Log.d("value:", String.valueOf(rateValueIntent));
+        rate.setRating(rateValueIntent);
         favorite.setChecked(favoriteIntent);
         preparationTime.setText(preparationTimeIntent);
         confectionTime.setText(confectionTimeIntent);
         numPeople.setText(numPeopleIntent);
+        rate.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged (RatingBar ratingBar, float rating,
+                                                  boolean fromUser) {
+                FirebaseOperations.insertRate(userID, recipeId, rate.getRating());
+            }
+        });
+
 
         // create the TabHost that will contain the Tabs
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -161,7 +186,7 @@ public class RecipeContent extends NavBar {
 
         populateTable();
 
-        TabHost host = (TabHost)findViewById(R.id.tabHost);
+        TabHost host = (TabHost) findViewById(R.id.tabHost);
         host.setup();
 
         //Tab 1
@@ -193,10 +218,10 @@ public class RecipeContent extends NavBar {
                 .getReference(Constants.FIREBASE_CHILD_RECIPES);
 
         mComments = new ArrayList<>();
-        FirebaseOperations.setUserContent(mFirebaseUser.getEmail(),null,commetUserPhoto
-                                ,RecipeContent.this);
+        FirebaseOperations.setUserContent(mFirebaseUser.getEmail(), null, commetUserPhoto
+                , RecipeContent.this);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerComents);
-        mCAdapter = new CommentsRecyclerViewAdapter(mComments,RecipeContent.this);
+        mCAdapter = new CommentsRecyclerViewAdapter(mComments, RecipeContent.this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(RecipeContent.this));
         mRecyclerView.setAdapter(mCAdapter);
         userRef.child(recipeId).child(Constants.FIREBASE_CHILD_COMENTS).getRef()
@@ -204,9 +229,9 @@ public class RecipeContent extends NavBar {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                         if (dataSnapshot != null && dataSnapshot.getValue() != null) {
-                            try{
+                            try {
                                 Comments model = dataSnapshot.getValue(Comments.class);
-                                if(model.getVideo() == null) {
+                                if (model.getVideo() == null) {
                                     mComments.add(model);
                                     mCAdapter.notifyItemInserted(mComments.size() - 1);
                                 }
@@ -238,9 +263,9 @@ public class RecipeContent extends NavBar {
 
         mComments2 = new ArrayList<>();
         mRecyclerView2 = (RecyclerView) findViewById(R.id.recyclerComents2);
-        FirebaseOperations.setUserContent(mFirebaseUser.getEmail(),null,commetUserPhoto2
-                                ,RecipeContent.this);
-        mCAdapter2 = new VideoRecyclerViewAdapter(mComments2,RecipeContent.this);
+        FirebaseOperations.setUserContent(mFirebaseUser.getEmail(), null, commetUserPhoto2
+                , RecipeContent.this);
+        mCAdapter2 = new VideoRecyclerViewAdapter(mComments2, RecipeContent.this);
         mRecyclerView2.setLayoutManager(new LinearLayoutManager(RecipeContent.this));
         mRecyclerView2.setAdapter(mCAdapter2);
         userRef2.child(recipeId).child(Constants.FIREBASE_CHILD_COMENTS).getRef()
@@ -248,9 +273,9 @@ public class RecipeContent extends NavBar {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                         if (dataSnapshot != null && dataSnapshot.getValue() != null) {
-                            try{
+                            try {
                                 Comments model = dataSnapshot.getValue(Comments.class);
-                                if(model.getVideo() != null) {
+                                if (model.getVideo() != null) {
                                     mComments2.add(model);
                                     mCAdapter2.notifyItemInserted(mComments2.size() - 1);
                                 }
@@ -262,18 +287,25 @@ public class RecipeContent extends NavBar {
                     @Override
                     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                     }
+
                     @Override
                     public void onChildRemoved(DataSnapshot dataSnapshot) {
                     }
+
                     @Override
                     public void onChildMoved(DataSnapshot dataSnapshot, String s) {
                     }
+
                     @Override
                     public void onCancelled(DatabaseError firebaseError) {
                     }
                 });
 
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -294,11 +326,12 @@ public class RecipeContent extends NavBar {
                 return super.onOptionsItemSelected(item);
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
-            try{
+            try {
                 Context context = getApplicationContext();
                 photoRecipe = data.getData();
 
@@ -307,70 +340,116 @@ public class RecipeContent extends NavBar {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 0, bytes);
                 String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, "Title", null);
                 photoRecipe = Uri.parse(path);
-                Toast.makeText(RecipeContent.this, "Photo added",Toast.LENGTH_SHORT).show();
-            }catch (Exception e){}
+                Toast.makeText(RecipeContent.this, "Photo added", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+            }
 
         }
         if (resultCode == RESULT_OK && requestCode == PICK_VIDEO) {
-            try{
+            try {
                 videoComment = data.getData();
-                Toast.makeText(RecipeContent.this, "Video added",Toast.LENGTH_SHORT).show();
-            }catch (Exception e){}
+                Toast.makeText(RecipeContent.this, "Video added", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+            }
 
         }
 
     }
-    public void clickProfile(View view){
+
+    public void clickProfile(View view) {
         Intent intent = new Intent(this, Visit_person.class);
-        intent.putExtra("userID",userID);
+        intent.putExtra("userID", userID);
         startActivity(intent);
     }
-    public void setFavoriteStatus(View view){
+
+    public void setFavoriteStatus(View view) {
         FirebaseOperations.setFavoriteStatus(mFirebaseUser.getEmail(),
                 new Recipe(tituloIntent, ingredientsIntent, stepsIntent, recipePhotoIntent,
-                null,statusIntent, mFirebaseUser.getEmail(), dateIntent,rateIntent, favoriteIntent,recipeId,
+                        null, statusIntent, mFirebaseUser.getEmail(), dateIntent, new Rate(ratePeopleIntent, rateValueIntent
+                        , rateIntent), favoriteIntent, recipeId,
                         preparationTimeIntent, confectionTimeIntent, numPeopleIntent, categoryIntent));
 
     }
-    private void populateTable(){
+
+    private void populateTable() {
         int i = 1;
-        String [] split = ingredientsIntent.split(";");
-        String [] split2 = stepsIntent.split(";");
+        String[] split = ingredientsIntent.split(";");
+        String[] split2 = stepsIntent.split(";");
         StringBuilder sb = new StringBuilder();
         StringBuilder sb2 = new StringBuilder();
-        for (String s:split) {
-            if(i!=split.length+1)
-                sb.append(i + ": " + s +'\n');
+        for (String s : split) {
+            if (i != split.length + 1)
+                sb.append(i + ": " + s + '\n');
             i++;
         }
         i = 1;
-        for (String s:split2) {
-            if(i!=split2.length+1)
-                sb2.append(i + ": " + s +'\n');
+        for (String s : split2) {
+            if (i != split2.length + 1)
+                sb2.append(i + ": " + s + '\n');
             i++;
         }
         ingredients.setText(sb.toString());
         steps.setText(sb2.toString());
     }
+
     public void openGalleryContent(View v) {
         Intent gallery =
                 new Intent(Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                        MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(gallery, PICK_IMAGE);
     }
+
     public void openGalleryVideoContent(View v) {
         Intent gallery =
                 new Intent(Intent.ACTION_PICK,
-                        android.provider.MediaStore.Video.Media.INTERNAL_CONTENT_URI);
+                        MediaStore.Video.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(gallery, PICK_VIDEO);
     }
-    public void sendComment(View view){
-        FirebaseOperations.insertComment(this,recipeId,mFirebaseUser.getEmail(),comment,photoRecipe,Constants.FIREBASE_CHILD_RECIPES);
+
+    public void sendComment(View view) {
+        FirebaseOperations.insertComment(this, recipeId, mFirebaseUser.getEmail(), comment, photoRecipe, Constants.FIREBASE_CHILD_RECIPES);
         photoRecipe = null;
     }
-    public void sendCommentVideo(View view){
-        FirebaseOperations.storeCommnetVideoToFirebase(videoComment,mFirebaseUser.getEmail(),comment2,
-                recipeId,this,Constants.FIREBASE_CHILD_RECIPES);
+
+    public void sendCommentVideo(View view) {
+        FirebaseOperations.storeCommnetVideoToFirebase(videoComment, mFirebaseUser.getEmail(), comment2,
+                recipeId, this, Constants.FIREBASE_CHILD_RECIPES);
         videoComment = null;
+    }
+
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("RecipeContent Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        client.disconnect();
     }
 }

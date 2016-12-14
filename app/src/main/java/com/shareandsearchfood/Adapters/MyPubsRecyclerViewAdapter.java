@@ -80,7 +80,9 @@ public class MyPubsRecyclerViewAdapter extends RecyclerView.Adapter<MyPubsRecycl
                 intent.putExtra("ingredients",recipe.getIngredients());
                 intent.putExtra("steps",recipe.getSteps());
                 intent.putExtra("recipeID",recipe.getRecipeId());
-                intent.putExtra("rating",recipe.getRate());
+                intent.putExtra("rating", recipe.getRateBar().getRates());
+                intent.putExtra("ratingValue", recipe.getRateBar().getValue());
+                intent.putExtra("ratingPeople", recipe.getRateBar().getPeople());
                 intent.putExtra("userID",recipe.getUserId());
                 intent.putExtra("status",recipe.getStatus());
                 intent.putExtra("date",recipe.getDate());
@@ -94,7 +96,7 @@ public class MyPubsRecyclerViewAdapter extends RecyclerView.Adapter<MyPubsRecycl
         });
 
         holder.timestamp.setText(recipe.getDate().toString());
-        holder.rate.setRating(recipe.getRate());
+        holder.rate.setRating(recipe.getRateBar().getValue());
         holder.favorite.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {

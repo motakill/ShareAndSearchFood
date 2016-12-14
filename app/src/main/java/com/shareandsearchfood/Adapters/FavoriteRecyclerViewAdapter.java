@@ -86,7 +86,9 @@ public class FavoriteRecyclerViewAdapter extends RecyclerView.Adapter<FavoriteRe
                 intent.putExtra("favorite",recipe.getFavorite());
                 intent.putExtra("ingredients",recipe.getIngredients());
                 intent.putExtra("steps",recipe.getSteps());
-                intent.putExtra("rating",recipe.getRate());
+                intent.putExtra("rating", recipe.getRateBar().getRates());
+                intent.putExtra("ratingValue", recipe.getRateBar().getValue());
+                intent.putExtra("ratingPeople", recipe.getRateBar().getPeople());
                 intent.putExtra("userID",recipe.getUserId());
                 intent.putExtra("status",recipe.getStatus());
                 intent.putExtra("date",recipe.getDate());
@@ -124,7 +126,7 @@ public class FavoriteRecyclerViewAdapter extends RecyclerView.Adapter<FavoriteRe
                 FirebaseOperations.setFavoriteStatus(mFirebaseUser.getEmail(),recipe);
             }
         });
-        holder.rate.setRating(recipe.getRate());
+        holder.rate.setRating(recipe.getRateBar().getValue());
     }
 
     @Override

@@ -430,12 +430,12 @@ public class ShareContent extends NavBar{
 
             if (buttomId == saveReceipt.getId())
                 FirebaseOperations.insertRecipe(title_receipt.getText().toString(), getIngredients(),
-                        getSteps(), photoReceipt.toString(), null, 0, mFirebaseUser.getEmail(), 0, false,
+                        getSteps(), photoReceipt.toString(), null, 0, mFirebaseUser.getEmail(), false,
                         new_num_people,new_preparation_time,new_confection_time,nova_categoria);
 
             else
                 FirebaseOperations.insertRecipe(title_receipt.getText().toString(), getIngredients(),
-                        getSteps(), photoReceipt.toString(), null, 1, mFirebaseUser.getEmail(), 0, false,
+                        getSteps(), photoReceipt.toString(), null, 1, mFirebaseUser.getEmail(), false,
                         new_num_people,new_preparation_time,new_confection_time,nova_categoria);
 
             FirebaseOperations.storeRecipePhotoToFirebase(photoReceipt,mFirebaseUser.getEmail());
