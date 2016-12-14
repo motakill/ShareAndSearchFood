@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.graphics.drawable.DrawableWrapper;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -120,7 +121,7 @@ public class FirebaseOperations {
     }
 
     //Notebook
-    public static void insertNote(String email, TextView note) {
+    public static void insertNote(String email, TextView note, Boolean status) {
         DatabaseReference userRef = FirebaseDatabase
                 .getInstance()
                 .getReference(Constants.FIREBASE_CHILD_USERS);
@@ -129,21 +130,23 @@ public class FirebaseOperations {
         String reportDate = df.format(today);
 
         userRef.child(encodeKey(email)).child(Constants.FIREBASE_CHILD_NOTES).push()
-                .setValue(new Notebook(note.getText().toString(),reportDate));
+                .setValue(new Notebook(note.getText().toString(),reportDate, status));
         note.setText("");
     }
-    public static void removeNote() {
-        FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
+    public static void removeNote(String email, final String data) {
         DatabaseReference userRef = FirebaseDatabase
                 .getInstance()
                 .getReference(Constants.FIREBASE_CHILD_USERS);
 
-        userRef.child(encodeKey(mFirebaseUser.getEmail())).child(Constants.FIREBASE_CHILD_NOTES)
+        userRef.child(encodeKey(email)).child(Constants.FIREBASE_CHILD_NOTES)
         .addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot querySnapshot) {
-                querySnapshot.getRef().removeValue();
+                for (DataSnapshot child : querySnapshot.getChildren()) {
+                    Notebook note = child.getValue(Notebook.class);
+                    if (note.getDate().equals(data))
+                        child.getRef().removeValue();
+                }
             }
             @Override
             public void onCancelled(DatabaseError firebaseError) {
@@ -151,7 +154,28 @@ public class FirebaseOperations {
             }
         });
     }
+    public static void updateNote(String email, final String data, final Boolean status) {
+        DatabaseReference userRef = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.FIREBASE_CHILD_USERS);
+        userRef.child(encodeKey(email)).child(Constants.FIREBASE_CHILD_NOTES)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot querySnapshot) {
+                        for (DataSnapshot child : querySnapshot.getChildren()) {
+                            Notebook note = child.getValue(Notebook.class);
+                            if (note.getDate().equals(data))
+                                child.getRef().child("status").setValue(status);
+                        }
 
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError firebaseError) {
+
+                    }
+                });
+    }
     //Recipes
     public static void insertRecipe(String title, String ingredients,
                                     String steps, String photoReceipt, String calories,

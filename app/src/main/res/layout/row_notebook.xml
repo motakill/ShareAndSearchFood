@@ -23,8 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:textAlignment="center"
-            android:button="@android:drawable/ic_menu_delete"
-            android:onClick="clickDeleteNote"/>
+            android:button="@android:drawable/ic_menu_delete" />
 
         <CheckBox
             android:id="@+id/check"
@@ -33,7 +32,6 @@
             android:layout_alignBaseline="@+id/remove"
             android:layout_alignBottom="@+id/remove"
             android:layout_toLeftOf="@+id/remove"
-            android:clickable="true"
             android:layout_toStartOf="@+id/remove" />
 
         <TextView

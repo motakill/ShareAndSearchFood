@@ -81,7 +81,7 @@ public class NotebookActivity extends NavBar{
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseOperations.insertNote(mFirebaseUser.getEmail(), textIn);
+                FirebaseOperations.insertNote(mFirebaseUser.getEmail(), textIn, false);
             }
         });
 
