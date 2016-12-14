@@ -156,7 +156,6 @@ public class RecipeContent extends NavBar {
 
         setTitle(tituloIntent);
         Tools.ImageDownload(this, photo, recipePhotoIntent);
-        Log.d("value:", String.valueOf(rateValueIntent));
         rate.setRating(rateValueIntent);
         favorite.setChecked(favoriteIntent);
         preparationTime.setText(preparationTimeIntent);
@@ -167,6 +166,7 @@ public class RecipeContent extends NavBar {
             public void onRatingChanged (RatingBar ratingBar, float rating,
                                                   boolean fromUser) {
                 FirebaseOperations.insertRate(userID, recipeId, rate.getRating());
+                Log.d("estrelas",String.valueOf(rate.getRating()));
             }
         });
 

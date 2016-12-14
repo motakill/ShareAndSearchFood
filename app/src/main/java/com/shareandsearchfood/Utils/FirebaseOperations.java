@@ -199,13 +199,13 @@ public class FirebaseOperations {
 
         DatabaseReference newRef = userRef.push();
         newRef.setValue(new Recipe(title, ingredients, steps, photoReceipt,
-                calories,status, userId, reportDate, new Rate(0,0,0), favorite,"null",numPeople,prepareTime
+                calories,status, userId, reportDate, new Rate(0,0f,0f), favorite,"null",numPeople,prepareTime
                 ,confectionTime, category));
 
         key = newRef.getKey();
         userRef2.child(encodeKey(userId)).child(Constants.FIREBASE_CHILD_RECIPES).child(key)
                 .setValue(new Recipe(title, ingredients, steps, photoReceipt,
-                calories,status, userId, reportDate, new Rate(0,0,0), favorite,key,numPeople,prepareTime
+                calories,status, userId, reportDate, new Rate(0,0f,0f), favorite,key,numPeople,prepareTime
                         ,confectionTime, category));
         newRef.child("recipeId").setValue(key);
 
@@ -868,7 +868,7 @@ public class FirebaseOperations {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Recipe recipe = dataSnapshot.getValue(Recipe.class);
                         Rate rate = recipe.getRateBar();
-                        rate.setValue(rates);
+                        rate.media(rates);
                         dataSnapshot.getRef().child("rateBar").setValue(rate);
                     }
                     @Override
@@ -884,7 +884,7 @@ public class FirebaseOperations {
                             Recipe recipe = child.getValue(Recipe.class);
                             if (recipe.getUserId().equals(email)){
                                 Rate rate = recipe.getRateBar();
-                                rate.setValue(rates);
+                                rate.media(rates);
                                 child.getRef().child("rateBar").setValue(rate);
                             }
                         }

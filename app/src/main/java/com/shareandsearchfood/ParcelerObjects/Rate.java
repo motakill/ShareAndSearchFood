@@ -1,5 +1,7 @@
 package com.shareandsearchfood.ParcelerObjects;
 
+import android.util.Log;
+
 /**
  * Created by tiagomota on 14/12/16.
  */
@@ -39,10 +41,13 @@ public class Rate {
         this.rates = rates;
     }
 
-    public void setValue(float value1) {
+    public void setValue(float value) {
+       this.value = value;
+    }
+
+    public void media(float value){
         people ++;
-        float aux = rates;
-        this.rates = aux + value1;
+        rates += value;
         this.value = rates/people;
     }
 
