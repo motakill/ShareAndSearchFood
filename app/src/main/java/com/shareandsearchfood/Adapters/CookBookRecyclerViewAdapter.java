@@ -127,6 +127,13 @@ public class CookBookRecyclerViewAdapter extends RecyclerView.Adapter<CookBookRe
                 }
         });
         holder.rate.setRating(recipe.getRateBar().getValue());
+        holder.rate.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged (RatingBar ratingBar, float rating,
+                                         boolean fromUser) {
+                FirebaseOperations.insertRate(recipe.getUserId(), recipe.getRecipeId(), holder.rate.getRating());
+            }
+        });
     }
 
     @Override

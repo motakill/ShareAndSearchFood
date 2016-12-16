@@ -166,7 +166,6 @@ public class RecipeContent extends NavBar {
             public void onRatingChanged (RatingBar ratingBar, float rating,
                                                   boolean fromUser) {
                 FirebaseOperations.insertRate(userID, recipeId, rate.getRating());
-                Log.d("estrelas",String.valueOf(rate.getRating()));
             }
         });
 
