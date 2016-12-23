@@ -117,7 +117,7 @@
 
     <string name="people_quantity">People Quantity</string>
     <string-array name="people_quantity_arrays">
-        <item>People Quantity </item>
+        <item>People Quantity</item>
         <item> 1 (px)</item>
         <item> 2 (px)</item>
         <item> 3 (px)</item>

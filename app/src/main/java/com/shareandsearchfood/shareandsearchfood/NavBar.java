@@ -45,12 +45,6 @@ public class NavBar extends AppCompatActivity
 
 
         // Associate searchable configuration with the SearchView
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.search_names).getActionView();
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
 
         return true;
     }
@@ -75,12 +69,7 @@ public class NavBar extends AppCompatActivity
             startActivity(intent);
             return true;
         }
-        else if(id == R.id.search_names) {
-            search = (View) findViewById(R.id.search_names);
-            //Toast.makeText(NavBar.this, "adeus bebe", Toast.LENGTH_LONG).show();
 
-            return true;
-        }
             return super.onOptionsItemSelected(item);
     }
 

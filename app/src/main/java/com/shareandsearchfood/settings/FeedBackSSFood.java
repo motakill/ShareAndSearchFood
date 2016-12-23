@@ -17,7 +17,6 @@ import com.shareandsearchfood.shareandsearchfood.R;
 
 public class FeedBackSSFood extends NavBar {
 
-    private EditText recipient;
     private EditText subject;
     private EditText body;
 
@@ -39,7 +38,6 @@ public class FeedBackSSFood extends NavBar {
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        recipient = (EditText) findViewById(R.id.recipient);
         subject = (EditText) findViewById(R.id.subject);
         body = (EditText) findViewById(R.id.body);
 
@@ -48,7 +46,6 @@ public class FeedBackSSFood extends NavBar {
             public void onClick(View view) {
                 sendEmail();
                 // after sending the email, clear the fields
-                recipient.setText("");
                 subject.setText("");
                 body.setText("");
             }
@@ -57,7 +54,6 @@ public class FeedBackSSFood extends NavBar {
 
     protected void sendEmail() {
 
-        String[] recipients = {recipient.getText().toString()};
         Intent email = new Intent(Intent.ACTION_SEND, Uri.parse("mailto:"));
         String[] to= {"ssfood1994@gmail.com"};
         // prompts email clients only
