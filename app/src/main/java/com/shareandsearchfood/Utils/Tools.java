@@ -47,7 +47,7 @@ public class Tools extends AppCompatActivity {
 
         VideoView mVideoView = (VideoView)b.findViewById(R.id.videoView);
         FrameLayout controllerAnchor = (FrameLayout)b.findViewById(R.id.controllerAnchor);
-        Toast.makeText(ctx, "Video will be charge, wait please",Toast.LENGTH_LONG).show();
+        Toast.makeText(ctx, "Video is charging, wait please",Toast.LENGTH_LONG).show();
         MediaController mediaController = new MediaController(ctx);
         mediaController.setAnchorView(controllerAnchor);
         mVideoView.setMediaController(mediaController);

@@ -79,7 +79,7 @@ public class RecipeContent extends NavBar {
     private int statusIntent;
     private String dateIntent;
     private static final int PICK_IMAGE = 100;
-    private static final int PICK_VIDEO = 100;
+    private static final int PICK_VIDEO = 101;
     private Uri photoRecipe;
     private TextView comment;
     private TextView comment2;
@@ -338,7 +338,7 @@ public class RecipeContent extends NavBar {
             }
 
         }
-        if (resultCode == RESULT_OK && requestCode == PICK_VIDEO) {
+        else if (resultCode == RESULT_OK && requestCode == PICK_VIDEO) {
             try {
                 videoComment = data.getData();
                 Toast.makeText(RecipeContent.this, "Video added", Toast.LENGTH_SHORT).show();

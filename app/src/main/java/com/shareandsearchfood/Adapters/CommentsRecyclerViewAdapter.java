@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -33,14 +34,14 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<CommentsRe
         public TextView mTextView;
         public ImageView userPhoto;
         public TextView data;
-        public RelativeLayout r1;
+        public RelativeLayout commentImage;
         public ViewHolder(View v) {
             super(v);
             mTextView = (TextView) itemView.findViewById(R.id.textView);
             userNickname = (TextView) itemView.findViewById(R.id.nickname);
             userPhoto = (ImageView) itemView.findViewById(R.id.imageView4);
             data = (TextView) itemView.findViewById(R.id.dataComments);
-            r1 = (RelativeLayout) itemView.findViewById(R.id.row_comments);
+            commentImage = (RelativeLayout) itemView.findViewById(R.id.commentImage);
 
         }
     }
@@ -62,27 +63,13 @@ public class CommentsRecyclerViewAdapter extends RecyclerView.Adapter<CommentsRe
     public void onBindViewHolder(CommentsRecyclerViewAdapter.ViewHolder holder, int position) {
         Comments comment = mDataSet.get(position);
         holder.mTextView.setText(comment.getComment());
-        if(comment.getPhoto() != null) {
-
-            // Initialize a new ImageView widget
-            ImageView iv = new ImageView(ctx);
-
-            Tools.ImageDownload(ctx, iv, comment.getPhoto());
-
-            // Create layout parameters for ImageView
-            RelativeLayout.LayoutParams lp = new RelativeLayout
-                    .LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-
-            // Add rule to layout parameters
-            // Add the ImageView below to Button
-            lp.addRule(RelativeLayout.BELOW, holder.mTextView.getId());
-
-            // Add layout parameters to ImageView
-            iv.setLayoutParams(lp);
-
-            // Finally, add the ImageView to layout
-            holder.r1.addView(iv);
-        }
+        ImageView image = new ImageView(ctx);
+        LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        image.setLayoutParams(vp);
+        holder.commentImage.setMinimumHeight(250);
+        holder.commentImage.addView(image);
+        Tools.ImageDownload(ctx, image, comment.getPhoto());
 
         holder.data.setText(comment.getDate());
         FirebaseOperations.setUserContent(comment.getUserID(),holder.userNickname,holder.userPhoto,ctx);

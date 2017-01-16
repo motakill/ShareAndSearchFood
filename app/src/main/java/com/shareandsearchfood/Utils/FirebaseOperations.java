@@ -452,7 +452,7 @@ public class FirebaseOperations {
                 .getReference(constant);
 
         Toast.makeText(ctx,
-                "Upload in progressn mensage will be send shortly.",Toast.LENGTH_SHORT).show();
+                "Upload in progresse mensage will be send shortly.",Toast.LENGTH_SHORT).show();
 
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override

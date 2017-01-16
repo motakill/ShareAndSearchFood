@@ -4,11 +4,12 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/row_comments"
-    android:layout_height="120dp">
+    android:layout_height="200dp">
 
     <RelativeLayout
         android:layout_width="349dp"
         android:layout_height="wrap_content"
+        android:id="@+id/r1"
         android:orientation="vertical">
 
         <ImageView
@@ -48,18 +49,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/dataComments"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/r1"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:textAlignment="textStart" />
+         />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView"
+        android:layout_below="@+id/dataComments"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:textAlignment="textStart" />
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:id="@+id/commentImage"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
