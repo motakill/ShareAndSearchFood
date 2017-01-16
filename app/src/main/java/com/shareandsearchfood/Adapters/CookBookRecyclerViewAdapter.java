@@ -110,8 +110,22 @@ public class CookBookRecyclerViewAdapter extends RecyclerView.Adapter<CookBookRe
                     ctx.startActivity(new Intent(ctx,MyProfile.class));
                 else {
                     Intent intent = new Intent(ctx, Visit_person.class);
-                    intent.putExtra("userID", recipe.getUserId());
-                    intent.putExtra("favorite", recipe.getFavorite());
+                    intent.putExtra("recipePhoto",recipe.getPhotoRecipe());
+                    intent.putExtra("recipeTitle",recipe.getTitle());
+                    intent.putExtra("favorite",recipe.getFavorite());
+                    intent.putExtra("ingredients",recipe.getIngredients());
+                    intent.putExtra("steps",recipe.getSteps());
+                    intent.putExtra("rating", recipe.getRateBar().getRates());
+                    intent.putExtra("ratingValue", recipe.getRateBar().getValue());
+                    intent.putExtra("ratingPeople", recipe.getRateBar().getPeople());
+                    intent.putExtra("userID",recipe.getUserId());
+                    intent.putExtra("status",recipe.getStatus());
+                    intent.putExtra("date",recipe.getDate());
+                    intent.putExtra("recipeID",recipe.getUserId());
+                    intent.putExtra("confectionTime", recipe.getConfectionTime());
+                    intent.putExtra("prepareTime", recipe.getPrepareTime());
+                    intent.putExtra("numPeople", recipe.getNumPeople());
+                    intent.putExtra("categoy", recipe.getCategory());
                     ctx.startActivity(intent);
                 }
             }

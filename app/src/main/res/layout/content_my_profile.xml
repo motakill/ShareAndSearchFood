@@ -160,6 +160,23 @@
 
 
                 <LinearLayout
+                    android:id="@+id/MyFavorites"
+                    android:layout_width="match_parent"
+                    android:layout_height="350dp"
+                    android:orientation="vertical"
+                    android:weightSum="1">
+
+                    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/recyclerView2"
+                        android:layout_marginTop="30dp"
+                        android:layout_width="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_height="265dp"
+                        android:layout_weight="0.32" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/Badges"
                     android:layout_width="match_parent"
                     android:layout_height="350dp"
@@ -290,23 +307,6 @@
                         android:layout_marginLeft="10dp"
                         android:layout_height="match_parent"
                         />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/MyFavorites"
-                    android:layout_width="match_parent"
-                    android:layout_height="350dp"
-                    android:orientation="vertical"
-                    android:weightSum="1">
-
-                    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-                        android:id="@+id/recyclerView2"
-                        android:layout_marginTop="30dp"
-                        android:layout_width="match_parent"
-                        android:layout_marginLeft="10dp"
-                        android:layout_height="match_parent"
-                        />
-
                 </LinearLayout>
 
             </FrameLayout>

@@ -84,7 +84,6 @@ public class NotebookActivity extends NavBar implements SwipeRefreshLayout.OnRef
             protected void populateViewHolder(final FirebaseNotebookViewHolder holder,
                                               final Notebook note, int position) {
                 holder.mItem = note;
-                Log.d("nota da pila:",note.getNote());
                 holder.mTextView.setText(note.getNote());
                 holder.check.setChecked(note.getStatus());
                 holder.check.setOnClickListener(new View.OnClickListener() {
@@ -103,9 +102,7 @@ public class NotebookActivity extends NavBar implements SwipeRefreshLayout.OnRef
 
             }
 
-
         };
-
 
         mRecyclerView.setAdapter(mFirebaseAdapter);
 

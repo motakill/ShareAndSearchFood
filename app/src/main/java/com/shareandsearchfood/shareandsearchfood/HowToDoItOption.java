@@ -254,12 +254,6 @@ public class HowToDoItOption extends NavBar {
             try{
                 Context context = getApplicationContext();
                 howToPhoto = data.getData();
-
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), howToPhoto);
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 0, bytes);
-                String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, "Title", null);
-                howToPhoto = Uri.parse(path);
                 Toast.makeText(HowToDoItOption.this, "Photo added",Toast.LENGTH_SHORT).show();
             }catch (Exception e){}
 

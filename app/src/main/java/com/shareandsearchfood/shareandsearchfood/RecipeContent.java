@@ -333,12 +333,6 @@ public class RecipeContent extends NavBar {
             try {
                 Context context = getApplicationContext();
                 photoRecipe = data.getData();
-
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), photoRecipe);
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 0, bytes);
-                String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, "Title", null);
-                photoRecipe = Uri.parse(path);
                 Toast.makeText(RecipeContent.this, "Photo added", Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
             }

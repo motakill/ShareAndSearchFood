@@ -93,7 +93,7 @@ public class FavoriteRecyclerViewAdapter extends RecyclerView.Adapter<FavoriteRe
                 intent.putExtra("userID",recipe.getUserId());
                 intent.putExtra("status",recipe.getStatus());
                 intent.putExtra("date",recipe.getDate());
-                intent.putExtra("recipeID",recipe.getUserId());
+                intent.putExtra("recipeID",recipe.getRecipeId());
                 intent.putExtra("confectionTime", recipe.getConfectionTime());
                 intent.putExtra("prepareTime", recipe.getPrepareTime());
                 intent.putExtra("numPeople", recipe.getNumPeople());

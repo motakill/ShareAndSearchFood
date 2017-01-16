@@ -331,12 +331,12 @@ public class ShareContent extends NavBar{
             photoReceipt = data.getData();
             photoName = (TextView) findViewById(R.id.photoName);
             photoName.setText(photoReceipt.getPath());
-
+/*
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), photoReceipt);
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 0, bytes);
             String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, "Title", null);
-            photoReceipt = Uri.parse(path);
+            photoReceipt = Uri.parse(path);*/
             }catch (Exception e){}
 
         }
