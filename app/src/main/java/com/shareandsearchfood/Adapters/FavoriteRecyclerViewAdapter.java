@@ -3,6 +3,7 @@ package com.shareandsearchfood.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -127,6 +128,13 @@ public class FavoriteRecyclerViewAdapter extends RecyclerView.Adapter<FavoriteRe
             }
         });
         holder.rate.setRating(recipe.getRateBar().getValue());
+        holder.rate.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged (RatingBar ratingBar, float rating,
+                                         boolean fromUser) {
+                FirebaseOperations.insertRate(recipe.getUserId(), recipe.getRecipeId(), holder.rate.getRating());
+            }
+        });
     }
 
     @Override

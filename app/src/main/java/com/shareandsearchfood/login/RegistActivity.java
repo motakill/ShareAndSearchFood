@@ -50,6 +50,7 @@ public class RegistActivity extends AppCompatActivity {
     private AutoCompleteTextView mUserNameView;
     private EditText mPasswordView;
     private Uri imageUri;
+    private boolean foto = false;
 
 
     @Override
@@ -94,11 +95,13 @@ public class RegistActivity extends AppCompatActivity {
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
+        mUserNameView.setError(null);
 
         // Store values at the time of the login attempt.
         final String email = mEmailView.getText().toString();
         final String password = mPasswordView.getText().toString();
         final String userName = mUserNameView.getText().toString();
+
 
         boolean cancel = false;
         View focusView = null;
@@ -122,6 +125,19 @@ public class RegistActivity extends AppCompatActivity {
         } else if (userName.isEmpty()){
             mUserNameView.setError(getString(R.string.error_invalid_username));
             focusView = mUserNameView;
+            cancel = true;
+        }  else if (password.isEmpty()) {
+            mPasswordView.setError(getString(R.string.error_field_required));
+            focusView = mPasswordView;
+            cancel = true;
+        } else if(!isPasswordValid(password)){
+            mPasswordView.setError(getString(R.string.error_invalid_password));
+            focusView = mPasswordView;
+            cancel = true;
+
+        } else if (foto == false){
+            mPasswordView.setError("You need to select your personal photo");
+            focusView = mPasswordView;
             cancel = true;
         }
 
@@ -216,5 +232,7 @@ public class RegistActivity extends AppCompatActivity {
             String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), imageBitmap, "Title", null);
             imageUri = Uri.parse(path);
         }
+        foto = true;
+
     }
 }

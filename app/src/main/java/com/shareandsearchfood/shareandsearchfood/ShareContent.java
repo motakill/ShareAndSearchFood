@@ -61,6 +61,10 @@ public class ShareContent extends NavBar{
     private String nova_categoria , new_num_people, new_preparation_time, new_confection_time;
     private int contador_more_ingredients = 0;
     private List<TextView> myEditTextList, myEditTextList2;
+    private boolean foto = false;
+    private boolean ing = false;
+
+
 
 
 
@@ -135,6 +139,7 @@ public class ShareContent extends NavBar{
             public void onClick(View v) {
                 mLayout.addView(createNewTextView(mEditText.getText().toString()));
                 added_ingredients = true;
+                ing = true;
                 mEditText.setText("");
             }
         });
@@ -175,6 +180,7 @@ public class ShareContent extends NavBar{
                 if(!s.isEmpty()){
                     mLayout2.removeViewAt(mLayout2.getChildCount() - 1);
                 }
+
             }
         });
 
@@ -210,7 +216,6 @@ public class ShareContent extends NavBar{
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 new_num_people = parent.getItemAtPosition(pos).toString();
-
                 /*Toast.makeText(parent.getContext(),
                         "OnItemSelectedListener : " + new_num_people,
                         Toast.LENGTH_SHORT).show();
@@ -230,7 +235,6 @@ public class ShareContent extends NavBar{
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 new_preparation_time = parent.getItemAtPosition(pos).toString();
-
             /*    Toast.makeText(parent.getContext(),
                         "OnItemSelectedListener : " + new_preparation_time,
                         Toast.LENGTH_SHORT).show();
@@ -251,7 +255,6 @@ public class ShareContent extends NavBar{
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 new_confection_time = parent.getItemAtPosition(pos).toString();
-
             }
 
             @Override
@@ -337,6 +340,7 @@ public class ShareContent extends NavBar{
             }catch (Exception e){}
 
         }
+        foto = true;
 
     }
 
@@ -403,8 +407,28 @@ public class ShareContent extends NavBar{
             focusView = title_receipt;
             cancel = true;
         }
+        else if(nova_categoria.equals("Choose the food category")){
+            title_receipt.setError("You need to select one food category");
+            focusView = title_receipt;
+            cancel = true;
+        }
+        else if(new_num_people.equals("People Quantity")){
+            title_receipt.setError("You need to choose the people quantity");
+            focusView = title_receipt;
+            cancel = true;
+        }
+        else if(new_preparation_time.equals("Preparation Time")){
+            title_receipt.setError("You need to choose the preparation time");
+            focusView = title_receipt;
+            cancel = true;
+        }
+        else if(new_confection_time.equals("Confection Time")){
+            title_receipt.setError("You need to choose the confection time");
+            focusView = title_receipt;
+            cancel = true;
+        }
 
-        else if (selectIngredientsButton.getText().toString().isEmpty()){
+        else if (ing == false){
             ingredients.setError(getString(R.string.how_to_do_it_tittle_empty));
             focusView = ingredients;
             cancel = true;
@@ -414,14 +438,12 @@ public class ShareContent extends NavBar{
             focusView = steps;
             cancel = true;
         }
-        // nao sei se funcaaaaaa
-        /**  else if (name_photo.isEmpty()){
-         Log.d("inchaporca: ", "devia de dar o setError");
-         steps.setError(getString(R.string.need_photo));
-         focusView = steps;
-         cancel = true;
-         }
-         */
+        else if (foto == false){
+            steps.setError("You need to select the photo of this recipe");
+            focusView = steps;
+            cancel = true;
+        }
+
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
@@ -527,6 +549,7 @@ public class ShareContent extends NavBar{
            builder.setMultiChoiceItems(array_ingredientes_Meat, checkedIngredients, IngredientsDialogListener);
            AlertDialog dialog = builder.create();
            dialog.show();
+           ing = true;
        }
 
        else if(nova_categoria.equals("Fish")) {
@@ -583,6 +606,8 @@ public class ShareContent extends NavBar{
             builder.setMultiChoiceItems(array_ingredientes_Fish, checkedIngredients, IngredientsDialogListener);
             AlertDialog dialog = builder.create();
             dialog.show();
+           ing = true;
+
        }
 
        else if(nova_categoria.equals("Seafood")) {
@@ -638,6 +663,8 @@ public class ShareContent extends NavBar{
            builder.setMultiChoiceItems(array_ingredientes_Seafood, checkedIngredients, IngredientsDialogListener);
            AlertDialog dialog = builder.create();
            dialog.show();
+           ing = true;
+
        }
 
        else if(nova_categoria.equals("Vegan")) {
@@ -692,6 +719,8 @@ public class ShareContent extends NavBar{
            builder.setMultiChoiceItems(array_ingredientes_Vegan, checkedIngredients, IngredientsDialogListener);
            AlertDialog dialog = builder.create();
            dialog.show();
+           ing = true;
+
        }
 
        else if(nova_categoria.equals("Drinks")) {
@@ -746,6 +775,8 @@ public class ShareContent extends NavBar{
            builder.setMultiChoiceItems(array_ingredientes_Drinks, checkedIngredients, IngredientsDialogListener);
            AlertDialog dialog = builder.create();
            dialog.show();
+           ing = true;
+
        }
 
        else if(nova_categoria.equals("Cakes")) {
@@ -800,6 +831,8 @@ public class ShareContent extends NavBar{
            builder.setMultiChoiceItems(array_ingredientes_Cakes, checkedIngredients, IngredientsDialogListener);
            AlertDialog dialog = builder.create();
            dialog.show();
+           ing = true;
+
        }
 
        else if(nova_categoria.equals("Snacks")) {
@@ -854,6 +887,8 @@ public class ShareContent extends NavBar{
            builder.setMultiChoiceItems(array_ingredientes_Snacks, checkedIngredients, IngredientsDialogListener);
            AlertDialog dialog = builder.create();
            dialog.show();
+           ing = true;
+
        }
         else
            Toast.makeText(ShareContent.this,"Category not recognized", Toast.LENGTH_LONG).show();

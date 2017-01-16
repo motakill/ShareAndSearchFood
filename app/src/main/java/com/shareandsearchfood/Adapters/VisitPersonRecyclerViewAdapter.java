@@ -105,7 +105,13 @@ public class VisitPersonRecyclerViewAdapter extends RecyclerView.Adapter<VisitPe
             }
         });
         FirebaseOperations.isChecked(recipe,mFirebaseUser.getEmail(),holder.favorite);
-
+        holder.rate.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged (RatingBar ratingBar, float rating,
+                                         boolean fromUser) {
+                FirebaseOperations.insertRate(recipe.getUserId(), recipe.getRecipeId(), holder.rate.getRating());
+            }
+        });
     }
 
     @Override
