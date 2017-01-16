@@ -4,25 +4,25 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.shareandsearchfood.Adapters.NoteBookRecyclerViewAdapter;
+import com.shareandsearchfood.Adapters.FirebaseNotebookViewHolder;
 import com.shareandsearchfood.ParcelerObjects.Notebook;
 import com.shareandsearchfood.Utils.Constants;
 import com.shareandsearchfood.Utils.FirebaseOperations;
@@ -35,14 +35,17 @@ import java.util.List;
  * Created by david_000 on 14/10/2016.
  */
 
-public class NotebookActivity extends NavBar{
+public class NotebookActivity extends NavBar implements SwipeRefreshLayout.OnRefreshListener{
     private EditText textIn;
     private RadioButton buttonAdd;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private List<Notebook> mNotes;
     private RecyclerView mRecyclerView;
-    private NoteBookRecyclerViewAdapter mAdapter;
+    //private NoteBookRecyclerViewAdapter mAdapter;
+    private FirebaseRecyclerAdapter<Notebook,FirebaseNotebookViewHolder>
+            mFirebaseAdapter;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +62,52 @@ public class NotebookActivity extends NavBar{
             finish();
             return;
         }
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference userRef = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.FIREBASE_CHILD_USERS);
+
+
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerNoteBook);
         mNotes = new ArrayList<>();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new NoteBookRecyclerViewAdapter(mNotes);
-        mRecyclerView.setAdapter(mAdapter);
+        //mAdapter = new NoteBookRecyclerViewAdapter(mNotes);
+
+        mFirebaseAdapter = new FirebaseRecyclerAdapter<Notebook,FirebaseNotebookViewHolder>(
+                Notebook.class,
+                R.layout.row_notebook,
+                FirebaseNotebookViewHolder.class,
+                userRef.child(FirebaseOperations.encodeKey(mFirebaseUser.getEmail()))
+                        .child(Constants.FIREBASE_CHILD_NOTES).getRef().orderByChild("date")) {
+
+            @Override
+            protected void populateViewHolder(final FirebaseNotebookViewHolder holder,
+                                              final Notebook note, int position) {
+                holder.mItem = note;
+                Log.d("nota da pila:",note.getNote());
+                holder.mTextView.setText(note.getNote());
+                holder.check.setChecked(note.getStatus());
+                holder.check.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FirebaseOperations.updateNote(mFirebaseUser.getEmail(),note.getDate()
+                                ,holder.check.isChecked());
+                    }
+                });
+                holder.delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FirebaseOperations.removeNote(mFirebaseUser.getEmail(),note.getDate());
+                    }
+                });
+
+            }
+
+
+        };
+
+
+        mRecyclerView.setAdapter(mFirebaseAdapter);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -82,55 +126,6 @@ public class NotebookActivity extends NavBar{
             @Override
             public void onClick(View v) {
                 FirebaseOperations.insertNote(mFirebaseUser.getEmail(), textIn, false);
-            }
-        });
-
-        DatabaseReference userRef = FirebaseDatabase
-                .getInstance()
-                .getReference(Constants.FIREBASE_CHILD_USERS);
-
-        userRef.child(FirebaseOperations.encodeKey(mFirebaseUser.getEmail()))
-                .child(Constants.FIREBASE_CHILD_NOTES).getRef()
-                .addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if (dataSnapshot != null && dataSnapshot.getValue() != null) {
-                    try{
-                        Notebook model = dataSnapshot.getValue(Notebook.class);
-                        mNotes.add(model);
-                        mRecyclerView.scrollToPosition(mNotes.size() - 1);
-                        mAdapter.notifyItemInserted(mNotes.size() - 1);
-                    } catch (Exception ex) {
-                    }
-                }
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                if (dataSnapshot != null && dataSnapshot.getValue() != null) {
-                    try{
-                        Notebook model = dataSnapshot.getValue(Notebook.class);
-                        mNotes.remove(model);
-                        mRecyclerView.scrollToPosition(mNotes.size() - 1);
-                        mAdapter.notifyItemRemoved(mNotes.size() - 1);
-                    } catch (Exception ex) {
-                    }
-                }
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError firebaseError) {
-
             }
         });
     }
@@ -154,5 +149,9 @@ public class NotebookActivity extends NavBar{
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    @Override
+    public void onRefresh() {
+        mFirebaseAdapter.notifyDataSetChanged();
     }
 }
