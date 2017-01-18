@@ -159,11 +159,6 @@ public class ShareHowToDoItOption extends NavBar {
             try{
                 Context context = getApplicationContext();
                 imageUri = data.getData();
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), imageUri);
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 0, bytes);
-                String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, "Title", null);
-                imageUri = Uri.parse(path);
                 imageView.setImageURI(imageUri);
             }catch (Exception e){}
         }

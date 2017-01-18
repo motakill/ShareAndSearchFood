@@ -286,7 +286,7 @@ public class FirebaseOperations {
         userRef2.child(encodeKey(userId)).child(Constants.FIREBASE_CHILD_HOWTO).child(key)
                 .setValue(new HowTo(userId,title, obs, photo, comments,
                         videos,reportDate,key));
-        userRef.child("howToID").setValue(key);
+        newRef.child("howToID").setValue(key);
         storeHowToPhotoToFirebase(Uri.parse(photo),userId);
 
     }
