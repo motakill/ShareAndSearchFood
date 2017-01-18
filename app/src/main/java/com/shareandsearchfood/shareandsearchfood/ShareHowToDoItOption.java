@@ -128,7 +128,7 @@ public class ShareHowToDoItOption extends NavBar {
             cancel = true;
         }
         //nao ta fazer bem nao ta a lançar a excepcao quando nao selecionam uma photo
-        else if (imageView.toString().isEmpty()){
+        else if (imageUri == null){
             mTitle.setError(getString(R.string.need_photo));
             focusView = mTitle;
             cancel = true;
