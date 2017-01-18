@@ -238,7 +238,7 @@ public class LoginActivity extends AppCompatActivity implements
             // form field with an error.
             focusView.requestFocus();
         } else {
-            Toast.makeText(LoginActivity.this, "Sign in on S&SFood", Toast.LENGTH_LONG).show();
+            Toast.makeText(LoginActivity.this, "Sign in on SSFood", Toast.LENGTH_LONG).show();
             final FirebaseAuth mAuth = FirebaseAuth.getInstance();
             DatabaseReference userRef = FirebaseDatabase
                     .getInstance()
