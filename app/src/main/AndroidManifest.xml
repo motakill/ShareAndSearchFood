@@ -110,7 +110,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.shareandsearchfood.Settings.AboutSSFood"
-            android:label="About S&amp;SFood"
+            android:label="About SSFood"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.shareandsearchfood.Settings.FeedBackSSFood"
